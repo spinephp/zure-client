@@ -1,0 +1,39 @@
+<div class="childheader">
+  <h5>
+    <%= $.fn.currentLanguage('Buying consult') %></h5>
+</div>
+  <div id="buyconsult">
+    <table>
+      <thead>
+        <tr>
+          <th>
+            <%= $.fn.currentLanguage('Consultation goods') %></th>
+          <th>
+            <%= $.fn.currentLanguage('Product name') %></th>
+          <th>
+            <%= $.fn.currentLanguage('Consulting/reply') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for consult in @consults: %>
+          <tr>
+            <td>
+              <img src="admin/uploadimg/<%= consult.productImg() %>" />
+            </td>
+            <td>
+              <%= consult.productClassName() %><br /><%= consult.productName() %><br /><%= consult.productSize() %>
+            </td>
+            <td>
+              <p>
+                <%= $.fn.currentLanguage('My advice') %>: <%= consult.content %> <%= consult.time %>
+              </p>
+              <p>
+                <b>
+                  <%= $.fn.currentLanguage('YunRui reply') %>: </b><%= consult.reply %> <%= consult.replytime %>
+              </p>
+            </td>
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+  </div>

@@ -1,0 +1,4 @@
+	<dl><dt><%= @default.translate("Friendly link") %></dt>
+	<dd>
+		<% for link in @links: %><a href="<%= link.url %>" target=_blank><%= link.names[@default.languageid-1] %></a><% end %>
+	</dd></dl>

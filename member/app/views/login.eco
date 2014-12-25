@@ -1,0 +1,28 @@
+<form id="login" name="login" method="post" onsubmit="return false;">
+  <ol>
+    <li>
+      <input type='text' name='username' placeholder='输入用户名' />
+      <span>* </span>
+      <span id='username_err_info'></span>
+    </li>
+    <li>
+      <input type='password' name='pwd' placeholder='输入密码' />
+      <span>* </span>
+      <span id='password_err_info'></span>
+    </li>
+    <li>
+      <input type='text' name='code' placeholder='输入右侧图片中的字符' />
+      <span>* </span>
+      <span id='verify_err_info'></span>
+      <img id='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='点击重新获取验证码' width='50' height='20' />
+    </li>
+    <li>
+      <span class="STYLE1" style="position:relative;left:48">
+        <input type="hidden" name="token" value="user_token" />
+        <input type="hidden" name="action" value="custom_login" />
+        <button>登录</button>
+        <a href='fogot_form.php'> 忘记密码?</a>
+      </span>
+    </li>
+  </ol>
+</form>

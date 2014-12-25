@@ -1,0 +1,11 @@
+<h4><%= @user.name %></h4>
+<img src="images/user/<%=@user.picture %>" />
+<ul><li><a data-action="order">我的订单</a></li>
+	<li><a data-action="yunrui">我的云瑞</a></li>
+	<li><form id=logout name=logout method=POST onsubmit="return false;" >
+		<input type="submit" name="logout" value="退出" />
+		<input type="hidden" name="user" value="<%= @user.name %>" />
+		<input type="hidden" name="action" value="custom_logout" />
+		<input type="hidden" name="token" value="<%= $.fn.cookie 'PHPSESID' %>" />
+	</form></li>
+</ul>

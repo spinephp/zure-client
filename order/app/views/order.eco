@@ -1,0 +1,49 @@
+<div id="order">
+	<div id="carstate"></div>
+	<div id="orderstate">
+		<ol id="array-two">
+			<li><span class="current">1.我的订单</span></li>
+			<li><span>2.填写核对订单信息</span></li>
+			<li><span>3.成功提交订单</span></li>
+		</ol>
+	</div>
+	<div id="mycar">
+	<img src="images/buycar1.jpg" /><h2>我的订单</h2>
+	</div>
+	<div id="my_order">
+    <table>
+		<% if orders.length>0: %>
+			<tr>
+			  <td class="no1"><input type="checkbox" name="selectall" id="selectall" />全选</td>
+			  <td>商品</td>
+			  <td>单价</td>
+			  <td>数量</td>
+			  <td>操作</td>
+			</tr>
+   {{each orders}}
+		<tr>
+		  <td class="no1"><input type="checkbox" name="selector" value="${$value.id}" /></td>
+		  <td class="name1"><a href="? cmd=ShowProducts&prosid=${$value.proid}"><img src="admin/uploadimg/${$value.aRecordEx().image}"/><span>${$value.aRecordEx().longname}</span><br />${$value.aRecordEx().size}</a></td>
+		  <td class="price1">¥${$value.aRecordEx().price}</td>
+		  <td class="num1"><input name="pronum" id="pronum${$value.proid}" pro-id="${$value.proid}" size=10 value="${$value.number}" /></td>
+		  <td><a href="javascript:void(0)" order-id="${$value.id}">删除</a></td>
+		</tr>
+	{{/each}}
+			<tr>
+				<td colspan="2"><a href="###">删除选中的商品</a></td><td colspan="2">${orders.length} 种商品，总计:<br />返现:</td><td><b>¥${orders[0].sumn()}</b><br />-¥0.00</td>
+			</tr>
+			<tr>
+				<td colspan="5">总计（不含运费）：<b>¥${orders[0].sumn()}</b></td>
+			</tr>
+		{{else}}
+			<tr><td><p>订单为空，登录后，将显示您之前加入的商品<br />去首页挑选喜欢的商品</p></td></tr>
+		{{/if}}
+	 </table>
+		{{if orders.length>0}}
+			<button id=continue >继续选单</button> <button id=account>去结算</button> 
+		{{/if}}
+	</div>
+	<div id="my_del_pro">
+	</div>
+</div>
+

@@ -1,0 +1,148 @@
+<div class="childheader">
+  <h5>
+    <%= @defaults.translate('My Complain') %>
+    </h5>
+  <p>
+    <%= @defaults.translate('If you do not pleased for our goods or service,please to submit complaints in here.We shell process or reply as quickly as possible.') %>
+    </p>
+</div>
+<div class="tabs">
+  <ul>
+    <li>
+      <a href="#selectorder">
+        <%= @defaults.translate('Select Order') %>
+        </a>
+    </li>
+    <li class="complain">
+      <a href="#mycomplains">
+        <%= @defaults.translate('Complain Recode') %>
+        </a>
+    </li>
+    <li class="hide">
+      <a href="#editcomplains">
+        <%= @defaults.translate('Submit Complain') %>
+        </a>
+    </li>
+  </ul>
+  <div id="selectorder" class="orderbox">
+      <table>
+        <thead>
+          <tr>
+            <% for item in ['Order NO','Good Name','Order time','Operation']: %>
+            <th>
+              <%= @defaults.translate(item) %>
+            </th>
+              <% end %>
+          </thead>
+        <tbody>
+          <% if @orders.length>0: %>
+          <% for order in @orders: %>
+          <tr>
+            <td>
+              <a href="? cmd=ShowOrderDetail&orderid=<%= order.id %>"><%= order.encodeId() %>
+              </a>
+            </td>
+            <td>
+              <% for product in order.products: %>
+                <% good=@goods.find product.proid %>
+                <% type=@klass.find good.classid %>
+                <% cname = @defaults.translates type.kindNames() %>
+                <% gname = @defaults.translates type.names %>
+                <img src="images/good/<%= good.picture %>" data-id="<%= product.proid %>" title='<%- cname=''+'&#10;'+gname+'&#10;'+good.size %>' />
+              <% end %>
+            </td>
+            <td>
+              <%= order.time %>
+            </td>
+            <td>
+              <button data-id="<%= order.id %>"><%= @defaults.translate('have complaint') %>
+              </button>
+            </td>
+          </tr>
+          <% end %>
+          <% else: %>
+          <tr>
+            <td colspan="4">
+              <p>
+                <%= @defaults.translate('You have none order now.') %>
+                </p>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+  </div>
+  <div id="mycomplains">
+    <p>
+      <%= @defaults.translate('Status') %>: <select>
+      <option>
+        <%= @defaults.translate('Undone') %>
+        </option>
+      <option>
+        <%= @defaults.translate('Closed') %>
+        </option>
+    </select>
+  </p>
+    <table>
+      <thead>
+        <tr>
+          <% for item in ['Complain content','Type','Involve order','Submit time','Status','Operation']: %>
+          <th>
+            <%= @defaults.translate(item) %>
+          </th>
+          <% end %>
+        </thead>
+      <tbody>
+        <% if @complains.length>0: %>
+        <% for complain in @complains: %>
+        <tr data-id="<%= complain.orderid %>">
+          <td>
+              <%= complain.content %>
+          </td>
+          <td>
+            <%= complain.getTypeName() %>
+          </td>
+          <td>
+            <%= complain.orderid %>
+          </td>
+          <td>
+            <%= complain.time %>
+          </td>
+          <td>
+            <%= complain.getStatusName() %>
+          </td>
+          <td>
+            <button >
+              <%= @defaults.translate('Delete') %>
+            </button>
+          </td>
+        </tr>
+        <% end %>
+        <% else: %>
+        <tr>
+          <td colspan="6">
+            <p>
+              <%= @defaults.translate('You have none complain now.') %>
+              </p>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div id="editcomplains">
+    <form name="complaincontent" method="POST">
+      <%= @defaults.translate('Involve order') %>: <span id="complain-orderno"></span> <%= @defaults.translate('Type') %>: <select name="complaintype" id="complaintype">
+          <% for type in @types: %>
+          <option value="<%= type.id %>"><%= @defaults.translates type.names %></option>
+          <% end %>
+        </select><br /><br />
+        <%= @defaults.translate('Complain content') %>:
+          <textarea name="complaincontent" rows="8" cols="50"></textarea>
+        <h5>
+          <%= @defaults.translate('You can input 500 character.') %>
+          </h5><input type="hidden" name="complainorderno" value="" />
+        <input type="submit" name="submitcomplain" value="<%= @defaults.translate('Submit Complain') %>" />
+        </form>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="childheader">
+  <h5>
+    <%= @defaults.translate('Product evaluation/single') %></h5>
+  <p>
+    <%= @defaults.translate('Your comments will be other netizens important purchase reference, and affect commodity grade.') %></p>
+  <p><a>
+    <%= @defaults.translate('Camera phones bask in, more convenient') %></a></p>
+</div>
+<div class="tabs">
+  <ul>
+    <li>
+      <a href="#producteval">
+        <%= @defaults.translate('Product evaluation/single') %>
+        </a>
+    </li>
+    <li>
+      <a href="#satisfactioneval">
+        <%= @defaults.translate('Satisfaction evaluation') %></a>
+    </li>
+  </ul>
+  <div id="producteval">
+    <table>
+      <thead>
+        <tr>
+          <% for item in ['Commodity information','Buy time','Evaluation','Single']: %>
+          <th>
+            <%= @defaults.translate(item) %>
+          </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% for order in @orders when parseInt(order.stateid) is 13: %>
+        <% if order.products.length > 0: %>
+        <% for product in order.products: %>
+        <% good=@goods.find product.proid %>
+        <% kind=@klass.find good.classid %>
+          <tr>
+            <td colspan="4" data-goodid='<%= product.id %>'>
+              <ul>
+                <li>
+                  <a data-goodid='<%= good.id %>'><img src="images/good/<%= good.picture %>" /><%= @defaults.translates kind.longNames() %> <%= good.size %></a>
+            </li>
+                <li>
+              <%= order.time %>
+            </li>
+                <li>
+              <% obj=[{op:'Comment',title:'Evaluation and integral'},{op:'Have evaluation',title:'View the evaluation details'}][if product.evalid is 0 then 0 else 1] %>
+              <a title='<%= @defaults.translate obj.title %>' data-evalid='<%= product.evalid %>'><%= @defaults.translate obj.op %>
+              </a>
+                </li>
+                <li>
+                  <% obj=[{op:'Sun single',title:'Sun single and integral'},{op:'The sun-single',title:'View the evaluation details'}][if product.feelid is 0 then 0 else 1] %>
+              <a title='<%= @defaults.translate obj.title %>' data-feelid='<%= product.feelid %>'><%= @defaults.translate obj.op %>
+                </li>
+          </ul>
+            </td>
+          </tr>
+          <% end %>
+          <% end %>
+          <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div id="satisfactioneval">
+    <table>
+      <thead>
+        <tr>
+          <% for item in ['Order no','Evaluation of time','Integral']: %>
+          <th>
+            <%= @defaults.translate(item) %>
+          </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% for order in @orders when  order.stateid is 13: %>
+        <tr>
+          <td>
+            <%= order.encodeId() %>
+            </td>
+          <td>
+            <%= order.time %>
+          </td>
+          <td>
+            <b>2 <%= @defaults.translate('Integral') %></b>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>

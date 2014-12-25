@@ -1,0 +1,15 @@
+<h4><%= @default.translate("Product recommendations") %><span><%= @default.translate("More") %></span></h4>
+<div><% for good in @goods: %><dl>
+	<dt class='img'>
+		<a href='?cmd=ShowProducts&gid=<%= good.id %>'>
+			<img src="images/good/<%= good.picture %>" alt="<%= good.longname+'-'+good.size %>" />
+		</a>
+	</dt>
+	<dd>
+		<a href="?cmd=ShowProducts&gid=<%= good.id %>" title="<%= good.longname+'-'+good.size %>"><%= good.kindNames()[@default.languageid-1] %><br/><%= good.names()[@default.languageid-1] %><br/><%= good.size %>
+		</a>
+	</dd>
+</dl>
+  <% end %>
+  <p></p>
+</div>

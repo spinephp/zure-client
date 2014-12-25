@@ -1,0 +1,2 @@
+<h4><%= @default.translate("Company profile") %></h4>
+<p><%- @qiye.introductions[@default.languageid-1] %></p>

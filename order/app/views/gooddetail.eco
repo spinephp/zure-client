@@ -1,0 +1,71 @@
+<% unit=(u)-> %>
+	<%= {'mm':'millmeter','\"':'inch'}[u] %>
+<% end %>
+
+<ul>
+	<li><a href="#tabs-introduction" ><%= @default.translate 'Introduction' %></a></li>
+	<li><a href="#tabs-parameter" ><%= @default.translate 'Parameters' %></a></li>
+	<li><a href="#tabs-indexes" ><%= @default.translate 'Physicochemical index' %></a></li>
+</ul>
+		
+<div id="tabs-introduction">
+	<p><%= @default.translates @klass.introductions %></p>
+</div>
+<div id="tabs-parameter"> 
+	<fieldset>
+	  <legend><%= @default.translate 'Name' %>：<%= @default.translates @klass.names %></legend>
+		<p><label><%= @default.translate 'Material' %>: </label><%= @default.translates @klass.kindNames() %></p>
+		<p><label><%= @default.translate 'Type' %>: </label><%= @default.translates @klass.names %></p>
+		<p><label><%= @default.translate 'Weight' %>: </label><%= @good.weight %>kg</p>
+	</fieldset>
+	<fieldset>
+	  <legend><%= @default.translate 'Shape' %>：<%= @default.translates @sharp.names %></legend>
+		<p><label><%= @default.translate 'Length' %>: </label><%= @good.length + unit @good.unitlen %></p>
+		<p><label><%= @default.translate 'Width' %>: </label><%= @good.width + unit @good.unitwid %></p>
+		<p><label><%= @default.translate 'Think' %>: </label><%= @good.think + unit @good.unitthi %></p>
+	</fieldset>
+	<p></p>
+</div>
+<div id="tabs-indexes">
+	<table>
+		<caption><%= @default.translate 'Physico index' %></caption>
+		<thead>
+			<tr>
+				<th><%= @default.translate 'ITEM' %></th>
+				<th><%= @default.translate 'UNIT' %></th></th>
+				<th><%= @default.translate 'SPEC' %></th></th>
+				<th><%= @default.translate 'ENVIRONMENT' %></th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for rec in @physicoindex: %>
+				<tr>
+					<td><%= @default.translates rec.names %></td>
+					<td><%- rec.unit.replace /(3|-6)/g,"<sup>$1</sup>" %></td>
+					<td><%= rec.operator+rec.values[@good.physicoindex] %></td>
+					<td><%= rec.environment %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<table>
+		<caption><%= @default.translate 'Chemical index' %></caption>
+		<thead>
+			<tr>
+				<th><%= @default.translate 'ITEM' %></th>
+				<th><%= @default.translate 'UNIT' %></th></th>
+				<th><%= @default.translate 'SPEC' %></th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for item,i in ['SiC','Si3N4','SiO2','Si','Fe2O3']: %>
+			<tr>
+				<td><%- item.replace /(\d)/g,"<sub>$1</sub>" %></td>
+				<td>%</td>
+				<td><%= (if i<2 then '>' else '<')+@chemicalindex[item.toLowerCase()] %></td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<p></p>
+</div>
