@@ -55,7 +55,7 @@ class Default extends Spine.Model
 			'My order':['我的订单']
 			'Fill in the check order information':['填写核对订单信息']
 			'Order submitted successfully':['成功提交订单']
-			'Select all':[全选']
+			'Select all':['全选']
 			'Goods':['商品']
 			'Price':['单价']
 			'Quantity':['数量']
@@ -68,10 +68,10 @@ class Default extends Spine.Model
 			'Excluding freight costs':['不含运费']
 			'Order is empty, after login, will show the goods before you join':['订单为空，登录后，将显示您之前加入的商品']
 			'To select the goods like the front page':['去首页挑选喜欢的商品']
-			'Continue to choose goods‘:['继续选单']
-			'To settle accounts‘:['去结算']
-			'Delete the items from the order‘:['确定从订单中删除商品']
-			'Delete all the selected items from the order‘:['确定从订单中删除所有选中商品']
+			'Continue to choose goods':['继续选单']
+			'To settle accounts':['去结算']
+			'Delete the items from the order':['确定从订单中删除商品']
+			'Delete all the selected items from the order':['确定从订单中删除所有选中商品']
 		
 		langid = parseInt(@languageid,10)
 		result = if langid is 1 then key else data[key][langid-2]

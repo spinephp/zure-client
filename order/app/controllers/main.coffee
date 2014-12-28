@@ -61,7 +61,5 @@ class main extends Spine.Controller
 	
 		@append @headers, @option,@footers
 
-		id = $.getUrlParam 'gid'
-
 	
-module.exports = good
+module.exports = main

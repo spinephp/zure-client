@@ -39,7 +39,7 @@
 			<tr><td><p><%= @default.translate 'Order is empty, after login, will show the goods before you join' %><br /><%= @default.translate 'To select the goods like the front page' %></p></td></tr>
 		<% end %>
 	 </table>
-	<%= "<button id=continue ><%= @default.translate 'Continue to choose goods' %></button> <button id=account><%= @default.translate 'To settle accounts' %></button>" if @orders.count()>0 %>
+	<%= "<button id=continue >#{@default.translate 'Continue to choose goods'}</button> <button id=account>#{@default.translate 'To settle accounts'}</button>" if @orders.count()>0 %>
 	</div>
 	<div id="my_del_pro">
 	</div>

@@ -1,6 +1,6 @@
 Spine   = require('spine')
-Good = require('models/good')
-Goodclass = require('models/goodclass')
+#Good = require('models/good')
+#Goodclass = require('models/goodclass')
 Currency = require('models/currency')
 Default = require('models/default')
 Cart = require('models/cart')
@@ -27,13 +27,13 @@ class OrderOption extends Spine.Controller
 		super
 		@active @change
 
-		@good = $.Deferred()
-		@goodclass = $.Deferred()
+		#@good = $.Deferred()
+		#@goodclass = $.Deferred()
 		@currency = $.Deferred()
 		@default = $.Deferred()
 		@cart = $.Deferred()
-		Good.bind "refresh",=>@good.resolve()
-		Goodclass.bind "refresh",=>@goodclass.resolve()
+		#Good.bind "refresh",=>@good.resolve()
+		#Goodclass.bind "refresh",=>@goodclass.resolve()
 		Currency.bind "refresh",=>@currency.resolve()
 		Default.bind "refresh",=>@default.resolve()
 		Cart.bind "refresh",=>@default.resolve()
@@ -66,17 +66,13 @@ class OrderOption extends Spine.Controller
 	
 	change: (params) =>
 		try
-			$.when(@good,@cart,@goodclass,@currency,@default).done =>
-				if Good.exists params.id
-					good = Good.find params.id
-					default1 = Default.first()
-					@item = 
-						good:Good
-						klass:Goodclass
-						default:default1
-						currency:Currency.find default1.currencyid
-						orders:Cart,all()
-					@render()
+			$.when(@cart,@currency,@default).done =>
+				default1 = Default.first()
+				@item = 
+					default:default1
+					currency:Currency.find default1.currencyid
+					orders:Cart.all()
+				@render()
 		catch err
 			@log "file: good.option.one.coffee\nclass: Goodtitle\nerror: #{err.message}"
 			

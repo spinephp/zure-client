@@ -1,19 +1,19 @@
 Spine = require('spine')
 
-# ´´½¨ÆóÒµÄ£ÐÍ
+# åˆ›å»ºä¼ä¸šæ¨¡åž‹
 class Cart extends Spine.Model
 	@configure 'Cart', 'id',"proid","number","price","returnnow"
 
 	@extend Spine.Model.Local
 	@url:"? cmd=Product"
 	
-	# Ïò·þÎñÆ÷²éÑ°Ò»ÌõÊý¾Ý
+	# å‘æœåŠ¡å™¨æŸ¥å¯»ä¸€æ¡æ•°æ®
 	@getOrder:(data)->
 		jQuery.ajax
 			type: 'get'
 			url: @url
 			data: data
-			async: true   #ajaxÖ´ÐÐÍê±Ïºó²ÅÖ´ÐÐºóÐøÖ¸Áî
+			async: true   #ajaxÖ´æ‰§è¡Œå®Œæ¯•åŽæ‰æ‰§è¡ŒåŽç»­æŒ‡ä»¤
 			success: (result) ->
 				obj = JSON.parse(result)
 				if typeof (obj) is "object"
