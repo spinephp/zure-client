@@ -2,23 +2,23 @@
 	<div id="carstate"></div>
 	<div id="orderstate">
 		<ol id="array-two">
-			<li><span class="current">1.我的订单</span></li>
-			<li><span>2.填写核对订单信息</span></li>
-			<li><span>3.成功提交订单</span></li>
+			<li><span class="current">1.<%= @default.translate 'My order' %></span></li>
+			<li><span>2.<%= @default.translate 'Fill in the check order information' %></span></li>
+			<li><span>3.<%= @default.translate 'Order submitted successfully' %></span></li>
 		</ol>
 	</div>
 	<div id="mycar">
-	<img src="images/buycar1.jpg" /><h2>我的订单</h2>
+	<img src="images/buycar1.jpg" /><h2><%= @default.translate 'My order' %></h2>
 	</div>
 	<div id="my_order">
     <table>
 		<% if @orders.count()>0: %>
 			<tr>
-			  <td class="no1"><input type="checkbox" name="selectall" id="selectall" />全选</td>
-			  <td>商品</td>
-			  <td>单价</td>
-			  <td>数量</td>
-			  <td>操作</td>
+			  <td class="no1"><input type="checkbox" name="selectall" id="selectall" /><%= @default.translate 'Select all' %></td>
+			  <td><%= @default.translate 'Goods' %></td>
+			  <td><%= @default.translate 'Price' %></td>
+			  <td><%= @default.translate 'Quantity' %></td>
+			  <td><%= @default.translate 'Operation' %></td>
 			</tr>
 			<% for order in @orders.all(): %>
 				<tr>
@@ -26,20 +26,20 @@
 				  <td class="name1"><a href="? cmd=ShowProducts&prosid=<%= order.proid %>" />"><img src="admin/uploadimg/<%= order.aRecordEx().image %>"/><span><%= order.aRecordEx().longname %></span><br /><%= order.RecordEx().size %></a></td>
 				  <td class="price1">¥<%= order.aRecordEx().price %></td>
 				  <td class="num1"><input name="pronum" id="pronum<%= order.proid %>" pro-id="<%= order.proid %>" size=10 value="<%= order.number %>" /></td>
-				  <td><a href="javascript:void(0)" order-id="<%= order.value.id %>">删除</a></td>
+				  <td><a href="#" order-id="<%= order.value.id %>"><%= @default.translate 'Delete' %></a></td>
 				</tr>
 			<% end %>
 			<tr>
-				<td colspan="2"><a href="###">删除选中的商品</a></td><td colspan="2"><%= @orders.count() %> 种商品，总计:<br />返现:</td><td><b>¥<%= @orderds.sumn() %></b><br />-¥0.00</td>
+				<td colspan="2"><a href="###"><%= @default.translate 'Delete the selected items' %></a></td><td colspan="2"><%= @default.translate 'A total of' %> <%= @orders.count() %> <%= @default.translate 'items' %>，<%= @default.translate 'A total of' %>:<br /><%= @default.translate 'Cash back' %>:</td><td><b>¥<%= @orderds.sumn() %></b><br />-¥0.00</td>
 			</tr>
 			<tr>
-				<td colspan="5">总计（不含运费）：<b>¥<%= @orders.sumn() %></b></td>
+				<td colspan="5"><%= @default.translate 'A total of' %>（<%= @default.translate 'Excluding freight costs' %>）：<b>¥<%= @orders.sumn() %></b></td>
 			</tr>
 		<% else: %>
-			<tr><td><p>订单为空，登录后，将显示您之前加入的商品<br />去首页挑选喜欢的商品</p></td></tr>
+			<tr><td><p><%= @default.translate 'Order is empty, after login, will show the goods before you join' %><br /><%= @default.translate 'To select the goods like the front page' %></p></td></tr>
 		<% end %>
 	 </table>
-	<%= "<button id=continue >继续选单</button> <button id=account>去结算</button>" if @orders.count()>0 %>
+	<%= "<button id=continue ><%= @default.translate 'Continue to choose goods' %></button> <button id=account><%= @default.translate 'To settle accounts' %></button>" if @orders.count()>0 %>
 	</div>
 	<div id="my_del_pro">
 	</div>
