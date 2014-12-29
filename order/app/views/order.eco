@@ -20,17 +20,17 @@
 			  <td><%= @default.translate 'Quantity' %></td>
 			  <td><%= @default.translate 'Operation' %></td>
 			</tr>
-			<% for order in @orders.all(): %>
+			<% for order in @orders.all(): %>	<% goods=order.aRecordEx() %>
 				<tr>
 				  <td class="no1"><input type="checkbox" name="selector" value="<%= order.id %>" /></td>
-				  <td class="name1"><a href="? cmd=ShowProducts&prosid=<%= order.proid %>" />"><img src="admin/uploadimg/<%= order.aRecordEx().image %>"/><span><%= order.aRecordEx().longname %></span><br /><%= order.RecordEx().size %></a></td>
-				  <td class="price1">¥<%= order.aRecordEx().price %></td>
+				  <td class="name1"><a href="? cmd=ShowProducts&prosid=<%= order.proid %>" ><img src="admin/uploadimg/<%= goods.image %>"/><span><%= @klass.find(goods.classid) %></span><br /><%= goods.size %></a></td>
+				  <td class="price1">¥<%= goods.price %></td>
 				  <td class="num1"><input name="pronum" id="pronum<%= order.proid %>" pro-id="<%= order.proid %>" size=10 value="<%= order.number %>" /></td>
-				  <td><a href="#" order-id="<%= order.value.id %>"><%= @default.translate 'Delete' %></a></td>
+				  <td><a href="#" order-id="<%= order.id %>"><%= @default.translate 'Delete' %></a></td>
 				</tr>
 			<% end %>
 			<tr>
-				<td colspan="2"><a href="###"><%= @default.translate 'Delete the selected items' %></a></td><td colspan="2"><%= @default.translate 'A total of' %> <%= @orders.count() %> <%= @default.translate 'items' %>，<%= @default.translate 'A total of' %>:<br /><%= @default.translate 'Cash back' %>:</td><td><b>¥<%= @orderds.sumn() %></b><br />-¥0.00</td>
+				<td colspan="2"><a href="###"><%= @default.translate 'Delete the selected items' %></a></td><td colspan="2"><%= @default.translate 'A total of' %> <%= @orders.count() %> <%= @default.translate 'items' %>，<%= @default.translate 'A total of' %>:<br /><%= @default.translate 'Cash back' %>:</td><td><b>¥<%= @orders.sumn() %></b><br />-¥0.00</td>
 			</tr>
 			<tr>
 				<td colspan="5"><%= @default.translate 'A total of' %>（<%= @default.translate 'Excluding freight costs' %>）：<b>¥<%= @orders.sumn() %></b></td>
@@ -39,7 +39,7 @@
 			<tr><td><p><%= @default.translate 'Order is empty, after login, will show the goods before you join' %><br /><%= @default.translate 'To select the goods like the front page' %></p></td></tr>
 		<% end %>
 	 </table>
-	<%= "<button id=continue >#{@default.translate 'Continue to choose goods'}</button> <button id=account>#{@default.translate 'To settle accounts'}</button>" if @orders.count()>0 %>
+	<%- "<button id=continue >#{@default.translate 'Continue to choose goods'}</button> <button id=account>#{@default.translate 'To settle accounts'}</button>" if @orders.count()>0 %>
 	</div>
 	<div id="my_del_pro">
 	</div>

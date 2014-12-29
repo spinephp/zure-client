@@ -56,10 +56,15 @@ class main extends Spine.Controller
 		Good.fetch()
 		Goodclass.fetch()
 		User.fetch()
-		
-		divide = $('<div />').addClass('vdivide')
+			
+		@routes
+			'/order': (params) -> 
+				@headers.active params
+				@option.active(params)
+				@footers.active(params)
 	
 		@append @headers, @option,@footers
+		@navigate '/order'
 
 	
 module.exports = main

@@ -1,9 +1,8 @@
 Spine   = require('spine')
-#Good = require('models/good')
-#Goodclass = require('models/goodclass')
 Currency = require('models/currency')
 Default = require('models/default')
 Cart = require('models/cart')
+Goodclass = require('models/goodclass')
 
 $       = Spine.$
 
@@ -20,23 +19,19 @@ class OrderOption extends Spine.Controller
 	events:
 		'change p input[type=text]':'spinChange'
 		'click input[name=selectall]':'selectallClick'
-		"click a[href='#']":'deleteClick'
+		'click a[href=#]':'deleteClick'
 		'click table tr:eq(-2) a':'delselClick'
 		
 	constructor: ->
 		super
 		@active @change
 
-		#@good = $.Deferred()
-		#@goodclass = $.Deferred()
 		@currency = $.Deferred()
 		@default = $.Deferred()
 		@cart = $.Deferred()
-		#Good.bind "refresh",=>@good.resolve()
-		#Goodclass.bind "refresh",=>@goodclass.resolve()
 		Currency.bind "refresh",=>@currency.resolve()
 		Default.bind "refresh",=>@default.resolve()
-		Cart.bind "refresh",=>@default.resolve()
+		Cart.bind "refresh",=>@cart.resolve()
 		Default.bind "change",=>
 			if @item?
 				@item.default = Default.first()
@@ -71,7 +66,8 @@ class OrderOption extends Spine.Controller
 				@item = 
 					default:default1
 					currency:Currency.find default1.currencyid
-					orders:Cart.all()
+					klass:Goodclass
+					orders:Cart
 				@render()
 		catch err
 			@log "file: good.option.one.coffee\nclass: Goodtitle\nerror: #{err.message}"

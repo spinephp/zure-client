@@ -25,5 +25,8 @@ class Cart extends Spine.Model
 	aRecordEx:()->
 		items = JSON.parse(sessionStorage.getItem("orders"))
 		items[@proid]
+		
+	@sumn:()->
+		0
 
 module.exports = Cart
