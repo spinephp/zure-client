@@ -5,7 +5,7 @@
 		dlgAddOrder.remove() if __refactor__
 
 		str = "<div id='addOrderDialog'>
-					<img src='images/ok.png' width=48 height=48 />
+					<img src='images/Ok.png' />
 					<h3>订单添加成功！</h3>
 					<p>订单包含 "+options.kind+" 种产品，合计："+options.symbol+"<span>"+options.price+"</span></p>
 				</div>"
