@@ -20,11 +20,16 @@
 			modal: true
 			title: options.default.translate("Add order")
 			buttons: 
-				"订单结算": ->
+				"Settlement": ->
 					__refactor__ = true
 					location.href = "? cmd=ShowOrder&token="+sessionStorage.token
-				"关闭": ->
+				"Close": ->
 					$("#addOrderDialog").dialog "close"
+			open:->
+				# 翻译按钮文本
+				unless options.default.languageid is 1
+					btns =  $(@).next().find 'button span'
+					$(btn).text options.default.translate $(btn).text() for btn in btns
 		$("#addOrderDialog").dialog "open"
 		__refactor__ = false
 
