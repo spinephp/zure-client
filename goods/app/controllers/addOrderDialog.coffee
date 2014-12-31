@@ -6,8 +6,8 @@
 
 		str = "<div id='addOrderDialog'>
 					<img src='images/Ok.png' />
-					<h3>订单添加成功！</h3>
-					<p>订单包含 "+options.kind+" 种产品，合计："+options.symbol+"<span>"+options.price+"</span></p>
+					<h3>"+options.default.translate("The order added successfully")+"！</h3>
+					<p>"+options.default.translate("Orders containing")+" "+options.kind+" "+options.default.translate("kinds of products")+"</p><p>"+options.default.translate("A combined")+"："+options.symbol+"<span>"+options.price+"</span></p>
 				</div>"
 
 		$(str).appendTo "body"
@@ -16,9 +16,9 @@
 		$("#addOrderDialog").dialog
 			autoOpen: false
 			closeOnEscape: true
-			width: '400px'
+			width: '420px'
 			modal: true
-			title: "添加订单"
+			title: options.default.translate("Add order")
 			buttons: 
 				"订单结算": ->
 					__refactor__ = true

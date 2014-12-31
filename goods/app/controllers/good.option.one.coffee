@@ -112,7 +112,7 @@ class Goodtitle extends Spine.Controller
 					obj = JSON.parse(result)
 					if typeof (obj[0]) is "object"
 						m += item.number * obj[0].price/exchangerate
-		addOrderDialog().open({ kind: n, price: m ,symbol:symbol})
+		addOrderDialog().open({ kind: n, price: m ,default:@item.default,symbol:symbol})
 
 	_addCare: ->
 		url = "? cmd=ProductCare"
