@@ -20,7 +20,7 @@
 			modal: true
 			title: options.default.translate("Add order")
 			buttons: 
-				"Settlement": ->
+				"Order settlement": ->
 					__refactor__ = true
 					location.href = "? cmd=ShowOrder&token="+sessionStorage.token
 				"Close": ->

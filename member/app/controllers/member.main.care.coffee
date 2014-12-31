@@ -139,7 +139,11 @@ class myCares extends Spine.Controller
 		m = 0
 		Cart.each (item)->
 			m += item.number*Good.find(item.proid).price
-		addOrderDialog().open({ kind: Cart.count(), price: m })
+		addOrderDialog().open
+			kind: Cart.count()
+			price: m
+			default:@item.defaults
+			symbol:Currency.find(@item.defaults.currencyid).symbol
 
 	addtoorder:(e)=>
 		e.preventDefault()

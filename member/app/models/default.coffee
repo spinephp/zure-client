@@ -39,6 +39,11 @@ class Default extends Spine.Model
 			'kinds of products':['种产品']
 			'A combined':['合计']
 			'Order settlement':['订单结算']
+			
+			# 添加订单对话框
+			"The order added successfully":["订单添加成功"]
+			"Add order":["添加订单"]
+			"Close":["关闭"]
 
 			"AddFavorite":["加入收藏"]
 			"SetHomepage":["设为首页"]

@@ -5,9 +5,9 @@
 		dlgAddOrder.remove() if __refactor__
 
 		str = "<div id='addOrderDialog'>
-					<img src='images/Ok.png' width=48 height=48 />
-					<h3>订单添加成功！</h3>
-					<p>订单包含 "+options.kind+" 种产品，合计：¥<span>"+options.price+"</span></p>
+					<img src='images/Ok.png' />
+					<h3>"+options.default.translate("The order added successfully")+"！</h3>
+					<p>"+options.default.translate("Orders containing")+" "+options.kind+" "+options.default.translate("kinds of products")+"</p><p>"+options.default.translate("A combined")+"："+options.symbol+"<span>"+options.price+"</span></p>
 				</div>"
 
 		$(str).appendTo "body"
@@ -16,15 +16,20 @@
 		$("#addOrderDialog").dialog
 			autoOpen: false
 			closeOnEscape: true
-			width: '400px'
+			width: '420px'
 			modal: true
-			title: "添加订单"
+			title: options.default.translate("Add order")
 			buttons: 
-				"订单结算": ->
+				"Order settlement": ->
 					__refactor__ = true
 					location.href = "? cmd=ShowOrder&token="+sessionStorage.token
-				"关闭": ->
+				"Close": ->
 					$("#addOrderDialog").dialog "close"
+			open:->
+				# 翻译按钮文本
+				unless options.default.languageid is 1
+					btns =  $(@).next().find 'button span'
+					$(btn).text options.default.translate $(btn).text() for btn in btns
 		$("#addOrderDialog").dialog "open"
 		__refactor__ = false
 

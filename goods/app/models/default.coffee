@@ -42,13 +42,8 @@ class Default extends Spine.Model
 			'Order settlement':['订单结算']
 			
 			# 添加订单对话框
-
 			"The order added successfully":["订单添加成功"]
-			"Orders containing":["订单包含"]
-			"kinds of products":["种产品"]
 			"Add order":["添加订单"]
-			"Settlement":["订单结算"]
-			"A combined":["合计"]
 			"Close":["关闭"]
 			
 			"AddFavorite":["加入收藏"]
