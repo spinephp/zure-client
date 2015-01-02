@@ -134,7 +134,7 @@ class Goodtitle extends Spine.Controller
 					when "Access Denied"
 						alert result.error
 					else
-						alert result.error
+						alert @item.default.translate result.error
 			else
 				alert @item.default.translatem(['Width focus on','successful'])+'!'
 

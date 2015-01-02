@@ -76,7 +76,8 @@ class Default extends Spine.Model
 			'Add to cart':['加入订单']
 			'With focus on':['加关注']
 			'successful':['成功']
-
+			'The products of you with focus on already have done.':['该产品你已关注过了。']
+			
 			'Introduction':['产品介绍']
 			'Parameters':['详细参数']
 			'Physicochemical index':['理化指标']
@@ -159,7 +160,7 @@ class Default extends Spine.Model
 		
 		langid = parseInt(@languageid,10)
 		result = if langid is 1 then key else data[key][langid-2]
-		result
+		result or key
 
 	toPinyin:(key)->
 		if @languageid isnt 2 then CC2PY.toPinyin(key) else key
