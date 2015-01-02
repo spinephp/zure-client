@@ -14,8 +14,7 @@ $       = Spine.$
 
 Headers = require('controllers/main.header')
 Footers = require('controllers/main.footer')
-Option    = require('controllers/good.option')
-Tree = require('controllers/good.tree')
+Option    = require('controllers/main.option')
 
 #Spine.Model.host = "http://127.0.0.1/woo/"
 
@@ -42,7 +41,6 @@ class main extends Spine.Controller
 			return ""
 	
 		@headers = new Headers
-		@tree = new Tree
 		@option    = new Option
 		@footers   = new Footers
 		
@@ -60,27 +58,13 @@ class main extends Spine.Controller
 		User.fetch()
 			
 		@routes
-			'/order/:id/class': (params) -> 
+			'/order': (params) -> 
 				@headers.active params
-				@tree.active(params)
-				@option.class.active(params)
+				@option.active(params)
 				@footers.active(params)
-			'/order/:id': (params) -> 
-				@headers.active params
-				@tree.active(params)
-				@option.agood.active(params)
-				@footers.active(params)
-		
-		divide = $('<div />').addClass('vdivide')
 	
-		@append @headers,@tree, divide, @option,@footers
-
-		id = $.getUrlParam 'gid'
-		if id?
-			@navigate '/order',id
-		else
-			id = $.getUrlParam('cid') or 1
-			@navigate '/order',id,'class'
+		@append @headers, @option,@footers
+		@navigate '/order'
 
 	
-module.exports = good
+module.exports = main

@@ -1,13 +1,13 @@
 require('lib/setup')
 
 Spine = require('spine')
-Goods    = require('controllers/good')
+Mains    = require('controllers/main')
 
 class App extends Spine.Controller
   constructor: ->
     super
-    @good = new Goods
-    @append @good.active()
+    @main = new Mains
+    @append @main.active()
     
     Spine.Route.setup()
 
