@@ -45,12 +45,9 @@ class OrderOption extends Spine.Controller
 			
 			# 绑定每个订单项数量输入框 spinner 数据改变时的事件
 			spin:(event,ui)=>
-				proid = $(event.target).attr("pro-id")
-				apro = Cart.findByAttribute("proid", proid)
-				apro.number = ui.value
-				apro.save()
-				@orderNumberChange()
-
+				@orderNumberChange(event,ui.value)
+			change:(event,ui)=>
+				@orderNumberChange(event,$(event.target).val())
 		@btnPickGoods = $(@btnsEl).eq(0).button()
 		@btnPickGoods.button
 			icons:
@@ -108,18 +105,14 @@ class OrderOption extends Spine.Controller
 		e.stopPropagation()
 		state = $(e.target).is ':checked'
 		$(@selectorsEl).prop 'checked',state
-	
-	# 订单数量选择框 spinner
-	$(@spinEl).spinner
-		min: 1
-		max: 2000
 		
-		# spin 按键按下事件发生时，触发 spinner 的 spinchange 事件，更新订单的总价格
-		# 因为 spin 按键按下时，spinchange 事件不自动触发，要等失支焦点时才触发
-		spin: (event, ui) ->
-			@trigger("spinchange",ui)
-	
-	orderNumberChange:()->
+	orderNumberChange:(e,value)->
+		e.stopPropagation()
+		proid = $(e.target).attr("pro-id")
+		apro = Cart.findByAttribute("proid", proid)
+		apro.number = value
+		apro.save()
+		
 		s = 0
 		b = 0
 		for rec in Cart.all()
