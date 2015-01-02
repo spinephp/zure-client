@@ -13,7 +13,12 @@ class Default extends Spine.Model
 			return key[langid-1]
 		@translate key
 		
-		
+	translatem:(keys)->
+		spac = [' ',''][Default.first().languageid-1]
+		s = ''
+		s += @translate(key)+spac for key in keys
+		s
+			
 	translate:(key)->
 		data = 
 			# 页眉
@@ -70,6 +75,7 @@ class Default extends Spine.Model
 			'people to participate in the evaluation':['个人已参与评价']
 			'Add to cart':['加入订单']
 			'With focus on':['加关注']
+			'successful':['成功']
 
 			'Introduction':['产品介绍']
 			'Parameters':['详细参数']

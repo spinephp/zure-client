@@ -10,12 +10,14 @@ Grade = require('models/grade')
 Cart = require('models/cart')
 Physicoindex = require('models/physicoindex')
 Chemicalindex = require('models/chemicalindex')
+User = require('models/user')
 
 $		= Spine.$
 
 addOrderDialog = require('controllers/addOrderDialog')
 GoodEvals = require('controllers/good.option.one.eval')
 GoodConsults = require('controllers/good.option.one.consult')
+loginDialog = require('controllers/loginDialog')
 
 class Goodtitle extends Spine.Controller
 	className: 'goodtitle'
@@ -124,8 +126,17 @@ class Goodtitle extends Spine.Controller
 			price:@item.good.price
 			date:'?time'
 		token = $.fn.cookie 'PHPSESSID'
-		$.post url,{token:token,item:item},(result)->
-			alert(result)
+		$.post url,{token:token,item:item},(result)=>
+			if result.id is -1
+				switch result.error
+					when 'Not logged!'
+						loginDialog().open(default:Default.first(),user:User,sucess:=>@_addCare())
+					when "Access Denied"
+						alert result.error
+					else
+						alert result.error
+			else
+				alert @item.default.translatem(['Width focus on','successful'])+'!'
 
 
 class Gooddetail extends Spine.Controller

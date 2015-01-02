@@ -13,7 +13,12 @@ class Default extends Spine.Model
 			return key[langid-1]
 		@translate key
 		
-		
+	translatem:(keys)->
+		spac = [' ',''][Default.first().languageid-1]
+		s = ''
+		s += @translate(key)+spac for key in keys
+		s
+			
 	translate:(key)->
 		data = 
 			# 页眉
