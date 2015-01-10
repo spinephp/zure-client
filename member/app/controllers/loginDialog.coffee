@@ -14,6 +14,12 @@
 				</div>"
 
 		$(str).appendTo "body"
+		
+		# 重置校验码
+		$("#validate").click ()->
+			url = 'admin/checkNum_session.php?' + Math.ceil(Math.random() * 1000)
+			console.log 'aaa'+$(this)
+			$(this).attr("src",url)
 			
 		$("#loginDialog").dialog
 			autoOpen: false

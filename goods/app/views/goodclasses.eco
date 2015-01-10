@@ -13,10 +13,10 @@
     <ul>
       <% for proclass in @childs: %>
       <li data-classid="<%= proclass.id %>">
-        <a>
+        <a href="?cmd=ShowProducts&cid=<%= proclass.id %>">
           <img src="images/good/<%= proclass.picture %>" />
         </a>
-        <a title="<%= @default.translates proclass.longNames() %>"><%= @default.translates proclass.kindNames() %><br /><%= @default.translates proclass.names %>
+        <a href="?cmd=ShowProducts&cid=<%= proclass.id %>" title="<%= @default.translates proclass.longNames() %>"><%= @default.translates proclass.kindNames() %><br /><%= @default.translates proclass.names %>
         </a>
       </li>
       <% end %>

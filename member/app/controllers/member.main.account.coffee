@@ -102,14 +102,15 @@ class myAccounts extends Spine.Controller
 			@log "file: member.main.coffee\nclass: myComplains\nerror: #{err.message}"
 
 	customfetch:=>
-		fields = Company.attributes
 		person = Person.first()
-		companyid = person.companyid
-		condition = [{field:"id",value:companyid,operator:"eq"}]
-		params = 
-			data:{ cond:condition,filter: fields, token: sessionStorage.token } 
-			processData: true
-		Company.fetch(params)
+		if person?
+			fields = Company.attributes
+			companyid = person.companyid
+			condition = [{field:"id",value:companyid,operator:"eq"}]
+			params = 
+				data:{ cond:condition,filter: fields, token: sessionStorage.token } 
+				processData: true
+			Company.fetch(params)
 
 	userSubmit:(e)=>
 		e.preventDefault()
