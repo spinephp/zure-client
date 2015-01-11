@@ -49,7 +49,7 @@ class Members extends Spine.Controller
 				if result.status is false
 					switch result.error
 						when "Not logged!"
-							loginDialog().open(default:Default.first(),user:User,sucess:->window.location.reload())
+							loginDialog().open(default:Default.first(),user:User,sucess:->window.history.back(-1))
 						when "Access Denied"
 							alert result.error
 							window.history.back(-1)
@@ -72,10 +72,6 @@ class Members extends Spine.Controller
 		User.fetch()
     
 		@routes
-			'/members/login': (params) ->
-				@headers.active(params)
-				@main.login.active(params)
-				@footers.active(params)
 			'/members/order': (params) ->
 				@headers.active(params)
 				@sidebar.active(params)
@@ -141,6 +137,6 @@ class Members extends Spine.Controller
     
 		@append @headers,@sidebar, divide, @main,@footers
     
-		@navigate(@urlroute)
+		@navigate @urlroute
 
 module.exports = Members

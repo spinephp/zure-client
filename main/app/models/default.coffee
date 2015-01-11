@@ -63,6 +63,8 @@ class Default extends Spine.Model
 			'PWD':["密码"]
 			'PIN':["验证码"]
 			'Forget Password':["忘记密码"]
+			'My Order':['我的订单']
+			'Logout':['退出']
 			'More':["更多"]
 			'News':["新闻"]
 			'Contact':["联系方式"]

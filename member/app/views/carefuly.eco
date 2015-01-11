@@ -89,7 +89,7 @@
             <% evals=@evals.findAllByAttribute 'proid',good.id %>
             <% cname = @defaults.translates type.kindNames() %>
             <% gname = @defaults.translates type.names %>
-            <tr data-id="<%= care.proid %>">
+            <tr data-id="<%= care.id %>">
               <td>
                 <input type="checkbox" />
               </td>

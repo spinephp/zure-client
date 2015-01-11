@@ -63,6 +63,7 @@ class Logins extends Spine.Controller
 				obj = JSON.parse(result)
 				if typeof (obj) is "object"
 					unless obj.id is -1
+						User.destroyAll()
 						item = new User(obj)# 新建本地用户信息
 						item.save()
 						@navigate '!/customs/logout'
@@ -97,9 +98,9 @@ class Logouts extends Spine.Controller
 		super
 		@active @change
 		
-		@user = $.Deferred()
+		#@user = $.Deferred()
 		@default = $.Deferred()
-		User.bind "refresh change",=>@user.resolve()
+		#User.bind "refresh change",=>@user.resolve()
 		Default.bind "refresh",=>@default.resolve() if Default.count() > 0
 		
 	render: =>
@@ -107,7 +108,7 @@ class Logouts extends Spine.Controller
 
 	change: (item) =>
 		try
-			$.when(@user,@default).done =>
+			$.when(@default).done =>
 				@item = 
 					user:User.first()
 					default:Default.first()

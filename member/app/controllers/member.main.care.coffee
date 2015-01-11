@@ -66,7 +66,7 @@ class myCares extends Spine.Controller
 
 		Goodcare.bind "beforeDestroy", ->
 			Goodcare.url = "woo/index.php"+Goodcare.url if Goodcare.url.indexOf("woo/index.php") is -1
-			Goodcare.url += "&token="+sessionStorage.token unless Goodcare.url.match /token/
+			Goodcare.url += "&token="+$.fn.cookie('PHPSESSID') unless Goodcare.url.match /token/
 
 		$(window).resize =>
 			$(".imagesets .imgscroll").jCarouselLite
@@ -130,7 +130,9 @@ class myCares extends Spine.Controller
 		$(@selectEl).prop 'checked',state
 		
 	addOrder:(target)->
-		proid = target.parent().parent().attr 'data-id'
+		gid = target.closest('tr').attr 'data-id'
+		gitem = Goodcare.find gid
+		proid = gitem.proid
 		aorder = Cart.findByAttribute("proid", proid) or new Cart({ proid: proid, number: 0, time: new Date() })
 		aorder.number++
 		aorder.save()
@@ -159,9 +161,10 @@ class myCares extends Spine.Controller
 				@addOrder $(item) if $(item).is ':checked'
 			@dlgAddOrder()
 
-	cancelCare:(target)->
-		proid = target.parent().parent().attr 'data-id'
-		item = Goodcare.findByAttribute("proid", proid)
+	cancelCare:(target,fun)->
+		gid = target.closest('tr').attr 'data-id'
+		item = Goodcare.find  gid
+		item.bind 'destroy',fun if fun?
 		oldUrl = Goodcare.url
 		item.destroy()
 		Goodcare.url = oldUrl
@@ -169,15 +172,15 @@ class myCares extends Spine.Controller
 	cancelACare:(e)=>
 		e.preventDefault()
 		e.stopPropagation()
-		@cancelCare $(e.target)
-		@navigate('/members/carefly')
+		@cancelCare $(e.target),(delrecord)=>
+			@item.productcares = Goodcare.all()
+			@render()
 
 	cancelCares:(e)=>
 		e.preventDefault()
 		e.stopPropagation()
 		if $('td input:checked').length>0
-			$(@selectEl).each (i,item)=>
-				@cancelCare $(item) if $(item).is ':checked'
+			@cancelCare $(item) for item in $(@selectEl) when $(item).is ':checked'
 			@navigate('/members/carefly')
 
 	selectCares:(e)->

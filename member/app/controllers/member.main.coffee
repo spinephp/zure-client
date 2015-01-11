@@ -27,72 +27,6 @@ Currency = require('models/currency')
 Default = require('models/default')
 $       = Spine.$
 
-class Logins extends Spine.Controller
-	className: 'logins'
-  
-	elements:
-		"input":"input"
-		"form": "form"
-		"img":"img"
-
-	events:
-		'click button': 'login'
-		"click img": "resetValidate"
-  
-	constructor: ->
-		super
-		@active @change
-  
-	render: ->
-		@html require('views/login')()
-	
-	change: (params) =>
-		try
-			@render()
-		catch err
-			@log "file: member.main.coffee, error:#{err.message}"
-	
-	# 用户登录
-	login:=>
-		info = [
-			{"reg":/^[a-zA-Z]{1}[a-zA-Z0-9\-\_\@\.]{4,16}[a-zA-Z0-9]{1}$/,"msg":"用户名格式不正确"}
-			{"reg":/^[\w\-\!\@\#\$\%\^\&\*]{6,16}$/,"msg":"密码格式不正确"}
-			{"reg":/^[0-9]{4}$/,"msg":"校验码格式不正确"}
-		]
-		$(@input).eq(2).val sessionStorage.token
-		key = $(@form).serializeArray()
-		name = $(@input)
-		for i in [0..2]
-			err = name.eq(i).parent().find("span:last-child")
-			err.html ""
-			unless info[i].reg.test(key[i].value)
-				err.html(info[i].msg).css "color","red"
-				name.eq(i).foucs()
-				return false
-
-		$.getJSON '? cmd=CheckLogin',$.param(key),(result)->
-			console.log result
-			if result.id is -1
-				switch result.username
-					when "Invalid user name!"
-						name.eq(0).parent().find("span:last-child").html '用户名错误!'
-						name.eq(0).foucs().select()
-					when 'Password error!'
-						name.eq(1).parent().find("span:last-child").html '密码错误!'
-						name.eq(1).foucs().select()
-					when 'Validate Code Error'
-						name.eq(2).parent().find("span:last-child").html '验证码错误!'
-						name.eq(2).foucs().select()
-					else
-						alert result.username
-			else
-				window.history.back(-1)
-		
-	# 重置校验码
-	resetValidate:->
-		url = 'admin/checkNum_session.php?' + Math.ceil(Math.random() * 1000)
-		$(@img).attr("src",url)
-
 class myYunrui extends Spine.Controller
 	className: 'myyunrui'
 
@@ -207,7 +141,6 @@ class Main extends Spine.Stack
 	
 	controllers:
 		yunrui: myYunrui
-		login:Logins
 		order:myOrders
 		care:myCares
 		complain:myComplains

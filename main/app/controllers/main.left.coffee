@@ -19,9 +19,11 @@ class lefts extends Spine.Controller
 		@news = new Newss
 		@yunrui = new Yunrui
 		
-		User.bind "fetch update change", =>
-			who = if User.count() is 0 then 'in' else 'out'
-			@navigate '!/customs/log'+who
+		User.bind "refresh update change", =>
+			if User.count() is 0
+				@navigate '!/customs/login'
+			else
+				@navigate '!/customs/logout'
 			
 		@routes
 			'!/customs/login': (params) -> 
@@ -36,6 +38,9 @@ class lefts extends Spine.Controller
 				@yunrui.active(params)
 	
 		@append @customs,@news,@yunrui
-		@navigate '!/customs/login'
+		if User.count() is 0
+			@navigate '!/customs/login'
+		else
+			@navigate '!/customs/logout'
 	
 module.exports = lefts
