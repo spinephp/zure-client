@@ -38,6 +38,15 @@ class lefts extends Spine.Controller
 				@yunrui.active(params)
 	
 		@append @customs,@news,@yunrui
+
+		$.getJSON "? cmd=CheckLogin&token=#{$.fn.cookie 'PHPSESSID'}",(result)=>
+			if result.id is -1
+				User.destroyAll()
+			else
+				User.destroyAll()
+				item = new User result
+				item.save()
+
 		if User.count() is 0
 			@navigate '!/customs/login'
 		else

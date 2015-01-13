@@ -67,7 +67,7 @@
 									$('#loginDialog').dialog 'close'
 						else
 							item = options.user.first() or new options.user
-							item.updateAttribute result
+							item.updateAttributes result
 							$('#loginDialog').dialog 'close'
 							options.sucess?()
 						return on

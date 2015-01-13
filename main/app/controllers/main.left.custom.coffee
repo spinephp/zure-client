@@ -98,10 +98,17 @@ class Logouts extends Spine.Controller
 		super
 		@active @change
 		
-		#@user = $.Deferred()
+		@user = $.Deferred()
 		@default = $.Deferred()
-		#User.bind "refresh change",=>@user.resolve()
+		User.bind "refresh change",=>@user.resolve()
 		Default.bind "refresh",=>@default.resolve() if Default.count() > 0
+
+		$.when(@default,@user).done =>
+			$.getJSON "? cmd=VerifyStatus&token=#{$.fn.cookie 'PHPSESSID'}",(result)=>
+				if result.status is false
+					switch result.error
+						when "Not logged!"
+							@navigate '!/customs/login'
 		
 	render: =>
 		@html require('views/fmLogout')(@item)
