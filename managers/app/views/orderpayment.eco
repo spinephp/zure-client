@@ -1,0 +1,17 @@
+<dl>
+  <dt>
+    <b>支付方式</b>
+  </dt>
+  <dd>
+    <label>支付方式:</label> <%= @pays.name %><%= "，全额支付" if parseInt(@orders.downpayment)- parseInt(@orders.guarantee) is 100 %>
+    </dd>
+  <dd>
+    <label>预付款:</label><input type="text" name="downpayment" value="<%= @orders.downpayment %>" />%
+  </dd>
+  <dd>
+    <label>质保金:</label> 订单商品金额的 <input type="text" name="guarantee" value="<%= @orders.guarantee %>" />%
+    </dd>
+    <dd>
+      <label>质保期:</label> <input type="text" name="guaranteeperiod" value="<%= @orders.guaranteeperiod %>" />个月
+    </dd>
+</dl>

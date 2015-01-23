@@ -1,0 +1,45 @@
+<form enctype="multipart/form-data" method="post" name="upform" action="">
+<div>
+  <dl>
+    <dt>父结点：</dt>
+    <dd>
+      <%= @goodclass.parentName() %>
+    </dd>
+    <dt>编码：</dt>
+    <dd>
+      <%= @goodclass.id %>
+    </dd>
+    <dt>中文名称：</dt>
+    <dd>
+      <%= @goodclass.name %>
+    </dd>
+    <dt>英文名称：</dt>
+    <dd>
+      <%= @goodclass.name_en %>
+    </dd>
+    <dt>中文介绍：</dt>
+    <dd>
+      <%= @goodclass.introduction %>
+    </dd>
+    <dt>英文介绍：</dt>
+    <dd>
+      <%= @goodclass.introduction_en %>
+    </dd>
+  <dt>
+      <label for='code'>
+        验证码:
+      </label>
+  </dt>
+  <dd>
+      <input name='code' type='text' required pattern='\d{4}' placeholder='输入右侧图片中的字符'/>
+      <img class='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='点击重新获取验证码' width='50' height='20' />
+  </dd>
+  </dl>
+  <input type='hidden' name='action' value='productclass_delete' />
+</div>
+  <div class='uploadimage'>
+    <img src='images/good/<%= @goodclass.picture %>' width='453' height='267' />
+</div>
+  <p><input type="submit" value="删除产品类" name="submit" />
+  </p>
+    </form>

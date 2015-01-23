@@ -1,0 +1,7 @@
+<div>客户分类列表</div>
+<ul id="customTree" class="ztree"></ul>
+<div>
+  <button>新建</button>
+  <button>编辑</button>
+  <button>删除</button>
+</div>

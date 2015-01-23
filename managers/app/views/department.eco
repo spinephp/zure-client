@@ -1,0 +1,13 @@
+<div>
+  <dl>
+    <dt>部门编码：</dt>
+    <dd>
+      <%= @department.id %>
+    </dd>
+    <dt>部门名称：</dt>
+    <dd>
+      <%= @department.name %>
+    </dd>
+  </dl>
+</div>
+<div></div>

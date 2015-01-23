@@ -1,0 +1,31 @@
+<div>
+  <dl>
+    <dt>父结点：</dt>
+    <dd>
+      <%= @goodclass.parentName() %>
+    </dd>
+    <dt>编码：</dt>
+    <dd>
+      <%= @goodclass.id %>
+    </dd>
+    <dt>中文名称：</dt>
+    <dd>
+      <%= @goodclass.name %>
+    </dd>
+    <dt>英文名称：</dt>
+    <dd>
+      <%= @goodclass.name_en %>
+    </dd>
+    <dt>中文介绍：</dt>
+    <dd>
+      <%= @goodclass.introduction %>
+    </dd>
+    <dt>英文介绍：</dt>
+    <dd>
+      <%= @goodclass.introduction_en %>
+    </dd>
+  </dl>
+</div>
+<div class='uploadimage'>
+  <img src='images/good/<%= @goodclass.picture %>' width='453' height='267' />
+</div>

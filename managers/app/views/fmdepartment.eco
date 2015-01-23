@@ -1,0 +1,16 @@
+<form enctype="multipart/form-data" method="post" name="upform" action="">
+  <div>
+  <p><label>部门编码：</label><%= @department.id or "no" %></p>
+  <p><label>部门名称：</label><input type="text" name="D_name" required value="<%= @department.name %>" /></p>
+    <p>
+      <label for='code'>
+        验证码：
+      </label>
+      <input name='code' type='text' required='' pattern='\d{4}' placeholder='输入右侧图片中的字符'/>
+      <img class='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='点击重新获取验证码' width='50' height='20' />
+    </p>
+    <input type='hidden' name='action' value='department_update' />
+  </div>
+  　<p><input type="submit" value="保存" name="submit" /></p>
+
+    </form>

@@ -1,0 +1,167 @@
+<% option=(arrays,curvalue)-> %>
+<% for key,value of arrays: %>
+<option value="<%= key %>" <%= "selected" if curvalue is key %>><%= value %></option>
+<% end %>
+<% end %>
+  
+<% sizeUnit=(curunit)-> %>
+<%= option {'mm':'毫米','"':'英寸'},curunit %>
+<% end %>
+
+<% money=(rmb)-> %>
+	<%= (new Number(rmb)).toFixed(2) %>
+<% end %>
+
+<form enctype="multipart/form-data" method="post" name="upform" action="">
+  <div>
+  <p>
+    <label>父 节 点：</label><select name="G_classid">
+    <% for rec in @orderstates when rec.childCount() is 0: %>
+    <option value="<%= rec.id %>" <%= "selected" if parseInt(rec.id) is parseInt(@order.classid) %>><%= rec.longName() %></option>
+    <% end %>
+  </select>
+  </p>
+    <p>
+      <label>产品编码：</label><%= @order.id or "no" %>
+    </p>
+    <p><label>形状：</label>
+      <select name="G_sharp">
+        <% for rec,index in ['矩形','圆','半圆','环']: %>
+        <option value="<%= index %>" <%= "selected" if @order.sharp is index+1 %>><%= rec %></option>
+        <% end %>
+      </select>
+    </p>
+    <p>
+      <label>长度：</label><input type="text" name="G_length" required value="<%= @order.length %>" /><select name="G_unitlen">
+        <%= sizeUnit @order.unitlen %>
+      </select>
+    </p>
+    <p>
+      <label>宽度：</label><input type="text" name="G_width" required value="<%= @order.width %>" /><select name="G_unitwid">
+        <%= sizeUnit @order.unitwid %>
+      </select>
+    </p>
+    <p>
+      <label>厚度：</label><input type="text" name="G_think" required value="<%= @order.think %>" /><select name="G_unitthi">
+        <%= sizeUnit @order.unitthi %>
+      </select>
+    </p>
+    <p><label>重量：</label><input type="text" name="G_weight" required value="<%= @order.weight %>"/>kg/<select name="G_unit">
+        <% for item in ["片","块","根","袋"]: %>
+          <option value="<%= item %>"
+          <%= "selected" if @order.unit is item %>><%= item %>
+        </option>
+        <% end %>
+      </select></p>
+    <p>
+      <label>单价：</label><input type="text" name="G_price" required value="<%= money @order.price %>"/>元/<%= @order.unit %> <span class="form_hint"><%= money @order.price/@order.weight*1000 %>元/吨</span>
+      </p>
+    <p>
+      <label>返现：</label><input type="text" name="G_returnnow" required value="<%= money @order.returnnow %>"/>元/<%= @order.unit %>
+      </p>
+    <p>
+      <label>库存：</label><input type="text" name="G_amount" required value="<%= @order.amount %>"/><%= @order.unit %>
+    </p>
+    <p>
+      <label>首页显示：</label><input type="radio" name="G_homeshow" value="Y" <%= 'checked' if @order.homeshow is 'Y' %> />是 <input type="radio" name="G_homeshow" value="N" <%= 'checked' if @order.homeshow is 'N' %> />否
+    </p>
+    <p>
+      <label>售卖：</label><input type="radio" name="G_cansale" value="Y" <%= 'checked' if @order.cansale is 'Y' %> />是 <input type="radio" name="G_cansale" value="N" <%= 'checked' if @order.cansale is 'N' %> />否
+    </p>
+    <p>
+      <label>状态：</label>
+      <select name="G_status">
+        <%= option {'O':'正常','D':'降价','P':'促销','N':'新产品'},@order.status %>
+      </select>
+    </p>
+    <p>
+      <label for='code'>
+        验证码：
+      </label>
+      <input name='code' type='text' required='' pattern='\d{4}' placeholder='输入右侧图片中的字符'/>
+      <img class='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='点击重新获取验证码' width='50' height='20' />
+    </p>
+    <input type='hidden' name='action' value='product_update' />
+  </div>
+  <div>
+    <img src='images/order/<%= @order.picture or "noimg.png" %>' width='453' height='267' />
+    <input type="file" name="upload_order" id="upload_file">
+      <p>
+        <button>
+          选择要上传的图像
+        </button>
+      </p>
+      <p>
+        支持 JPG、GIF、PNG、JPEG 图像格式, 尺寸小于 4M。
+      </p>
+      <div>
+        <input name="watermask" type="checkbox" />添加水印
+        <div class="waterType" style="display:none">
+          <span>
+            <input name='watersel' type='radio' checked='' value='0'>
+              文本水印
+              <input name='watersel' type='radio' value='1'>图形水印
+              </span>
+          <div class="watermode">
+            <p>
+              <label for='watermasktxt'>
+                水印文本:
+              </label>
+              <input type="text" name="watermasktxt" placeholder='请输入水印文本'/>
+            </p>
+              <p>
+                <label for='textcolor'>
+                  文本颜色:
+                </label>
+                <input type="text" name="textcolor" placeholder='请输入文本颜色' value='#CCCCCC'/>
+              </p>
+              <p>
+                  <label for='fontsize'>
+                    字体尺寸:
+                  </label>
+                  <input type="number" name="fontsize" placeholder='请输入字体尺寸' min='1' max='256' value='12'/>
+              </p>
+            </div>
+          <div class="watermode" style="display:none">
+            <img src='images/maskimg.png' width='33' height='33' />
+            <input type="file" name="upload_mask" />
+            <p>
+              <button>
+                选择水印图像
+              </button>
+            </p>
+            <p>
+              支持 JPG、GIF、PNG、JPEG 图像格式, 尺寸小于 4M。
+            </p>
+          </div>
+          <fieldset style="width:70px;height:80px;float:left">
+            <legend>
+              水印位置
+            </legend>
+            <% for i in [0..2]: %>
+            <p>
+              <% for j in [1..3]: %>
+              <input name="waterpos" type="radio" value=""<%= i*3+j %>" <%= "checked" if i is 1 and j is 2  %> />
+              <% end %>
+            </p>
+            <% end %>
+          </fieldset>
+          <fieldset style="width: 100px;height:80px;float:left">
+            <legend>
+              水印偏移
+            </legend>
+            <p>
+                水平:
+              <input type="number" name="xoffset" placeholder='请输入水平偏移' min='0' max='100' value='0'/>
+            </p>
+            <p style="margin-top:5px">
+                垂直:
+              <input type="number" name="yoffset" placeholder='请输入垂直偏移' min='0' max='100' value='0'/>
+            </p>
+          </fieldset>
+            </div>
+      </div>
+    </div>
+<p><input type="submit" value="保存" name="submit" /></p>
+
+    </form>

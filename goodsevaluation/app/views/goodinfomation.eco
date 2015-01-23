@@ -1,0 +1,22 @@
+<% money=(rmb)-> %>
+	<%= (new Number(rmb)).toFixed(2) %>
+<% end %>
+<% star=(sum)-> %>
+	<% for i in [1..5]: %><% m = if i <= sum then 1 else 0 %><img src="images/star<%= m %>.png" /><% end %>
+<% end %>
+<div class='goodinfomation'>
+<h4><%= @defaults.translate 'Goods infomation' %></h4>
+
+<img src="images/good/<%= @good.picture %>" />
+<p><label><%= @defaults.translate 'Code' %>：</label><a href='###' data-id='gid=<%= @good.id %>'><%= @good.encodeId() %></a></p>
+<p><label><%= @defaults.translate 'Category' %>：</label><a href='###' data-id='cid=<%= @klass.kindId() %>'><%= @defaults.translates @klass.kindNames() %></a></p>
+<p><label><%= @defaults.translate 'Subclass' %>：</label><a href='###' data-id='cid=<%= @good.classid %>'><%= @defaults.translates @klass.names %></a></p>
+<p><label><%= @defaults.translate 'ITEM' %>：</label><a href='###' data-id='gid=<%= @good.id %>'><%= @good.size %></a></p>
+<p><label><%= @defaults.translate 'Price' %>：</label><b><%= @currencys.symbol %><%= $.trim money(@good.price/@currencys.exchangerate) %></b></p>
+<p><label><%= @defaults.translate 'Rate' %>：</label><%- $.trim star @eval.stars() %>(<%= @eval.stars() %>)</p>
+<p><label><%= @defaults.translate 'Comments' %>：</label><%= @eval.count() %></p>
+<p><label><%= @defaults.translate 'Purchase' %>：</label><input type='text' name="number" value='100' /></p>
+
+<p><label>&nbsp;</label><button><%= @defaults.translate 'Add to cart' %></button>
+</p>
+</div>

@@ -1,0 +1,61 @@
+<% fmtYN=(en)-> %>
+	<%= if en is 'Y' then '是' else '否' %>
+<% end %>
+<div>
+  <dl>
+    <dt>编号：</dt>
+    <dd>
+      <%= @custom.id %>
+    </dd>
+    <dt>用户名：</dt>
+    <dd>
+      <%= @person.username %>
+    </dd>
+    <dt>姓名：</dt>
+    <dd>
+      <%= @person.name %>
+    </dd>
+    <dt>性别：</dt>
+    <dd>
+      <%= {'M':'男','F':'女'}[@person.sex] %>
+    </dd>
+    <dt>手机：</dt>
+    <dd>
+      <%= @person.mobile %>
+    </dd>
+    <dt>电话：</dt>
+    <dd>
+      <%= @person.tel %>
+    </dd>
+    <dt>邮箱：</dt>
+    <dd>
+      <%= @person.email %>
+    </dd>
+    <dt>qq：</dt>
+    <dd>
+      <%= @person.qq %>
+      </dd>
+    <dt>身份证：</dt>
+    <dd>
+      <%= @person.identitycard %>
+    </dd>
+    <dt>类型: </dt>
+      <dd>
+        <%= {'P':'个人',U:'单位'}[@custom.type] %>
+      </dd>
+    <dt>已验证邮箱: </dt>
+      <dd><%= fmtYN @custom.emailstate %>
+    </dd>
+    <dt>已绑定手机： </dt>
+      <dd><%= fmtYN @custom.mobilestate %>
+    </dd>
+    <dt>账号状态： </dt>
+      <dd><%= {'E':'正常','D':'禁止'}[@custom.accountstate] %>
+    </dd>
+    <dt>于 </dt><dd><%= @person.registertime[0..9] %>注册
+    </dd>
+  </dl>
+</div>
+<div class='uploadimage'>
+  <img src='images/user/<%= @person.picture %>' width='100' height='100' />
+</div>
