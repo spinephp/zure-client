@@ -111,15 +111,10 @@ class myCares extends Spine.Controller
 	afterfetch:=>
 		@care.resolve()
 		if Goodcare.count() > 0
-			fields = Good.attributes
 			values = []
 			i = 0
-			values[i++] = rec.proid for rec in Goodcare.all()  when rec.proid not in values
-			condition = [{field:"id",value:values,operator:"in"}]
-			params = 
-				data:{ cond:condition,filter: fields, token: sessionStorage.token } 
-				processData: true
-			Good.fetch(params)
+			values[i++] = rec.proid for rec in Goodcare.all()  when not Good?.exists(rec.proid) and rec.proid not in values
+			Good.append values if i > 0
 		else
 			@good.resolve()
 

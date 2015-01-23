@@ -80,16 +80,11 @@ class myAppraise extends Spine.Controller
 	
 	seekProduct:=>
 		if Order.count() > 0
-			fields = Orderproduct.attributes
 			values = []
 			i = 0
 			for rec in Order.all()
 				values[i++] = pro.proid for pro in rec.products when pro.proid not in values
-			condition = [{field:"id",value:values,operator:"in"}]
-			params = 
-				data:{ cond:condition,filter: fields, token: sessionStorage.token } 
-				processData: true
-			Orderproduct.fetch(params)
+			Orderproduct.append values if i > 0
 		else
 			@orderproduct.resolve()
 

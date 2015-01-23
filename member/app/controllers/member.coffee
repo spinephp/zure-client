@@ -37,7 +37,7 @@ class Members extends Spine.Controller
 			
 		@urlroute = window.location.href #$.getUrlParam('cmd')
 		n = @urlroute.indexOf("#")
-		@urlroute = if n is -1 then	"/members" else @urlroute.substring n+1
+		@urlroute1 = if n is -1 then	"/members" else @urlroute.substring n+1
 		
 		@default = $.Deferred()
 		@user = $.Deferred()
@@ -49,12 +49,12 @@ class Members extends Spine.Controller
 				if result.status is false
 					switch result.error
 						when "Not logged!"
-							loginDialog().open(default:Default.first(),user:User,sucess:->@navigate @urlroute)
+							loginDialog().open(default:Default.first(),user:User,sucess:->location.replace @urlroute.substring 0,n-1)
 						when "Access Denied"
 							alert result.error
 							window.history.back(-1)
 						when "Identity verify is invalid!"
-							@navigate  if @urlroute is "/members/updatepassword" then "/members/password" else @urlroute
+							@navigate  if @urlroute is "/members/updatepassword" then "/members/password" else @urlroute1
 
 		@headers     = new Headers
 		@footers     = new Footers
@@ -67,7 +67,7 @@ class Members extends Spine.Controller
 		Default.fetch()
 		Cart.fetch()
 		Currency.fetch()
-		Good.fetch()
+		#Good.fetch()
 		Goodclass.fetch()
 		User.fetch()
     
@@ -137,6 +137,6 @@ class Members extends Spine.Controller
     
 		@append @headers,@sidebar, divide, @main,@footers
     
-		@navigate @urlroute
+		@navigate @urlroute1
 
 module.exports = Members

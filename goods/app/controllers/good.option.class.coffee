@@ -15,6 +15,10 @@ class Goodclass extends Spine.Controller
 		@default = $.Deferred()
 		Klass.bind "refresh",=>@goodclass.resolve()
 		Default.bind "refresh",=>@default.resolve()
+		Default.bind "change",=>
+			if @item?
+				@item.default = Default.first()
+				@render()
   
 	render: ->
 		@html require("views/goodclasses")(@item)

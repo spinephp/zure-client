@@ -1,6 +1,6 @@
 <div class="childheader">
   <h5>
-    <%= @defaults.translate('Product evaluation/single') %></h5>
+    <%= @defaults.translate('Goods review/single') %></h5>
   <p>
     <%= @defaults.translate('Your comments will be other netizens important purchase reference, and affect commodity grade.') %></p>
   <p><a>

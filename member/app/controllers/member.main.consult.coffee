@@ -43,15 +43,10 @@ class myConsult extends Spine.Controller
 	
 	seekProduct:=>
 		if Goodconsult.count() > 0
-			fields = Orderproduct.attributes
 			values = []
 			i = 0
 			values[i++] = pro.proid for pro in Goodconsult.all() when pro.proid not in values
-			condition = [{field:"id",value:values,operator:"in"}]
-			params = 
-				data:{ cond:condition,filter: fields, token: sessionStorage.token } 
-				processData: true
-			Orderproduct.fetch(params)
+			Orderproduct.append values if i > 0
 		else
 			@product.resolve()
 

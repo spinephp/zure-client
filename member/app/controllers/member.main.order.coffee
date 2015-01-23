@@ -68,15 +68,10 @@ class myOrders extends Spine.Controller
 			@log "file: member.main.order.coffee\nclass: myOrders\nerror: #{err.message}"
 	afterfetch:=>
 		if Order.count() > 0
-			fields = Orderproduct.attributes
 			values = []
 			i = 0
 			values[i++] = pro.proid for pro in rec.products when pro.proid not in values for rec in Order.all()
-			condition = [{field:"id",value:values,operator:"in"}]
-			params = 
-				data:{ cond:condition,filter: fields, token: sessionStorage.token } 
-				processData: true
-			Orderproduct.fetch(params)
+			Orderproduct.append values if i > 0
 
 			fields = Consignee.attributes
 			values = []

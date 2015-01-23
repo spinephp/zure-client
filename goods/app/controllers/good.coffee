@@ -73,7 +73,7 @@ class good extends Spine.Controller
 		
 		divide = $('<div />').addClass('vdivide')
 	
-		@append @headers,@tree, divide, @option,@footers
+		@append @headers,@tree, @option,@footers
 
 		id = $.getUrlParam 'gid'
 		if id?

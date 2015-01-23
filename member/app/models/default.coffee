@@ -125,6 +125,7 @@ class Default extends Spine.Model
 			'Buy next':['还要买']
 			'Now you have no order':['你目前还没有订单']
 			
+			'Goods review/single':['产品评价/晒单']
 
 			# 产品树
 			'Product category list':['产品分类列表']

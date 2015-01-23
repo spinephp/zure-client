@@ -118,13 +118,15 @@ class myYunrui extends Spine.Controller
 			@log "file: member.main.coffee\nclass: myYunrui\nerror: #{err.message}"
 	afterfetch:=>
 		if Goodcare.count()>0
-			fields = Good.attributes
-			values = (rec.proid for rec in Goodcare.all())
-			condition = [{field:"id",value:values,operator:"in"}]
-			params = 
-				data:{ cond:condition,filter: fields, token: sessionStorage.token } 
-				processData: true
-			Good.fetch(params)
+			i = 0
+			values =  []
+			values[i++] = rec.proid for rec in Goodcare.all() when not Good?.exists(rec.proid) and rec.proid not in values
+			Good.append values if i > 0
+			
+			i = 0
+			values =  []
+			values[i++] = rec.proid for rec in Goodcare.all() when rec.proid not in values
+			condition = [{field:"proid",value:values,operator:"in"}]
 			params1 = 
 				data:{ cond:condition,filter:Goodeval.attributes, token: sessionStorage.token } 
 				processData: true

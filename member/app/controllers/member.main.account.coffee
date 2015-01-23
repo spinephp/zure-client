@@ -104,13 +104,7 @@ class myAccounts extends Spine.Controller
 	customfetch:=>
 		person = Person.first()
 		if person?
-			fields = Company.attributes
-			companyid = person.companyid
-			condition = [{field:"id",value:companyid,operator:"eq"}]
-			params = 
-				data:{ cond:condition,filter: fields, token: sessionStorage.token } 
-				processData: true
-			Company.fetch(params)
+			Company.append [person.companyid] if not Company?.exists person.companyid
 
 	userSubmit:(e)=>
 		e.preventDefault()

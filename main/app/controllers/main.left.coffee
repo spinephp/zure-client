@@ -39,13 +39,8 @@ class lefts extends Spine.Controller
 	
 		@append @customs,@news,@yunrui
 
-		$.getJSON "? cmd=CheckLogin&token=#{$.fn.cookie 'PHPSESSID'}",(result)=>
-			if result.id is -1
-				User.destroyAll()
-			else
-				User.destroyAll()
-				item = new User result
-				item.save()
+		$.getJSON "? cmd=GetLogId&token=#{$.fn.cookie 'PHPSESSID'}",(result)=>
+			User.destroyAll() if result.id is -1 or not User.exists result.id
 
 		if User.count() is 0
 			@navigate '!/customs/login'
