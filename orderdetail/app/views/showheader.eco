@@ -1,0 +1,27 @@
+  <div class="header">
+    <p><%= @items[5].data %></p>
+    <ol>
+      <li data-tab="addfavorite">
+        <span>加入收藏</span>
+      </li>
+      <li data-tab="sethomepage">
+        <span>设为首页</span>
+      </li>
+    </ol>
+  </div>
+  <ul>
+    <li><%- @items[6].data %></li>
+    <li>
+      <a href="english/index.php">English</a>
+    </li>
+  </ul>
+  <img src="images/aaaa.jpg" width="800" height="136" />
+  <!--<div><embed src="images/banner.swf" quality="high"  type="application/x-shockwave-flash" width="700" height="135"></embed> </div> -->
+  <div>
+    <ul>
+      <li>
+        <a href="?cmd=ShowHome">云瑞</a>
+      </li>
+      <li></li>
+    </ul>
+  </div>

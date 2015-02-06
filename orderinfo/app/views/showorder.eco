@@ -1,0 +1,74 @@
+<% money=(rmb)-> %>
+	<%= (new Number(rmb)).toFixed(2) %>
+<% end %>
+<p class="productlist"><b>商品清单</b><span class="repair">[<a>返回修改购物车]</a>
+  </span></p>
+<table>
+  <thead>
+    <tr>
+        <th>商品</th>
+        <th>云瑞价</th>
+        <th>返现/送积分</th>
+        <th>数量</th>
+        <th>供货时间</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% for rec in @orders.all(): %>
+    <% goods=@goods.find rec.proid %>
+  
+    <tr>
+        <td>
+          <a class="showproduct" data-product="
+            <%= rec.proid %>"><img src="images/goods/<%= goods.picture %>" /><%= goods.longname %><br /><%= goods.size %>
+          </a><br />商品编号：<%= rec.proid %>
+      </td>
+        <td>
+          <span>¥<%= goods.price %></span>
+        </td>
+        <td>
+          <span></span>
+        </td>
+        <td>
+          <p><%= rec.number %></p>
+        </td>
+        <td class="shipdate">
+          <p><%= if goods.amount >= rec.number then  "现货" else "45 天" %></p>
+      </td>
+    </tr>
+    <% end %>
+    <tr>
+        <td colSpan=5 class="sumproduct">
+          <span><%= @orders.sumNumber() %>件商品，总商品金额：<b>¥
+          <%= money @orders.sumPrice() %>
+          </b>
+      </span>
+      </td>
+    </tr>
+    <tr>
+        <td colspan="5">
+          <span>返现：<b>-¥</b>
+          </span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">
+          <span>运费：<b>¥<%= money @carriagecharges %></b>
+        </span>
+      </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="5">
+          <span>应付总额：<b>¥
+            <%= @orders.total() %>
+        </b></span>
+      </td>
+        <td></td>
+    </tr>
+    </tbody>
+  </table>
+  <footer>
+        应付总额：<b>¥<%= @orders.total() %></b>元
+            <button type="button" class="sumbitorder">提交订单</button>
+    </footer>

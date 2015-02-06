@@ -130,8 +130,8 @@ class Logouts extends Spine.Controller
 			if result[0] is "{"
 				obj = JSON.parse(result)
 				if typeof (obj) is "object"
+					User.destroyAll()
 					unless obj.id is -1
-						User.destroyAll()
 						#@navigate '!/customs/login'
 					else 
 						alert(obj.username) # œ‘ æµ«¬º ß∞‹–≈œ¢

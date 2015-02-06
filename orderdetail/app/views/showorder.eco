@@ -1,0 +1,84 @@
+<p class="productlist"><b>商品清单</b></p>
+<table>
+  <thead>
+    <tr>
+      <th>商品编号</th>
+      <th>商品图片</th>
+      <th>商品名称</th>
+      <th>云瑞价</th>
+        <th>返现/送积分</th>
+        <th>商品数量</th>
+      <th>供货时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% for rec in @products: %>
+    <tr>
+      <td>
+        <%= rec.formatId() %>
+      </td>
+      <td>
+        <a class="showproduct" data-product="<%= rec.id %>"><img src="admin/uploadimg/<%= rec.picture %>" /></a>
+      </td>
+      <td><a class="showproduct" data-product="<%= rec.id %>"><%= rec.longname %><br /><%= rec.size %>
+      </a>
+      </td>
+        <td>
+          ¥<%= rec.price() %>
+        </td>
+        <td>
+          - ¥<%= (new Number(rec.returnnow())).toFixed(2) %>
+          </td>
+        <td>
+          <%= rec.number() %>
+        </td>
+        <td class="shipdate">
+          <%= if @orders.shipdate is "0" then  "现货" else @orders.shipdate+"天" %>
+      </td>
+      <td></td>
+    </tr>
+    <% end %>
+    </tbody>
+  </table>
+<ul>
+  <li>
+
+    <label>
+      <%= @products[0].sumNumber() %>件商品，总商品金额：
+    </label>
+    <span>
+      <b>
+        ¥
+        <%= (new Number(@products[0].sumPrice())).toFixed(2) %>
+      </b>
+    </span>
+  </li>
+  <li>
+
+    <label>返现：</label>
+    <span>
+      <b>- ¥<%= (new Number(@products[0].sumReturnnow())).toFixed(2) %>
+    </b>
+    </span>
+  </li>
+  <li>
+
+    <label>+ 运费：</label>
+    <span>
+      <b>
+        ¥<%= (new Number(@orders.carriagecharge)).toFixed(2) %>
+      </b>
+    </span>
+  </li>
+  <li>
+
+    <label>应付总额：</label>
+    <span>
+      <b>
+        ¥
+        <%= @products[0].total() %>
+      </b>
+    </span>
+  </li>
+</ul>

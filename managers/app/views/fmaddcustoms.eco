@@ -61,7 +61,7 @@
       <label for='worktime'>账号状态： </label>
       <input type='radio' name='C_accountstate' value='E' checked />正常 <input type='radio' name='C_accountstate' value='D' />禁止
     </p>
-    <input type='hidden' name='action' value='custom_register' />
+    <input type='hidden' name='action' value='custom_create' />
     <input type='hidden' name='P_times' value="0" />
     <input type='hidden' name='token' value="<%= $.fn.cookie 'PHPSESSID' %>" />
       <p>

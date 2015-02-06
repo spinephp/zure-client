@@ -1,0 +1,38 @@
+<P>
+  订单号：<%= @order.code %> <span>
+    状态：<b>
+      <%= @state.name %>
+    </b>
+  </span><span>
+    <button>返回</button>
+  </span>
+</P>
+<p>
+  <%= @state.yrrnote %>
+</p>
+<div id="tabs">
+  <ul>
+    <li>
+      <a href="#tabs-1">电子合同</a>
+    </li>
+    <li>
+      <a href="#tabs-2">传统合同</a>
+    </li>
+  </ul>
+  <div id="tabs-1">
+    <p>制作电子生版合同需要合同章图像文件和法人签字图像文件。</p>
+    <p>
+      <input type="file" name="seal" />选择合同章图像文件
+    </p>
+    <p>
+      <input type="file" name="consignee" />选择法人签字图像文件
+    </p>
+    <button>上传</button>
+  </div>
+  <div id="tabs-2">
+    <p>制作传统合同，先打印合同，盖章后再扫描回传或发传真回传</p>
+    <button>打印合同</button>
+    <input type="file" name="contract" />选择扫描好的合同文件
+    <button>回传</button>
+  </div>
+</div>

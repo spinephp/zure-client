@@ -1,0 +1,107 @@
+<dl class="active">
+	<dt>
+		<b>票据信息</b>
+		<span>[<a class="save">保存票据信息</a>]</span>
+	</dt>
+
+	<form>
+
+    <% if @billfrees.length>0: %>
+		<dd>类型和抬头</dd>
+		<% for rec in @billfrees: %>
+			<dd>
+				<label>
+				<input type="radio" name="bill" value=<%= rec.id %>  /> <span><%= rec.name %> 收据</span>
+				</label>
+				<span data-edit=
+				<%= rec.id %>><a data-edit=
+				<%= rec.id %>>编辑
+				</a>
+				<a data-delete=
+				<%= rec.id %>>删除
+				</a>
+				</span>
+			</dd>
+		<% end %>
+	<% end %>
+
+	<dd>
+		<label>
+			<input type="radio" name="bill" value="0"/>
+			<span>使用新的票据信息</span>
+		</label>
+		<div class="newbill">
+			<ul>
+				<li>票据类型：</li>
+				<li>
+					<label>
+					<input type="radio" name="billtype" value="1" checked="checked" />
+					<span>收据</span>
+					</label>
+				</li>
+				<li>
+					<label>
+					<input type="radio" name="billtype" value="2" />
+					<span>增值税发票</span>
+					</label>
+				</li>
+			</ul>
+			<div class="typestack">
+				<div class="billtype" data-billtype="1">
+					<ul>
+						<li>收据抬头：</li>
+						<li>
+							<label>
+							<input type="radio" name="receiptheader" value="1" checked="checked" />
+							<span>个人</span>
+							</label>
+						</li>
+						<li>
+							<label>
+							<input type="radio" name="receiptheader" value="2" />
+							<span>单位</span>
+							</label>
+							<span class="receiptheader">
+							<input type="text" name="receipcompany" value="" />
+							</span>
+						</li>
+					</ul>
+				</div>
+				<div class="billtype" data-billtype="2">
+          <% if @billsales?: %>
+					<% for key,title of @billsales.titles(): %>
+					<label>
+					<span><%= title%>：</span><input type="text" name="<%= key %>" value="<%= @billsales[key] %>" />
+					</label>
+					<br />
+            <% end %>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</dd>  
+	<dd>
+		<b>票据内容</b>
+		<ul>
+			<li>
+			票据内容：
+			</li>
+			<% for rec in @billcontents: %>
+				<li>
+					<label>
+					<input type="radio" name="billcontent" value=<%= rec.id  %>  <span>
+					<%= rec.name  %>
+					</span>
+					</label>
+				</li>
+			<% end %>
+		</ul>
+	</dd>
+
+	<dd>
+	<button class="save">保存票据信息</button>
+	</dd>
+
+	</form>
+
+</dl>

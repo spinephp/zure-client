@@ -43,7 +43,7 @@
     </p>
     <p><label for='E_startdate'>于 </label><input type='date' name='E_startdate' /> 参加工作</p>
     <p><label for='P_registertime'>于 </label><input type='date' name='P_registertime' />进入本公司</p>
-    <input type='hidden' name='action' value='employee_register' />
+    <input type='hidden' name='action' value='employee_create' />
     <input type='hidden' name='P_times' value="0" />
     <input type='hidden' name='token' value="<%= $.fn.cookie 'PHPSESSID' %>" />
       <p>

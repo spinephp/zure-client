@@ -1,0 +1,32 @@
+<dl class="active">
+  <dt>
+    <b>支付方式</b>
+    <span>
+      [<a class="save">保存支付方式</a>]
+    </span>
+  </dt>
+    <% if @payments.length: %>
+  <form>
+      <% for rec in @payments: %>
+  <dd>
+        <label>
+          <input type="radio" name="payment" value=<%= rec.id %> <% if rec.id is @curid: %> checked="checked" <% end %> /> <span>
+            <%= rec.name %>
+          <%= rec.note %>
+          </span>
+        </label> <a href=""
+            <%= rec.url %> ><%= rec.urltext %>
+            </a>
+          </dd>
+  <% end %>
+  <dd>
+    <button class="save">保存支付方式</button>
+  </dd>
+  </form>
+  <% else: %>
+  <dd>
+    No items
+  </dd>
+  <% end %>      
+
+</dl>

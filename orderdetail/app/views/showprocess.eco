@@ -1,0 +1,29 @@
+<p>
+<% for item,index in @state when item.state is '9': %>
+	<% if item.finish(): %>
+		<% if not item.isLast(): %>
+			<img src="images/cg1.png" /> <img src="images/cg2.png" />
+		<% else: %>
+			<img src="images/cg1.png" />
+		<% end %>
+	<% else: %>
+		<% if not item.isLast(): %>
+		<img src="images/cgr1.png" /> <img src="images/cgr2.png" />
+		<% else: %>
+			<img src="images/cgr1.png" />
+		<% end %>
+	<% end %>
+<% end %>
+</p>
+<% for item,index in @state when item.state is '9': %>
+	<div class="note">
+    <label>
+	<% if item.finish(): %>
+		<%= item.name %>
+		<%= item.optionTime() %>
+	<% else: %>
+		<%= item.name %>
+	<% end %>
+</label>
+</div>
+<% end %>

@@ -1,0 +1,77 @@
+    <h4><%= @default.translate 'Sun single' %></h4>
+    <form action="" name="form1" id="form1" method="post" enctype="multipart/form-data">
+      <ul>
+        <li>
+          <label><%= @default.translate 'Choose commodity' %><b>*</b></label>
+          <select name='F_proid'>
+            <% for order in @orders when order.stateid is 13: %>
+              <% for product in order.products when product.feelid is 0: %>
+                <% good = @goods.find product.proid %>
+                <% kind = @klass.find good.classid %>
+                <option value='<%= good.id+'|'+product.id %>'><img src='images/good/<%= good.picture %>' /><%=  @default.translates kind.longNames() %>
+                  <%= good.size %>
+              </option>
+              <% end %>
+            <% end %>
+          </select>
+          </li>
+        <li>
+          <label>
+        <%= @default.translate 'Title' %><b>*</b>
+      </label>
+      <input type='text' name='F_title' />
+        </li>
+        <li>
+            <label>
+        <%= @default.translate 'Content' %><b>*</b>
+      </label>
+      <textarea name='F_content' ></textarea>
+      <p>
+        <%= @default.translate 'Can enter 10000 characters' %>
+        </p>
+        </li>
+        <li>
+          <label>
+        <%= @default.translate 'Upload images' %><b>*</b>
+      </label>
+      <input type="file" name="upload_feel" id="upload_file" multiple="multiple" />
+          <button>
+            <%= @default.translate 'Upload' %>(<b>0</b>)
+          </button>
+      </li>
+        <li>
+          <label>&nbsp;</label>
+          <span><%= @default.translate 'Please upload 3-20 images, each image is less than 4m.' %></span>
+          </li>
+          <li>
+            <label>&nbsp;</label>
+            <span><%= @default.translate 'Support the image format of JPG, jpeg, BMP, PNG, GIF.' %></span>
+            </li>
+        <li>
+          <label>&nbsp;</label>
+          <span><%= @default.translate 'Hold down the "Ctrl" key, can choose more than one at a time.' %></span>
+          </li>
+        <li>
+          <label>&nbsp;</label>
+          <input type='submit' value='<%= @default.translate 'Submit' %>' />
+          </li>
+        </ul>
+      </form>
+    
+    <div class='about'>
+      <h5>
+        <%= @default.translate 'About sun single' %>: 
+      </h5>
+      <p>
+        <%= @default.translate 'You can use your own feeling, suggested the choose and buy, real photos, usage scenarios, such as the unpacking process and sharing;' %>
+        </p>
+        <p>
+          <%= @default.translate 'Each item top 10 successful bask in single and number of pictures in three or more customers can get 100 points;' %>
+          </p>
+      <p>
+        <%= @default.translate 'Please make sure that the uploaded pictures of original and legitimate, otherwise YunRui shall have the right to delete pictures and frozen account, and reserves the right to pursue its legal responsibility;' %>
+      </p>
+      <p>
+        <a href='#'><%= @default.translate 'More sun single description' %></a>
+        </p>
+    </div>
