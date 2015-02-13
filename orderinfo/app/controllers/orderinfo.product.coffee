@@ -2,6 +2,8 @@ Spine   = require('spine')
 Consignee = require('models/consignee')
 Payment = require('models/payment')
 Transport = require('models/transport')
+Currency = require('models/currency')
+Default = require('models/default')
 Bill = require('models/bill')
 Billfree = require('models/billfree')
 Billsale = require('models/billsale')
@@ -9,12 +11,11 @@ Billcontent = require('models/billcontent')
 Product   = require('models/orderproducts')
 Cart   = require('models/cart')
 Order   = require('models/order')
-Default = require('models/default')
 $       = Spine.$
 
 class Show extends Spine.Controller
 	className: 'show'
-  
+
 	events:
 		'click .repair': 'repair'
 		'click a[data-product]': 'product'
@@ -23,15 +24,16 @@ class Show extends Spine.Controller
 	constructor: ->
 		super
 		@active @change
-
-		@product = $.Deferred()
-		@transport = $.Deferred()
+			
+		@good = $.Deferred()
 		@cart = $.Deferred()
-		@default = $.Deferred()
-		Product.bind "refresh change",=>@product.resolve()
-		Transport.bind "refresh change",=>@transport.resolve()
-		Cart.bind "refresh change",=>@cart.resolve()
-		Default.bind "refresh",=>@default.resolve() if Default.count() > 0
+		@transport = $.Deferred()
+		@currency = $.Deferred()
+
+		Currency.bind "refresh",=>@currency.resolve()
+		Product.bind "refresh",=>@good.resolve()
+		Cart.bind "refresh",=>@cart.resolve()
+		Transport.bind "refresh",=>@transport.resolve()
 
 	render: ->
 		@html require('views/showorder')(@item)
@@ -41,16 +43,20 @@ class Show extends Spine.Controller
 		else
 			btn.removeAttr("disabled")
 
-	change: () =>
+	change: (item) =>
 		try
-			$.when(@product,@transport,@cart,@default).done =>
-				item = Transport.getCurrent()
-				charges = item?.charges || "0"
+			$.when(@good,@cart,@transport,@currency).done =>
+				rec = Default.first()
+				unless rec?
+					rec = new Default id:1,languageid:2,currencyid:1
+					rec.save()
+					
 				@item = 
 					orders:Cart
 					goods:Product
-					carriagecharges:charges
-					default:Default.first()
+					carriagecharges:Transport.getCurrent()?.charges or '0'
+					default:rec
+					currency:Currency.find rec.currencyid
 				@render()
 		catch err
 			console.log err.message
@@ -61,7 +67,7 @@ class Show extends Spine.Controller
 	product:(e)->
 		id = $(e.target).attr 'data-product'
 		window.location.href="? cmd=ShowProduct&prosid="+$.trim(id)
-
+	  
 	sumbitOrder:->
 		# 计算供货天数
 		shipdate = 0
@@ -70,7 +76,7 @@ class Show extends Spine.Controller
 
 		billtypeid = Bill.getCurrent().id
 		curBill = if billtypeid is '1' then Billfree.getCurrent() else Billsale.getCurrent()
-
+		@log curBill
 		Order.bind "ajaxError",(record,xhr,settings,error) ->
 			console.log xhr.responseText
 
@@ -79,7 +85,7 @@ class Show extends Spine.Controller
 			Cart.destroyAll()
 			window.location.href="? cmd=ShowOrderDetail&orderid="+data.id+"&token="+sessionStorage.token
 
-			Order.url += "&token="+sessionStorage.token if not Order.url.match /token/
+		Order.url += "&token="+sessionStorage.token if not Order.url.match /token/
 
 		item = new Order
 			id:null
@@ -95,7 +101,7 @@ class Show extends Spine.Controller
 			carriagecharge:Transport.getCurrent().charges
 			stateid:'1'
 		item.save()
-    
+
 class Edit extends Spine.Controller
 	className: 'edit'
 
@@ -108,12 +114,12 @@ class Edit extends Spine.Controller
 
 	change: (params) =>
 		@render()
-    
+
 class Orders extends Spine.Stack
 	className: 'orders stack'
 
 	controllers:
 		show: Show
 		edit: Edit
-    
+
 module.exports = Orders

@@ -4,8 +4,7 @@ Navigation = require('models/navigation')
 Currency = require('models/currency')
 Language = require('models/language')
 Default = require('models/default')
-
-Header = require('models/header')
+Cart = require('models/cart')
 Consignee = require('models/consignee')
 Payment = require('models/payment')
 Transport = require('models/transport')
@@ -34,6 +33,14 @@ class OrderInfo extends Spine.Controller
   
 	constructor: ->
 		super
+	
+		@headers     = new Headers
+		@footers     = new Footers
+		@receiver    = new Receiver
+		@payments    = new Payments
+		@transports  = new Transports
+		@bills = new Bills
+		@orders = new Orders
     
 		$.fn.cookie = (c_name)->
 			if document.cookie.length>0
@@ -44,14 +51,6 @@ class OrderInfo extends Spine.Controller
 					c_end=document.cookie.length if c_end is -1 
 					return unescape(document.cookie.substring(c_start,c_end))
 			return ""
-	
-		@headers     = new Headers
-		@footers     = new Footers
-		@receiver    = new Receiver
-		@payments    = new Payments
-		@transports  = new Transports
-		@bills = new Bills
-		@orders = new Orders
 
 		@routes
 			'/orderinfo/edit0': (params) -> 
@@ -99,19 +98,17 @@ class OrderInfo extends Spine.Controller
 		Navigation.fetch()
 		Language.fetch()
 		Default.fetch()
+		Cart.fetch()
 		Currency.fetch()
-
-		Header.fetch()
 		Province.fetch()
 		Product.bind "refresh update change",->
 			Consignee.fetch()
 		AOrder.bind "refresh update change",->
-			if @count() > 0
-				values = (parseInt(item.proid) for item in @all())
-				params = 
-					data:{ filter: Product.attributes, cond:[{field:"id",value:values,operator:"in"}],token: $.fn.cookie 'PHPSESID' } 
-					processData: true
-				Product.fetch(params)
+			values = (parseInt(item.proid) for item in @all())
+			params = 
+				data:{ filter: Product.attributes, cond:[{field:"id",value:values,operator:"in"}],token: sessionStorage.token } 
+				processData: true
+			Product.fetch(params)
 		AOrder.fetch()
 		Bill.fetch()
 		Billfree.fetch()
@@ -123,7 +120,7 @@ class OrderInfo extends Spine.Controller
 		Transport.fetch()
 		
 		status = $("<ol class='orderstate'><li><span class='finished'>1.我的订单</span></li><li><span class='current'>2.填写核对订单信息</span></li><li><span>3.成功提交订单</span></li></ol>")
-		divide = $('<div class="infotitle"><h4>填写并核对订单信息</h4></div>')
+		divide = $('<div class="infotitle">填写并核对订单信息</div>')
 	
 		@append @headers,status,divide,@receiver,@payments,@transports,@bills,@orders,@footers
 

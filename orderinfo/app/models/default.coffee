@@ -61,8 +61,23 @@ class Default extends Spine.Model
 			"Copyright":["版权"]
 			'All right reserved':["保留所有权利"]
 
-			# 产品树
-			'Product category list':['产品分类列表']
+			# 订单
+			'Goods list':['商品清单']
+			'Return and edit order':['返回修改购物车']
+			'Item':['商品']
+			'Price':['云瑞价']
+			'Return now':['返现/送积分']
+			'Quantity':['数量']
+			'Shipping date':['供货时间']
+			'Goods code':['商品编号']
+			'In stock':['现货']
+			'45 days':['45 天']
+			'A total of':['共']
+			'PCS':['件']
+			'Amount':['总商品金额']
+			'Freight':['运费']
+			'Amount payable':['应付总额']
+			'Submit':['提交订单']
 
 			# 产品类
 			'Recommended to you based on your concerns':['根据您的关注为您推荐']

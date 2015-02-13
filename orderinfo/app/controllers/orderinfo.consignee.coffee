@@ -84,7 +84,7 @@ class Edit extends Spine.Controller
 
     Consignee.bind "beforeUpdate beforeDestroy", ->
       Consignee.url = "woo/index.php"+Consignee.url if Consignee.url.indexOf("woo/index.php") is -1
-      Consignee.url += "&token="+sessionStorage.token unless Consignee.url.match /token/
+      Consignee.url += "&token="+$.fn.cookie 'PHPSESSID' unless Consignee.url.match /token/
   
   render: ->
     @html require('views/fmConsignee')({consignees:Consignee.all()})
@@ -107,7 +107,7 @@ class Edit extends Spine.Controller
       item[res.name] = res.value for res in key[1..]
 
     oldUrl = Consignee.url
-    Consignee.url += "&token="+sessionStorage.token unless Consignee.url.match /token/
+    Consignee.url += "&token="+$.fn.cookie 'PHPSESSID' unless Consignee.url.match /token/
     item.save()
     Consignee.url = oldUrl
 
