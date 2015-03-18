@@ -15,6 +15,8 @@ Billcontent = require('models/billcontent')
 AOrder = require('models/cart')
 Product   = require('models/orderproducts')
 Province = require('models/province')
+User = require('models/user')
+
 Manager = require('spine/lib/manager')
 $       = Spine.$
 
@@ -25,6 +27,8 @@ Payments = require('controllers/orderinfo.payment')
 Transports = require('controllers/orderinfo.transport')
 Bills = require('controllers/orderinfo.bill')
 Orders = require('controllers/orderinfo.product')
+
+loginDialog = require('controllers/loginDialog')
 
 #Spine.Model.host = "http://127.0.0.1/woo/"
 
@@ -41,7 +45,7 @@ class OrderInfo extends Spine.Controller
 		@transports  = new Transports
 		@bills = new Bills
 		@orders = new Orders
-    
+
 		$.fn.cookie = (c_name)->
 			if document.cookie.length>0
 				c_start=document.cookie.indexOf(c_name + "=")
@@ -51,6 +55,14 @@ class OrderInfo extends Spine.Controller
 					c_end=document.cookie.length if c_end is -1 
 					return unescape(document.cookie.substring(c_start,c_end))
 			return ""
+		
+		data = token:$.fn.cookie 'PHPSESSID'
+		$.getJSON "? cmd=IsLogin", data,(result)=>
+			if result.login
+				@append @headers,status,divide,@receiver,@payments,@transports,@bills,@orders,@footers
+				@navigate '/orderinfo'
+			else
+				loginDialog().open(default:Default.first(),user:User,sucess:->location.reload())
 
 		@routes
 			'/orderinfo/edit0': (params) -> 
@@ -122,8 +134,8 @@ class OrderInfo extends Spine.Controller
 		status = $("<ol class='orderstate'><li><span class='finished'>1.我的订单</span></li><li><span class='current'>2.填写核对订单信息</span></li><li><span>3.成功提交订单</span></li></ol>")
 		divide = $('<div class="infotitle">填写并核对订单信息</div>')
 	
-		@append @headers,status,divide,@receiver,@payments,@transports,@bills,@orders,@footers
+		#@append @headers,status,divide,@receiver,@payments,@transports,@bills,@orders,@footers
 
-		@navigate '/orderinfo'
+		#@navigate '/orderinfo'
 	
 module.exports = OrderInfo

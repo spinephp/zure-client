@@ -75,8 +75,9 @@ class Show extends Spine.Controller
 		shipdate = Math.max(shipdate,parseInt(item)) for item in tem when item isnt ""
 
 		billtypeid = Bill.getCurrent().id
+		
 		curBill = if billtypeid is '1' then Billfree.getCurrent() else Billsale.getCurrent()
-		@log curBill
+		
 		Order.bind "ajaxError",(record,xhr,settings,error) ->
 			console.log xhr.responseText
 
