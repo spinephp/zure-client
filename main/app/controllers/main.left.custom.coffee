@@ -102,6 +102,10 @@ class Logouts extends Spine.Controller
 		@default = $.Deferred()
 		User.bind "refresh change",=>@user.resolve()
 		Default.bind "refresh",=>@default.resolve() if Default.count() > 0
+		Default.bind "change",=>
+			if @item?
+				@item.default = Default.first()
+				@render()
 
 		$.when(@default,@user).done =>
 			$.getJSON "? cmd=VerifyStatus&token=#{$.fn.cookie 'PHPSESSID'}",(result)=>
