@@ -48,7 +48,7 @@
     </tr>
     <tr>
         <td colspan="5">
-          <span><%= @default.translate 'Retrun now' %>：<%= moneyTo 0,@currency %></span>
+          <span><%= @default.translate 'Return now' %>：<%= moneyTo 0,@currency %></span>
         </td>
     </tr>
     <tr>
@@ -68,5 +68,5 @@
   </table>
   <footer>
         <%= @default.translate 'Amount payable' %>：<%= moneyTo @orders.total(),@currency %>
-            <button type="button" class="sumbitorder"><%= @default.translate 'Sumbit' %></button>
+            <button type="button" class="sumbitorder"><%= @default.translate 'Submit' %></button>
     </footer>

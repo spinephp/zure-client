@@ -13,8 +13,9 @@ class Order extends Spine.Model
 		fields = @attributes
 		condition = [{field:"userid",value:"?userid",operator:"eq"}]
 		goodparams = ['id','orderid','proid','number','price','returnnow','modlcharge',"moldingnumber","drynumber","firingnumber","packagenumber","evalid","feelid"]
+		token = $.fn.cookie 'PHPSESSID'
 		params or= 
-			data:{ cond:condition,filter: fields, params:{products:goodparams},token: sessionStorage.token } 
+			data:{ cond:condition,filter: fields, params:{products:goodparams},token:token } 
 			processData: true
 		super(params)
 

@@ -24,7 +24,7 @@ class lefts extends Spine.Controller
 				@navigate '!/customs/login'
 			else
 				@navigate '!/customs/logout'
-			
+	
 		@routes
 			'!/customs/login': (params) -> 
 				@active params
@@ -41,7 +41,6 @@ class lefts extends Spine.Controller
 
 		$.getJSON "? cmd=GetLogId&token=#{$.fn.cookie 'PHPSESSID'}",(result)=>
 			User.destroyAll() if result.id is -1 or not User.exists result.id
-
 		if User.count() is 0
 			@navigate '!/customs/login'
 		else

@@ -1,4 +1,5 @@
-﻿myYunruiDialog = ->
+﻿loginDialog = require('controllers/loginDialog')
+myYunruiDialog = ->
 	__refactor__ = true #是否需要重新构建 该对话框
 	open: (options)->
 		dlgAddOrder = $("#myYunruiDialog")
@@ -11,7 +12,7 @@
 		if options.user?
 			html += "<p>#{options.defaults.toPinyin(options.user.nick or options.user.name)}<span><a href='?cmd=Member'>#{options.defaults.translate 'Go my YunRui'}</a></span></p>"
 		else
-			html += "<p>#{options.defaults.translate 'Hello, please'} [<a href='###'>#{options.defaults.translate('Login')}</a>]</p>"
+			html += "<p>#{options.defaults.translate 'Hello, please'} [<a href='###' id='userlogin'>#{options.defaults.translate('Login')}</a>]</p>"
 		html += "<p>#{options.defaults.translate('The latest order status')}: <a href='###'>#{options.defaults.translate('Check all order')}></a></p>"
 		
 		html += "<ul><li><a href='?word=myorder'>#{options.defaults.translate('Pending orders')}(#{options.orders.Pending()})</a></li>"
@@ -22,6 +23,10 @@
 		html += "</div>"
 
 		$(html).appendTo("body")
+
+		# 用户用户登录处理程序
+		$("#userlogin").click ()->
+			loginDialog().open(default:options.defaults,user:options.user)
 
 		width = $("header ul li:first-child").width()
 		offset = $("header ul li:first-child").position()
