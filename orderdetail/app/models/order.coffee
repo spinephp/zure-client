@@ -12,8 +12,9 @@ class Order extends Spine.Model
 	@fetch: (params) ->
 		fields = @attributes
 		condition = [{field:"id",value:$.getUrlParam("orderid"),operator:"eq"}]
+		param = {products:["id","orderid","proid","number","price","returnnow","modlcharge","moldingnumber","drynumber","firingnumber","packagenumber","evalid","feelid"]}
 		params or= 
-			data:{ cond:condition,filter: fields, token: sessionStorage.token } 
+			data:{ cond:condition,filter: fields, params:param,token: sessionStorage.token } 
 			processData: true
 		super(params)
 

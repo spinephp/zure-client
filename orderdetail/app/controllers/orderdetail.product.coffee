@@ -10,19 +10,20 @@ class Products extends Spine.Controller
 		super
 		@active @change
 		Order.bind('refresh change', -> Product.fetch())
-		Product.bind('refresh change', @render)
+		Product.bind('refresh change', @change)
  
 	render: =>
+		@html require('views/showorder')(@item)
+    
+	change: (params) =>
 		try
 			if Product.count() and Order.count()
 				order = Order.first()
-				console.log order
-				product = Product.all()
-				@html require('views/showorder')({orders:order,products:product})
+				@item = 
+					orders:order
+					products:Product
+				@render()
 		catch err
 			console.log "9999"+err.message
-    
-	change: (params) =>
-		@render()
     
 module.exports = Products

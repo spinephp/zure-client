@@ -13,7 +13,8 @@
     </tr>
   </thead>
   <tbody>
-  <% for rec in @products: %>
+  <% for goods in @orders.products: %>
+  <% rec = @products.find goods.proid %>
     <tr>
       <td>
         <%= rec.formatId() %>
@@ -25,16 +26,16 @@
       </a>
       </td>
         <td>
-          ¥<%= rec.price() %>
+          ¥<%= goods.price %>
         </td>
         <td>
-          - ¥<%= (new Number(rec.returnnow())).toFixed(2) %>
+          - ¥<%= (new Number(goods.returnnow)).toFixed(2) %>
           </td>
         <td>
-          <%= rec.number() %>
+          <%= goods.number %>
         </td>
         <td class="shipdate">
-          <%= if @orders.shipdate is "0" then  "现货" else @orders.shipdate+"天" %>
+          <%= if @orders.shipdate is 0 then  "现货" else @orders.shipdate+"天" %>
       </td>
       <td></td>
     </tr>
@@ -45,12 +46,12 @@
   <li>
 
     <label>
-      <%= @products[0].sumNumber() %>件商品，总商品金额：
+      <%= @products.sumNumber() %>件商品，总商品金额：
     </label>
     <span>
       <b>
         ¥
-        <%= (new Number(@products[0].sumPrice())).toFixed(2) %>
+        <%= (new Number(@products.sumPrice())).toFixed(2) %>
       </b>
     </span>
   </li>
@@ -58,7 +59,7 @@
 
     <label>返现：</label>
     <span>
-      <b>- ¥<%= (new Number(@products[0].sumReturnnow())).toFixed(2) %>
+      <b>- ¥<%= (new Number(@products.sumReturnnow())).toFixed(2) %>
     </b>
     </span>
   </li>
@@ -77,7 +78,7 @@
     <span>
       <b>
         ¥
-        <%= @products[0].total() %>
+        <%= @products.total() %>
       </b>
     </span>
   </li>

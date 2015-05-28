@@ -34,23 +34,23 @@ class OrderProducts extends Spine.Model
 	number:->
 		sum = rec.number for rec in Order.first().products when rec.proid is @id 
 
-	sumNumber:->
+	@sumNumber:->
 		sum = 0
 		sum += parseInt rec.number for rec in Order.first().products
 		sum
 
-	sumPrice:->
+	@sumPrice:->
 		sum = 0
 		sum += rec.price*rec.number for rec in Order.first().products
 		sum
 
-	sumReturnnow:->
+	@sumReturnnow:->
 		item = Order.first()
 		sum = item.returnnow
 		sum += rec.returnnow*rec.number for rec in item.products
 		sum
 
-	total:->
+	@total:->
 		@sumPrice()+Order.first().carriagecharge
 
 module.exports = OrderProducts

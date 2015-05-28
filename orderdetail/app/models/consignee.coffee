@@ -10,7 +10,7 @@ class Consignee extends Spine.Model
 
 	@fetch: (params) ->
 		fields = @attributes
-		condition = [{field:"userid",value:"?",operator:"eq"}]
+		condition = [{field:"userid",value:"?userid",operator:"eq"}]
 		params or= 
 			data:{ cond:condition,filter: fields, token: sessionStorage.token } 
 			processData: true

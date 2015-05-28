@@ -26,6 +26,8 @@ Transports = require('controllers/orderdetail.transport')
 Bills = require('controllers/orderdetail.bill')
 Orders = require('controllers/orderdetail.product')
 
+loginDialog = require('controllers/loginDialog')
+
 #Spine.Model.host = "http://127.0.0.1/woo/"
 
 class OrderDetail extends Spine.Controller
@@ -39,6 +41,24 @@ class OrderDetail extends Spine.Controller
 						.exec(decodeURI(window.location.href))
 			return 0 if not results
 			results[1] || 0
+
+		$.fn.cookie = (c_name)->
+			if document.cookie.length>0
+				c_start=document.cookie.indexOf(c_name + "=")
+				if c_start isnt -1
+					c_start=c_start + c_name.length+1 
+					c_end=document.cookie.indexOf(";",c_start)
+					c_end=document.cookie.length if c_end is -1 
+					return unescape(document.cookie.substring(c_start,c_end))
+			return ""
+		
+		data = token:$.fn.cookie 'PHPSESSID'
+		$.getJSON "? cmd=IsLogin", data,(result)=>
+			if result.login
+				@append @headers,@currents,@process,@trail,divide,@receiver,@payments,@transports,@bills,@orders,@footers
+				@navigate '!/orderdetail'
+			else
+				loginDialog().open(default:Default.first(),user:User,sucess:->location.reload())
 	
 		@headers     = new Headers
 		@footers     = new Footers
