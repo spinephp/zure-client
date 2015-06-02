@@ -1,5 +1,7 @@
 Spine   = require('spine')
 require('jqueryui-browser')
+Currency = require('models/currency')
+Default = require('models/default')
 Orderstate = require('models/orderstate')
 Thisstate = require('models/theorderstate')
 $       = Spine.$
@@ -10,19 +12,35 @@ class Trail extends Spine.Controller
 	constructor: ->
 		super
 		@active @change
-
-		Thisstate.bind('refresh change', @render)
+		
+		@currency = $.Deferred()
+		@default = $.Deferred()
+		@orderstate = $.Deferred()
+		@thisstatre = $.Deferred()
+		Currency.bind "refresh",=>@currency.resolve()
+		Default.bind "refresh",=>@default.resolve()
+		Orderstate.bind "refresh",=>@orderstate.resolve()
+		Thisstate.bind "refresh",=>@thisstatre.resolve()
+		Default.bind "change",=>
+			if @item?
+				@item.default = Default.first()
+				@item.currency = Currency.find @item.default.currencyid
+				@render()
 
 	render: =>
-		try
-			if Thisstate.count() and Orderstate.count()
-				@html require('views/showtrail')({state:Orderstate.all()})
-		catch err
-			console.log err.message
+		@html require('views/showtrail') @item
 
 	change: (item) =>
-		Spine.trigger "trail.before.render",@
-		@render()
+		#Spine.trigger "trail.before.render",@
+		try
+			$.when(@orderstate,@thisstatre,@default).done =>
+				default1 = Default.first()
+				@item = 
+					default:default1
+					state:Orderstate.all()
+				@render()
+		catch err
+			@log "file: good.option.one.coffee\nclass: Goodtitle\nerror: #{err.message}"
 
 class Pay extends Spine.Controller
 	className: 'pay'

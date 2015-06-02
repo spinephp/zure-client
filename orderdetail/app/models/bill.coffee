@@ -10,8 +10,9 @@ class Bill extends Spine.Model
 	@url: '? cmd=Bill'
 
 	@fetch: (params) ->
+		token = $.fn.cookie 'PHPSESSID'
 		params or= 
-			data:{ filter: @attributes, token: sessionStorage.token } 
+			data:{ filter: @attributes, token:token } 
 			processData: true
 		@ajax().fetch(params)
 		true

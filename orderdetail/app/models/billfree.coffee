@@ -12,7 +12,8 @@ class Billfree extends Spine.Model
 	@fetch: (params) ->
 		fields = @attributes
 		condition = [{field:"userid",value:"?",operator:"eq"}]
-		params or= { data: $.param({ cond:condition,filter: fields, token: sessionStorage.token }) }
+		token = $.fn.cookie 'PHPSESSID'
+		params or= { data: $.param({ cond:condition,filter: fields, token:token }) }
 		super(params)
 
 	@current:null

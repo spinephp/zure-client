@@ -1,4 +1,6 @@
 Spine   = require('spine')
+Currency = require('models/currency')
+Default = require('models/default')
 Product   = require('models/orderproducts')
 Order   = require('models/order')
 $       = Spine.$
@@ -9,21 +11,34 @@ class Products extends Spine.Controller
 	constructor: ->
 		super
 		@active @change
-		Order.bind('refresh change', -> Product.fetch())
-		Product.bind('refresh change', @change)
- 
+		
+		@currency = $.Deferred()
+		@default = $.Deferred()
+		@order= $.Deferred()
+		@goods = $.Deferred()
+		Currency.bind "refresh",=>@currency.resolve()
+		Default.bind "refresh",=>@default.resolve()
+		Order.bind "refresh",=>@order.resolve()
+		Product.bind "refresh",=>@goods.resolve()
+		Default.bind "change",=>
+			if @item?
+				@item.default = Default.first()
+				@item.currency = Currency.find @item.default.currencyid
+				@render()
 	render: =>
 		@html require('views/showorder')(@item)
     
 	change: (params) =>
 		try
-			if Product.count() and Order.count()
-				order = Order.first()
+			$.when(@order,@goods,@currency,@default).done =>
+				default1 = Default.first()
+				theOrder = Order.find $.getUrlParam "orderid"
 				@item = 
-					orders:order
+					default:default1
+					orders:theOrder
 					products:Product
 				@render()
 		catch err
-			console.log "9999"+err.message
+			@log "file:ordertetail.product.coffee\nclass:Products\nerror: #{err.message}"
     
 module.exports = Products

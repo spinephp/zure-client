@@ -1,2 +1,5 @@
-<p>  Copyright &copy; 2010 <%= @items[5].data %> 版权所有! </p>
-<p><span>地址: <%= @items[8].data %></span><span>电话: <%= @items[1].data %></span>备案号: <%= @items[9].data %> </p>
+<p><%= @default.translate "Copyright" %> &copy; 2010 <%= @default.translates @qiye.names %> <%= @default.translate "All right reserved" %>!
+</p>
+<p><span>
+  <%= @default.translate "Address" %>: <%=  @default.translates @qiye.addresses %></span><span>
+    <%= @default.translate "Tel" %>: <%= @qiye.tel %></span> <%= @default.translate "ICP" %>: <%= @default.toPinyin @qiye.icp %></p>

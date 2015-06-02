@@ -12,8 +12,9 @@ class TheOrderState extends Spine.Model
 	@fetch: (params) ->
 		fields = @attributes
 		condition = [{field:"orderid",value:$.getUrlParam("orderid"),operator:"eq"}]
+		token = $.fn.cookie 'PHPSESSID'
 		params or= 
-			data:{ cond:condition,filter: fields, token: sessionStorage.token } 
+			data:{ cond:condition,filter: fields, token:token } 
 			processData: true
 		super(params)
 

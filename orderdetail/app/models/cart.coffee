@@ -8,6 +8,16 @@ class Cart extends Spine.Model
 	@url:"? cmd=Product"
 	
 	# 向服务器查寻一条数据
+	@getCart:()->
+		fields = @attributes
+		condition = [{field:"userid",value:"?userid",operator:"eq"}]
+		token = $.fn.cookie 'PHPSESSID'
+		jQuery.getJSON '? cmd=Cart',{ cond:condition,filter: fields,token:token },(result) ->
+			if result.length
+				for o in result when not Cart.findByAttribute 'proid',o.porid
+					new Cart proid:o.proid,number:o.number,price:o.price
+	
+	# 向服务器查寻一条数据
 	@getOrder:(data)->
 		jQuery.ajax
 			type: 'get'
@@ -25,18 +35,4 @@ class Cart extends Spine.Model
 	aRecordEx:()->
 		items = JSON.parse(sessionStorage.getItem("orders"))
 		items[@proid]
-		
-	@sumNumber:->
-		sum = 0
-		sum += parseInt(rec.number) for rec in @all()
-		sum
-
-	@sumPrice: ->
-		sum = 0
-		sum += parseFloat(item.aRecordEx().price)*parseInt(item.number) for item in @all()
-		sum
-
-	@total: () ->
-		sum = parseFloat(@sumPrice()) #parseFloat(@carriagecharges)
-		(new Number(sum)).toFixed(2)
 module.exports = Cart

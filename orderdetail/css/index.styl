@@ -14,7 +14,7 @@ p
 	font-size: 16px
 
 .orderdetail
-	width:800px
+	width:100%
 	margin:0 auto
 	background:#ffffff
 	border:0
@@ -24,43 +24,42 @@ p
 	background:#ddd
 	padding:8px 
 
-.orderdetail dl
+.orderdetail div >dl
 	border-bottom:1px solid #ccc
 	padding:8px 
 	margin:0
 	line-height:16px
 
-.orderdetail dl.active
-	width:780px
-	border:2px solid #f96
-	padding:8px 
-	margin:0 4px 0 0
-	line-height:24px
+	.active
+		width:98px
+		border:2px solid #f96
+		padding:8px 
+		margin:0 4px 0 0
+		line-height:24px
 
-.orderdetail dl dt
-	margin-bottom:10px
-	font-size:small
-
-.orderdetail dl dd
-	margin:0 10px
-	padding-left:8px
-	font-size:small
-	clear:both
-
-.orderdetail dl dd span,.orderdetail dl dt span
-	font-size:small
-	padding-left:10px
-
-.orderdetail dl dd div
-	margin:0 20px
-	padding-left:8px
-
-.orderdetail dl dd label
-	width:60px
-	text-align:right
-	display:inline-block;
-	margin: 0 8px 5px 0;
-	overflow: visible;
+	dt
+		margin-bottom:10px
+		font-size:small
+		span
+			font-size:small
+			padding-left:10px
+	dd
+		margin:0 10px
+		padding-left:8px
+		font-size:small
+		clear:both
+		span
+			font-size:small
+			padding-left:10px
+		div
+			margin:0 20px
+			padding-left:8px
+		label
+			width:60px
+			text-align:right
+			display:inline-block;
+			margin: 0 8px 5px 0;
+			overflow: visible;
 
 .currentstate
 	widht:100%
@@ -115,14 +114,14 @@ p
 	clear:both
 
 .infotitle
-	width:788px
+	width:99%
 	clear:both
 	background:#ddd
-	padding:8px 0 8px 12px
+	padding:8px 0 8px 5px
 	margin-bottom:0
 
 .receivers,.payments,.transports,.bills,.products
-	width:794px
+	width:99%
 	border-left:3px solid #ddd
 	border-right:3px solid #ddd
 	padding:0

@@ -19,29 +19,55 @@ label input[type="text"],label input[type="email"],input[type="password"],input[
 textarea{width:220px;margin:0 2px 0 0;padding:4px 8px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
 textarea,input[type="text"],input[type="email"],input[type="password"]{border:1px solid #9e9fa2;color:#363636;text-shadow:0 1px 1px #fff;font-size:small;outline:none;padding:0 8px 5px;-moz-border-radius:20px;-webkit-border-radius:20px;border-radius:20px;background:#e6e6e7;background:-webkit-gradient(linear,left top,left bottom,from(#e6e6e7),to(#fafafa));background:-moz-linear-gradient(top,#e6e6e7,#fafafa);background:linear-gradient(top,#e6e6e7,#fafafa);background:-webkit-gradient(linear,left top,left bottom,from(#e6e6e7),color-stop(.3,#fafafa),to(#fafafa))}
 textarea{-moz-border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px;border-radius:10px;height:70px}
-.header{width:100%;height:48pt;float:left;color:#fff;padding:12px 0 0 0;background:#6ae}
-.header p{float:left;font-weight:bold;font-size:xx-large;text-align:left;margin:0;padding:16px 0 16px 65px;background:#6ae url("../images/sb1.png") no-repeat 10px 50%}
-.header ol{width:70px;line-height:12px;list-style:none;padding:4px 0 0 0;margin:0;float:right}
-.header ol li{padding:5px;CURSOR:pointer;font-size:x-small}
-.headers ul{width:100%;height:24px;list-style:none;padding:0;margin:0;font-weight:bold;font-size:small;border:#0aa solid 1px;border-left:0;border-right:0;clear:both;background:url("../images/newsbg.gif") repeat-x left top}
-.headers ul li{float:left;padding:4px 10px}
-.headers ul li:last-child{float:right;padding:4px 10px}
-.headers ul li a{text-decoration:none}
-.footers{width:100%;text-align:center;line-height:8px;padding:1px 0;margin:8px 0;background:#6ae}
-.footers p{font-size:xx-small}
-.footers p span{margin-right:12px}
+.headers header{width:100%;height:53pt;color:#fff;background:#6ae;background:-webkit-gradient(linear,left top,left bottom,from(#6ae),to(#ace));background:-moz-linear-gradient(top,#6ae,#ace);background:linear-gradient(top,#6ae,#ace);}
+.headers header p{float:left;font-weight:bold;font-size:180%;text-align:left;margin:10px 0;padding:16px 0 16px 65px;background:url("../images/sb1.png") no-repeat 10px 50%}
+.headers header ul{list-style:none;margin:0;padding:4px 0;float:right;}
+.headers header ul li{padding:2px;CURSOR:pointer}
+.headers header ul li button{font-size:small;margin:0}
+.headers header ul li button span b{color:#f00}
+.headers header ol{list-style:none;margin:0;padding:8px 0;float:right;}
+.headers header ol li{padding:5px;CURSOR:pointer;font-size:90%}
+.headers header ol li select{margin:0}
+.headers img{width:100%;border:0;margin:0}
+#myCartDialog{font-size:small;}
+#myCartDialog span{color:#f00}
+#myCartDialog p{text-align:right}
+#myCartDialog table{width:100%;margin:5px 0;}
+#myCartDialog table tr:nth-child(odd){background:#eee}
+#myCartDialog table tr td{text-align:left}
+#myCartDialog table tr td img{float:left;margin-right:8px}
+#myCartDialog table tr td:last-child{text-align:right}
+#myYunruiDialog{font-size:small;}
+#myYunruiDialog span{color:#f00}
+#myYunruiDialog p{text-align:left;border-bottom:1px solid #eee;margin:0;padding:8px;font-size:small;}
+#myYunruiDialog p span{float:right}
+#myYunruiDialog ul{width:150px;list-style:none;float:left;margin:0;padding:0 8px;border-right:1px solid #ccc;}
+#myYunruiDialog ul li{margin:5px 0;text-align:left}
+#myYunruiDialog ul:last-child{border-right:0}
+nav{margin:2px 0;padding:0;}
+nav dl{width:100%;height:24px;margin:0;padding:4px 0;text-align:left;font-weight:bold;font-size:small;border:#0aa solid 1px;border-left:0;border-right:0;background:url("../images/newsbg.gif") repeat-x left top;float:left;}
+nav dl dt{float:left;padding:2px 10px}
+nav dl dt a{margin:0 10px}
+nav dl dd{float:right;padding:2px 0}
+.position{width:100%;height:29px;font-size:90%;text-decoration:none;border:#0aa solid 1px;margin:0;}
+.position ul{list-style:none;margin:0;padding-left:8px;float:left}
+.position ul li{float:left;margin:0 5px 0 0;padding:7px 5px 5px 0}
+.position ul li:last-child{float:right;cursor:pointer;padding:0}
+.footers{padding:5px;background:#6ae;background:-webkit-gradient(linear,left top,left bottom,from(#6ae),to(#ace));background:-moz-linear-gradient(top,#6ae,#ace);background:linear-gradient(top,#6ae,#ace);clear:both;}
+.footers p{font-size:small;text-align:center;line-height:5px;color:#666;padding:0}
 body{color:#222}
 h2{text-align:center;font-size:22px}
 p{text-align:center;font-size:16px}
-.orderdetail{width:800px;margin:0 auto;background:#fff;border:0}
+.orderdetail{width:100%;margin:0 auto;background:#fff;border:0}
 .orderdetail h4{width:98%;background:#ddd;padding:8px}
-.orderdetail dl{border-bottom:1px solid #ccc;padding:8px;margin:0;line-height:16px}
-.orderdetail dl.active{width:780px;border:2px solid #f96;padding:8px;margin:0 4px 0 0;line-height:24px}
-.orderdetail dl dt{margin-bottom:10px;font-size:small}
-.orderdetail dl dd{margin:0 10px;padding-left:8px;font-size:small;clear:both}
-.orderdetail dl dd span,.orderdetail dl dt span{font-size:small;padding-left:10px}
-.orderdetail dl dd div{margin:0 20px;padding-left:8px}
-.orderdetail dl dd label{width:60px;text-align:right;display:inline-block;margin:0 8px 5px 0;overflow:visible}
+.orderdetail div >dl{border-bottom:1px solid #ccc;padding:8px;margin:0;line-height:16px;}
+.orderdetail div >dl .active{width:98px;border:2px solid #f96;padding:8px;margin:0 4px 0 0;line-height:24px}
+.orderdetail div >dl dt{margin-bottom:10px;font-size:small;}
+.orderdetail div >dl dt span{font-size:small;padding-left:10px}
+.orderdetail div >dl dd{margin:0 10px;padding-left:8px;font-size:small;clear:both;}
+.orderdetail div >dl dd span{font-size:small;padding-left:10px}
+.orderdetail div >dl dd div{margin:0 20px;padding-left:8px}
+.orderdetail div >dl dd label{width:60px;text-align:right;display:inline-block;margin:0 8px 5px 0;overflow:visible}
 .currentstate{widht:100%;text-align:left;border:1px solid #fec;margin:8px 0 0 0;background:#ffc;background:-webkit-gradient(linear,left top,left bottom,from(#ffc),to(#fec));background:-moz-linear-gradient(top,#ffc,#fec);background:linear-gradient(top,#ffc,#fec)}
 .currentstate p:first-child{text-align:left;border-bottom:1px solid #fec;margin:0 3px;padding:5px}
 .currentstate p:last-child{font-size:small;text-align:left;margin:0 3px;padding:5px}
@@ -52,8 +78,8 @@ p{text-align:center;font-size:16px}
 .note{width:130px;text-align:right;float:left;font-size:x-small;margin:0;padding:0}
 .note label{width:65px;display:inline-block;text-align:center;padding:0;margin:0}
 .trails{clear:both}
-.infotitle{width:788px;clear:both;background:#ddd;padding:8px 0 8px 12px;margin-bottom:0}
-.receivers,.payments,.transports,.bills,.products{width:794px;border-left:3px solid #ddd;border-right:3px solid #ddd;padding:0;margin:0}
+.infotitle{width:99%;clear:both;background:#ddd;padding:8px 0 8px 5px;margin-bottom:0}
+.receivers,.payments,.transports,.bills,.products{width:99%;border-left:3px solid #ddd;border-right:3px solid #ddd;padding:0;margin:0}
 .products p{font-size:small;text-align:left;margin:0 0 5px 0;padding:12px 0 0 8px}
 .products ul{list-style:none;margin:8px 0;background:#ddd;text-align:right;padding:12px}
 .products ul li span{width:80px;display:inline-block;text-align:right;padding:2px 30px 2px 10px}

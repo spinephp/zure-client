@@ -1,5 +1,11 @@
 Spine   = require('spine')
 Header = require('models/header')
+Qiye = require('models/qiye')
+Navigation = require('models/navigation')
+Currency = require('models/currency')
+Language = require('models/language')
+Default = require('models/default')
+Cart = require('models/cart')
 Consignee = require('models/consignee')
 Payment = require('models/payment')
 Transport = require('models/transport')
@@ -8,15 +14,17 @@ Billfree = require('models/billfree')
 Billsale = require('models/billsale')
 Billcontent = require('models/billcontent')
 Order = require('models/order')
-#Product   = require('models/orderproducts')
+Product   = require('models/orderproducts')
 Province = require('models/province')
 Orderstate = require('models/orderstate')
 Thisstate = require('models/theorderstate')
+User = require('models/user')
 Manager = require('spine/lib/manager')
 $       = Spine.$
 
 Headers = require('controllers/main.header')
 Footers = require('controllers/main.footer')
+
 Currents = require('controllers/orderdetail.current')
 Process = require("controllers/orderdetail.process")
 Trail = require("controllers/orderdetail.trail")
@@ -51,10 +59,11 @@ class OrderDetail extends Spine.Controller
 					c_end=document.cookie.length if c_end is -1 
 					return unescape(document.cookie.substring(c_start,c_end))
 			return ""
-		
+			
 		data = token:$.fn.cookie 'PHPSESSID'
 		$.getJSON "? cmd=IsLogin", data,(result)=>
 			if result.login
+				Order.fetch()
 				@append @headers,@currents,@process,@trail,divide,@receiver,@payments,@transports,@bills,@orders,@footers
 				@navigate '!/orderdetail'
 			else
@@ -98,14 +107,21 @@ class OrderDetail extends Spine.Controller
 
 		Order.bind "ajaxError",(record,xhr,settings,error) ->
 			console.log xhr.responseText
+		
+		Order.bind "refresh", ->
+			Product.fetch()
 
 		Header.fetch()
-		Order.fetch()
+		Qiye.fetch()
+		Navigation.fetch()
+		Language.fetch()
+		Default.fetch()
+		Cart.fetch()
+		Currency.fetch()
 		Orderstate.fetch()
 		Thisstate.fetch()
 		Province.fetch()
 		Consignee.fetch()
-		#Product.fetch()
 		Bill.fetch()
 		Billfree.fetch()
 		Billsale.fetch()

@@ -11,8 +11,9 @@ class Payment extends Spine.Model
 
 	@fetch: (params) ->
 		fields = @attributes
+		token = $.fn.cookie 'PHPSESSID'
 		params or= 
-			data:{ filter: fields, token: sessionStorage.token } 
+			data:{ filter: fields, token:token } 
 			processData: true
 		super(params)
 

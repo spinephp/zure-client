@@ -161,6 +161,7 @@ class Default extends Spine.Model
 			'PWD':["密码"]
 			'PIN':["验证码"]
 			'Forget Password':["忘记密码"]
+			'Click get another pin':["点击更换校验码!"]
 			'More':["更多"]
 			'News':["新闻"]
 			'Contact':["联系方式"]

@@ -11,8 +11,9 @@ class Billsale extends Spine.Model
 
 	@fetch: (params) ->
 		condition = [{field:"userid",value:"?",operator:"eq"}]
+		token = $.fn.cookie 'PHPSESSID'
 		params or= 
-			data:{ cond:condition,filter:@attributes,token: sessionStorage.token } 
+			data:{ cond:condition,filter:@attributes,token:token } 
 			processData: true
 
 		super(params)
