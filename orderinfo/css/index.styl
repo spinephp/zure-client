@@ -34,8 +34,14 @@ span[data-edit]:not(.active)
 	vbg-gradient(#f9f9f9, #dfe0e1);
 
 
-.billtype
+.billtype,.newbill
 	clear:both
+	ul
+		list-style:none
+		margin-left:0
+		
+	label
+		display:block
 
 .orderstate
 	width: 54%
@@ -109,7 +115,7 @@ span[data-edit]:not(.active)
 		width:98%
 		background:#ddd
 		padding:8px 
-.show dl
+.show dl,.edit dl
 	border:1px solid #ccc
 	border-top:0
 	padding:8px 
@@ -127,13 +133,18 @@ span[data-edit]:not(.active)
 			font-size:small
 			padding-left:10px
 		div
-			margin:0 20px
+			margin:0 0 0 20px
 			padding-left:8px
 		label
 			width:100%
-			display:inline;
 			margin: 0 0 5px 0;
 			overflow: visible;
+		ul:last-child
+			list-style:none
+			margin: 0
+			li
+				display:inline-block
+				padding-right:20px
 
 .active dl
 	border:1px solid #f96
@@ -162,9 +173,10 @@ span[data-edit]:not(.active)
 	margin:0
 
 .newconsignee label span,.billtype label span
-	width:100px
-	text-align:right
-	display:inline-block
+	width: 100px
+	text-align: right
+	display: inline-block
+	font-size: small
 .newconsignee
 	font-size:small
 	padding:10px 0

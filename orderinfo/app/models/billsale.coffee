@@ -26,7 +26,7 @@ class Billsale extends Spine.Model
 		@setCurrent(@first()) unless @current
 		@current
 
-	titles: ->
+	@titles: ->
 		{name:"单位名称",duty:"纳税人识别号",address:"注册地址",tel:"注册电话",bank:"开户银行",account:"银行帐户"}
 
 module.exports = Billsale
