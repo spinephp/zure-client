@@ -22,8 +22,10 @@ class Products extends Spine.Controller
 		Product.bind "refresh",=>@goods.resolve()
 		Default.bind "change",=>
 			if @item?
-				@item.default = Default.first()
-				@item.currency = Currency.find @item.default.currencyid
+				theDefault = Default.first()
+				theCurrency = Currency.find theDefault.currencyid
+				@item.default = theDefault
+				@item.currency = theCurrency
 				@render()
 	render: =>
 		@html require('views/showorder')(@item)
@@ -33,8 +35,10 @@ class Products extends Spine.Controller
 			$.when(@order,@goods,@currency,@default).done =>
 				default1 = Default.first()
 				theOrder = Order.find $.getUrlParam "orderid"
+				currency = Currency.find default1.currencyid
 				@item = 
 					default:default1
+					currency:currency
 					orders:theOrder
 					products:Product
 				@render()

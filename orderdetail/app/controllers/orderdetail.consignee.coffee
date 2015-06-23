@@ -1,4 +1,6 @@
 Spine   = require('spine')
+Default = require('models/default')
+Order = require('models/order')
 Consignee = require('models/consignee')
 Province = require('models/province')
 City = require('models/city')
@@ -14,36 +16,52 @@ class Receivers extends Spine.Controller
 	constructor: ->
 		super
 		@active @change
-		Consignee.bind('refresh change', @address)
-		Province.bind('refresh change', @address)
-		City.bind('refresh change', @render)
-		Zone.bind('refresh change', @render)
-  
+		
+		@default= $.Deferred()
+		@city = $.Deferred()
+		@zone = $.Deferred()
+		
+		Default.bind "refresh",=>@default.resolve()
+		City.bind "refresh",=>@city.resolve()
+		Zone.bind "refresh",=>@zone.resolve()
+				
+		Order.bind "refresh",@address
+		Consignee.bind "refresh",@address
+		Province.bind "refresh",@address
+
+		Default.bind "change",=>
+			if @item?
+				@item.default = Default.first()
+				@render()
+				
 	render: =>
-		try
-			if City.count() and Zone.count()
-				item = Consignee.first()
-				pName = Province.find( item.province).name
-				cName = Province.getCityName ""+item.province+item.city
-				zName = Province.getZoneName ""+item.province+item.city+item.zone
-				@html require('views/showconsignee')({receipt:{
-					'收货人': item.name
-					'地址': pName+cName+zName+item.address
-					'固定电话': item.tel
-					'手机号码': item.mobile
-					'电子邮件': item.email
-				}})
-		catch err
-			console.log "file: orderdetail.consignee.coffee, error: #{err.message}"
+		@html require('views/showconsignee') @item
 
 	change: (params) =>
-		@render()
-
-	address:->
-		if Consignee.count() and Province.count()
-			item = Consignee.first()
-			Province.getCity(item.province)
-			Province.getCity(""+item.province+item.city)
-
+		try
+			$.when(@city,@zone,@default).done =>
+				default1 = Default.first()
+				pName = Province.find( @consignee.province).name
+				cName = Province.getCityName ""+@consignee.province+@consignee.city
+				zName = Province.getZoneName ""+@consignee.province+@consignee.city+@consignee.zone
+				@item = 
+					default:default1
+					consignees:@consignee
+					provinces:Province
+					receipt:
+						'Consignee': default1.toPinyin @consignee.name
+						'Address': default1.address(pName,cName,zName,@consignee.address)
+						'Tel': @consignee.tel
+						'Mobile': @consignee.mobile
+						'Email': @consignee.email
+				@render()
+		catch err
+			@log "file:ordertetail.product.coffee\nclass:Products\nerror: #{err.message}"
     
+	address:=>
+		if Order.count() and Consignee.count() and Province.count()
+			theOrder = Order.find $.getUrlParam "orderid"
+			@consignee = Consignee.find theOrder.consigneeid
+			Province.getCity(@consignee.province)
+			Province.getCity ""+@consignee.province+@consignee.city
 module.exports =  Receivers

@@ -3,7 +3,7 @@ require('spine/lib/ajax')
 
 # 创增值税发票模型
 class Bill extends Spine.Model
-	@configure 'Bill', 'id','name'
+	@configure 'Bill', 'id','names'
 
 	@extend Spine.Model.Ajax
 

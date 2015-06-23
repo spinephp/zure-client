@@ -1,5 +1,6 @@
-<p>
-<% for item,index in @state when item.state is '9': %>
+<ul>
+<% for item,index in @state when item.state is 9: %>
+<li>
 	<% if item.finish(): %>
 		<% if not item.isLast(): %>
 			<img src="images/cg1.png" /> <img src="images/cg2.png" />
@@ -13,17 +14,23 @@
 			<img src="images/cgr1.png" />
 		<% end %>
 	<% end %>
+</li>
 <% end %>
-</p>
-<% for item,index in @state when item.state is '9': %>
+</ul>
+<ul>
+<% for item,index in @state when item.state is 9: %>
+	<% thestate=@thisstate.findByAttribute "stateid",item.id %>
+	<li>
 	<div class="note">
     <label>
-	<% if item.finish(): %>
-		<%= item.name %>
-		<%= item.optionTime() %>
+	<% if thestate: %>
+		<%= @default.translates item.names %>
+		<%= thestate.time %>
 	<% else: %>
-		<%= item.name %>
+		<%= @default.translates item.names %>
 	<% end %>
 </label>
 </div>
+</li>
 <% end %>
+</ul>

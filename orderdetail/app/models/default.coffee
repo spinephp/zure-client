@@ -60,7 +60,58 @@ class Default extends Spine.Model
 			"ICP":["备案号"]
 			"Copyright":["版权"]
 			'All right reserved':["保留所有权利"]
-
+			
+			# login 对话框
+			'Enter username':["输入用户名"]
+			'Enter password':["输入密码"]
+			'Enter char in box':["输入右框中的字符"]
+			'Forget password':["忘记密码"]
+			'Custom login':["客户登录"]
+			'Invalid username':["用户名无效"]
+			'Invalid password':["密码无效"]
+			'Invalid verify code':["校验码错误"]
+			
+			# 订单状态
+			'Order NO':['订单号']
+			'Status':['状态']
+			'To pay for':['去付款']
+			'Please pay in time':['请你及时付款']
+			'Print contract':['打印合同']
+			'Return contract':['回传合同']
+			
+			# 处理信息
+			'Processing time':['处理时间']
+			'Processing information':['处理信息']
+			'Operating personnel':['操作人']
+			'Custom':['客户']
+			'System':['系统']
+			
+			# 收货人信息
+			'Consignee information':['收货人信息']
+			'Consignee':['收货人']
+			'Mobile':['手机']
+			'Order information':['订单信息']
+			'Order tracking':['订单跟踪']
+			'Payment information':['付款信息']
+			
+			# 配送方式
+			'Distribution mode':['配送方式']
+			
+			# 支付方式
+			'Payment method':['支付方式']
+			'Full payment':['全额支付']
+			'Prepayment':['预付款']
+			'Quality assurance':['质保金']
+			'The amount of the order goods':['订单商品金额的']
+			'Puarantee period':['质保期']
+			'Months':['个月']
+			
+			# 票据信息
+			'Bill information':['票据信息']
+			'Bill type':['票据类型']
+			'Bill looked up':['票据抬头']
+			'Content of the bill':['票据内容']
+			
 			# 订单
 			'Goods list':['商品清单']
 			'Return and edit order':['返回修改购物车']
@@ -69,14 +120,17 @@ class Default extends Spine.Model
 			'Return now':['返现/送积分']
 			'Quantity':['数量']
 			'Shipping date':['供货时间']
-			'Goods code':['商品编号']
+			'Picture':['图片']
+			'Goods name':['商品名称']
 			'In stock':['现货']
 			'45 days':['45 天']
+			'days':['天']
 			'A total of':['共']
 			'PCS':['件']
 			'Amount':['总商品金额']
 			'Freight':['运费']
 			'Amount payable':['应付总额']
+			'Operation':['操作']
 			'Submit':['提交订单']
 
 			# 产品类
@@ -180,5 +234,17 @@ class Default extends Spine.Model
 
 	toPinyin:(key)->
 		if @languageid isnt 2 then CC2PY.toPinyin(key) else key
+
+	address:(province,city,zone,addr)->
+		result = ""
+		if @languageid isnt 2 
+			result += @toPinyin addr
+			result += ","+@toPinyin zone[0..-2]
+			result += ","+@toPinyin city[0..-2]
+			result += ","+@toPinyin province[0..-2]
+			result += ","+"china"
+		else
+			result = province+city+zone+addr
+		result
 			
 module.exports = Default

@@ -1,6 +1,6 @@
 Spine   = require('spine')
 require('jqueryui-browser')
-Currency = require('models/currency')
+#cdCurrency = require('models/currency')
 Default = require('models/default')
 Orderstate = require('models/orderstate')
 Thisstate = require('models/theorderstate')
@@ -17,7 +17,7 @@ class Trail extends Spine.Controller
 		@default = $.Deferred()
 		@orderstate = $.Deferred()
 		@thisstatre = $.Deferred()
-		Currency.bind "refresh",=>@currency.resolve()
+		#Currency.bind "refresh",=>@currency.resolve()
 		Default.bind "refresh",=>@default.resolve()
 		Orderstate.bind "refresh",=>@orderstate.resolve()
 		Thisstate.bind "refresh",=>@thisstatre.resolve()
@@ -29,15 +29,18 @@ class Trail extends Spine.Controller
 
 	render: =>
 		@html require('views/showtrail') @item
+		Spine.trigger "trail.before.render",@
 
 	change: (item) =>
-		#Spine.trigger "trail.before.render",@
 		try
 			$.when(@orderstate,@thisstatre,@default).done =>
 				default1 = Default.first()
+				thisstate = Thisstate.findByAttribute "orderid",parseInt @orderid
 				@item = 
 					default:default1
 					state:Orderstate.all()
+					thisstate:Thisstate
+				console.log @item
 				@render()
 		catch err
 			@log "file: good.option.one.coffee\nclass: Goodtitle\nerror: #{err.message}"
@@ -70,7 +73,7 @@ class Trails extends Spine.Stack
 
 		Spine.bind "trail.before.render",(that)->
 			$(that.$el[0]).parent().prepend "<ul><li><a href='.trail' >订单跟踪</a></li><li><a href='.pay' >付款信息</a></li></ul>"
-			#$(that.$el[0]).parent().tabs()
+			$(that.$el[0]).parent().tabs()
 			console.log $(that.$el[0]).parent()
 
 

@@ -3,7 +3,7 @@ require('spine/lib/ajax')
 
 # 创配送方式模型
 class Transport extends Spine.Model
-	@configure 'Transport', 'id', 'name', 'note','charges'
+	@configure 'Transport', 'id', 'names', 'note','charges'
 
 	@extend Spine.Model.Ajax
 

@@ -4,7 +4,7 @@ require('spine/lib/ajax')
 
 # 创收据模型
 class OrderState extends Spine.Model
-	@configure 'OrderState', 'id','name','actor','note','state'
+	@configure 'OrderState', 'id','names','actor','notes','state'
 
 	@extend Spine.Model.Ajax
 

@@ -64,7 +64,7 @@ class OrderDetail extends Spine.Controller
 		$.getJSON "? cmd=IsLogin", data,(result)=>
 			if result.login
 				Order.fetch()
-				@append @headers,@currents,@process,@trail,divide,@receiver,@payments,@transports,@bills,@orders,@footers
+				@append @headers,@currents,@process,@trail,@receiver,@payments,@transports,@bills,@orders,@footers
 				@navigate '!/orderdetail'
 			else
 				loginDialog().open(default:Default.first(),user:User,sucess:->location.reload())
@@ -131,9 +131,9 @@ class OrderDetail extends Spine.Controller
 		
 	
 		status = $("<div id='tabs'><ul><li><a href='.trail' >订单跟踪</a></li><li><a href='.pay' >付款信息</a></li></ul></div>")
-		divide = $('<div class="infotitle">订单信息</div>')
+		#divide = $('<div class="infotitle">订单信息</div>')
 	
-		@append @headers,@currents,@process,@trail,divide,@receiver,@payments,@transports,@bills,@orders,@footers
+		@append @headers,@currents,@process,@trail,@receiver,@payments,@transports,@bills,@orders,@footers
 		#$("#tabs")?.tabs()
 
 

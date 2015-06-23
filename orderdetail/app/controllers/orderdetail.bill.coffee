@@ -29,7 +29,7 @@ class Bills extends Spine.Controller
 		Default.bind "change",=>
 			if @item?
 				@item.default = Default.first()
-				@item.currency = Currency.find @item.default.currencyid
+				#@item.currency = Currency.find @item.default.currencyid
 				@render()
   
 	render: =>

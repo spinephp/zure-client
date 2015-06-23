@@ -4,7 +4,7 @@ Order   = require('models/order')
 
 # 创增值税发票模型
 class OrderProducts extends Spine.Model
-	@configure 'OrderProducts', 'id',  'longname', 'size','picture','unit'
+	@configure 'OrderProducts', 'id',  'longnames', 'size','picture','unit'
 
 	@extend Spine.Model.Ajax
 

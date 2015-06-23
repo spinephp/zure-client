@@ -42,10 +42,12 @@ class Province extends Spine.Model
 			cond = [{field:"id",value:minval,operator:"ge"},{field:"id",value:maxval,operator:"le"}]
 			token = $.fn.cookie 'PHPSESSID'
 			data =  filter: filter,cond:cond, token:token 
+			
 			@ajaxCity url,data,off,(obj)->
 				for rec in obj
 					item = new Area rec
 					item.save()
+			Area.trigger "refresh"
 		Area.select (item)-> item.id > minval and item.id < maxval
 
 	# 根据市编码取市名

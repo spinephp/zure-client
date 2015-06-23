@@ -55,7 +55,7 @@ p
 			margin:0 20px
 			padding-left:8px
 		label
-			width:60px
+			width:120px
 			text-align:right
 			display:inline-block;
 			margin: 0 8px 5px 0;
@@ -89,12 +89,19 @@ p
 .process
 	padding:0 auto
 	margin: 20px 0 0 85px
-
-
-.process p
-	margin: 0 auto
-	padding: 0 auto
-
+	ul
+		width: 90%
+		list-style: none
+		float: left
+		clear: both
+		margin: 0;	
+		li
+			float: left
+	ul:first-child
+		padding-left: 70px;
+	ul:last-child
+		padding: 0;	
+		margin-bottom: 20px
 .note
 	width:130px
 	text-align:right
@@ -104,7 +111,7 @@ p
 	padding:0
 
 .note label
-	width:65px
+	width:130px
 	display: inline-block;
 	text-align: center;
 	padding:0

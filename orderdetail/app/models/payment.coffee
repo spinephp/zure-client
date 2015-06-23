@@ -3,7 +3,7 @@ require('spine/lib/ajax')
 
 # 创支付方式模型
 class Payment extends Spine.Model
-	@configure 'Payment', 'id', 'name', 'note', 'url', 'urltext'
+	@configure 'Payment', 'id', 'names', 'note', 'url', 'urltext'
 
 	@extend Spine.Model.Ajax
 
