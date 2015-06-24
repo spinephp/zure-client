@@ -19,13 +19,15 @@
 </ul>
 <ul>
 <% for item,index in @state when item.state is 9: %>
-	<% thestate=@thisstate.findByAttribute "stateid",item.id %>
+	<% thestate=@thisstate.findByAttribute "stateid",parseInt item.id %>
 	<li>
 	<div class="note">
     <label>
 	<% if thestate: %>
 		<%= @default.translates item.names %>
-		<%= thestate.time %>
+		<% dat=thestate.time.split(' ') %>
+		<br /><%= dat[0] %>
+		<br /><%= dat[1] %>
 	<% else: %>
 		<%= @default.translates item.names %>
 	<% end %>

@@ -19,12 +19,12 @@ class OrderState extends Spine.Model
 		super(params)
 
 	finish:->
-		Thisstate.findByAttribute "stateid",@id
+		Thisstate.findByAttribute "stateid",parseInt @id
 
 	optionTime:->
 		Thisstate.findByAttribute( "stateid",@id).time
 
 	isLast:->
-		@id is OrderState.last().id
+		parseInt(@id) is 13#OrderState.last().id
 
 module.exports = OrderState
