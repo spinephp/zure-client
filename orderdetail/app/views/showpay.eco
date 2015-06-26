@@ -1,6 +1,0 @@
-<table>
-	<tr><th><%= @default.translate "Processing time" %></th><th><%= @default.translate "Processing information" %></th><th><%= @default.translate "Operating personnel" %></th></tr>
-  <% for item,index in @thestate: %>
-	  <tr><td><%= item.time %></td><td><%= item.getNote() %></td><td><%= item.getActor() %></td></tr>
-  <% end %>
-</table>

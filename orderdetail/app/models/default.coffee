@@ -81,6 +81,8 @@ class Default extends Spine.Model
 			
 			# 处理信息
 			'Processing time':['处理时间']
+			'Order tracking':['订单跟踪']
+			'Payment information':['付款信息']
 			'Processing information':['处理信息']
 			'Operating personnel':['操作人']
 			'Custom':['客户']

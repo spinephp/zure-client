@@ -81,22 +81,11 @@ class OrderDetail extends Spine.Controller
 		@orders      = new Orders
 		
 		@routes
-			'!/orderdetail/pay': (params) -> 
-				@headers.active(params)
-				@currents.active(params)
-				@process.active(params)
-				@trail.pay.active(params)
-				@receiver.active(params)
-				@payments.active(params)
-				@transports.active(params)
-				@bills.active(params)
-				@orders.active(params)
-				@footers.active(params)
 			'!/orderdetail': (params) ->
 				@headers.active(params)
 				@currents.active(params)
 				@process.active(params)
-				@trail.trail.active(params)
+				@trail.active(params)
 				@receiver.active(params)
 				@payments.active(params)
 				@transports.active(params)

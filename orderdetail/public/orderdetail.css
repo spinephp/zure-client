@@ -81,9 +81,9 @@ p{text-align:center;font-size:16px}
 .process ul:last-child{padding:0;margin-bottom:20px}
 .note{width:130px;text-align:right;float:left;font-size:x-small;margin:0;padding:0}
 .note label{width:130px;display:inline-block;text-align:center;padding:0;margin:0}
-.trails{clear:both}
-.infotitle{width:99%;clear:both;background:#ddd;padding:8px 0 8px 5px;margin-bottom:0}
-.receivers,.payments,.transports,.bills,.products{width:99%;border-left:3px solid #ddd;border-right:3px solid #ddd;padding:0;margin:0}
+.trails{clear:both;margin-bottom:15px}
+.infotitle{clear:both;background:#ddd;padding:8px 0 8px 5px;margin-bottom:0}
+.receivers,.payments,.transports,.bills,.products{border-left:3px solid #ddd;border-right:3px solid #ddd;padding:0;margin:0}
 .products p{font-size:small;text-align:left;margin:0 0 5px 0;padding:12px 0 0 8px}
 .products ul{list-style:none;margin:8px 0;background:#ddd;text-align:right;padding:12px}
 .products ul li span{width:80px;display:inline-block;text-align:right;padding:2px 30px 2px 10px}
