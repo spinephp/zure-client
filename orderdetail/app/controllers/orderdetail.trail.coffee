@@ -1,6 +1,6 @@
 Spine   = require('spine')
 require('jqueryui-browser')
-#cdCurrency = require('models/currency')
+Currency = require('models/currency')
 Default = require('models/default')
 Orderstate = require('models/orderstate')
 Thisstate = require('models/theorderstate')
@@ -17,7 +17,7 @@ class Trails extends Spine.Controller
 		@default = $.Deferred()
 		@orderstate = $.Deferred()
 		@thisstatre = $.Deferred()
-		#Currency.bind "refresh",=>@currency.resolve()
+		Currency.bind "refresh",=>@currency.resolve()
 		Default.bind "refresh",=>@default.resolve()
 		Orderstate.bind "refresh",=>@orderstate.resolve()
 		Thisstate.bind "refresh",=>@thisstatre.resolve()
@@ -33,11 +33,12 @@ class Trails extends Spine.Controller
 
 	change: (item) =>
 		try
-			$.when(@orderstate,@thisstatre,@default).done =>
+			$.when(@orderstate,@thisstatre,@default,@currency).done =>
 				default1 = Default.first()
 				thisstate = Thisstate.findByAttribute "orderid",parseInt @orderid
 				@item = 
 					default:default1
+					currency:Currency.find default1.currencyid
 					state:Orderstate.all()
 					thisstate:Thisstate
 				@render()
