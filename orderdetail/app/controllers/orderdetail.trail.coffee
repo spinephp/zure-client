@@ -28,6 +28,7 @@ class Trails extends Spine.Controller
 				@render()
 
 	render: =>
+		$(@el).tabs('destroy') if $(@el).hasClass 'ui-tabs'
 		@html require('views/showtrail') @item
 		$(@el).tabs()
 
