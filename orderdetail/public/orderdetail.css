@@ -44,7 +44,12 @@ textarea{-moz-border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:1
 #myYunruiDialog ul{width:150px;list-style:none;float:left;margin:0;padding:0 8px;border-right:1px solid #ccc;}
 #myYunruiDialog ul li{margin:5px 0;text-align:left}
 #myYunruiDialog ul:last-child{border-right:0}
-#loginDialog p{text-align:left;margin-left:30px}
+#loginDialog span{color:#f00}
+#loginDialog form{padding-left:160px;background:url("../images/grade1.png") no-repeat 20px 50%;}
+#loginDialog form p{text-align:left;margin-left:30px;font-size:small;}
+#loginDialog form p input[name=username]{width:200px}
+#loginDialog form p input[name=code]{width:140px}
+#loginDialog form p span{color:#f00}
 nav{margin:2px 0;padding:0;}
 nav dl{width:100%;height:24px;margin:0;padding:4px 0;text-align:left;font-weight:bold;font-size:small;border:#0aa solid 1px;border-left:0;border-right:0;background:url("../images/newsbg.gif") repeat-x left top;float:left;}
 nav dl dt{float:left;padding:2px 10px}
@@ -81,7 +86,8 @@ p{text-align:center;font-size:16px}
 .process ul:last-child{padding:0;margin-bottom:20px}
 .note{width:130px;text-align:right;float:left;font-size:x-small;margin:0;padding:0}
 .note label{width:130px;display:inline-block;text-align:center;padding:0;margin:0}
-.trails{clear:both;margin-bottom:15px}
+.trails{clear:both;margin-bottom:15px;}
+.trails ul li a{font-size:small}
 .infotitle{clear:both;background:#ddd;padding:8px 0 8px 5px;margin-bottom:0}
 .receivers,.payments,.transports,.bills,.products{border-left:3px solid #ddd;border-right:3px solid #ddd;padding:0;margin:0}
 .products p{font-size:small;text-align:left;margin:0 0 5px 0;padding:12px 0 0 8px}
