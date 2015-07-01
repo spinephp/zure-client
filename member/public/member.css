@@ -45,7 +45,8 @@ textarea{-moz-border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:1
 #myYunruiDialog ul li{margin:5px 0;text-align:left}
 #myYunruiDialog ul:last-child{border-right:0}
 #loginDialog span{color:#f00}
-#loginDialog form p{text-align:left;font-size:small;}
+#loginDialog form{padding-left:160px;background:url("../images/grade1.png") no-repeat 20px 50%;}
+#loginDialog form p{text-align:left;margin-left:30px;font-size:small;}
 #loginDialog form p input[name=username]{width:200px}
 #loginDialog form p input[name=code]{width:140px}
 #loginDialog form p span{color:#f00}

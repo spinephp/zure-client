@@ -1,4 +1,5 @@
-﻿loginDialog = ->
+﻿resetPasswordDialog = require('controllers/resetPasswordDialog')
+loginDialog = ->
 	__refactor__ = true #是否需要重新构建 该对话框
 	open: (options)->
 		dlgAddOrder = $('#loginDialog')
@@ -9,7 +10,7 @@
 					<p><input type='text' name='username' placeholder='#{options.default.translate 'Enter username'}' /><span>* </span><span id='username_err_info'></span></p>
 					<p><input type='password' name='pwd' placeholder='#{options.default.translate 'Enter password'}' /><span>* </span><span id='password_err_info'></span></p>
 					<p><input type='text' name='code' placeholder='#{options.default.translate 'Enter char in box'}' /><span>* </span><span id='verify_err_info'></span> <img id='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='#{options.default.translate 'Click get another pin'}' width=50 height=20 /></p>
-					<p><input type='hidden' name='action' value='custom_login' /><input type='hidden' name='token' value='user_token' /> <a href='fogot_form.php'> #{options.default.translate 'Forget password'}?</a></p>
+					<p><input type='hidden' name='action' value='custom_login' /><input type='hidden' name='token' value='user_token' /> <a href='#'> #{options.default.translate 'Forget password'}?</a></p>
 					</form>
 				</div>"
 
@@ -21,6 +22,9 @@
 			console.log 'aaa'+$(this)
 			$(this).attr("src",url)
 			
+		$("#loginDialog p a").click ()->
+			resetPasswordDialog().open(options)
+	
 		$("#loginDialog").dialog
 			autoOpen: false
 			closeOnEscape: true
