@@ -1,14 +1,11 @@
 Spine   = require('spine')
 Manager = require('spine/lib/manager')
 $       = Spine.$
-Orderstate = require('models/orderstate')
-Ordersstate = require('models/ordersstate')
-OrderPerson = require('models/orderperson')
-Order = require('models/order')
+Drymain = require('models/drymain')
+Drydata = require('models/drydata')
 
 Figures = require('controllers/sysadmin.dryingview.figure')
 Headers = require('controllers/sysadmin.dryingview.header)
-Datas = require('controllers/sysadmin.dryingview.data')
 
 class Dryingview extends Spine.Controller
 	className: 'dryingview'
@@ -19,13 +16,23 @@ class Dryingview extends Spine.Controller
 	
 		@figures    = new Figures
 		@headers    = new Headers
-		@datas      = new Datas
-	
+		
+		Drymain.bind 'refresh',=>
+			if Drymain.count()
+				item = Drymain.first()
+				condition = [{field:"mainid",value:item.id,operator:"eq"}]
+				params = 
+					data:{ filter: Drydata.attributes, ,cond:condition,token: $.fn.cookie 'PHPSESSID'} 
+					processData: true
+					
+				Drydata.fetch params
+			
 		@append @headers,@figures,@datas
+		
+		Drymain.fetch()
 
 	change: (params) ->
-		@infomations.active params
-		@progressbars.active params
-		@products.active params
- 
+		@figures.active params
+		@headers params
+
 module.exports = Dryingview
