@@ -4,7 +4,7 @@ require('spine/lib/ajax')
 
 # 创收据模型
 class OrderState extends Spine.Model
-	@configure 'OrderState', 'id','name','actor','note','state'
+	@configure 'OrderState', 'id','names','actor','notes','state'
 
 	@extend Spine.Model.Ajax
 
@@ -12,18 +12,19 @@ class OrderState extends Spine.Model
 
 	@fetch: (params) ->
 		fields = @attributes
+		token = $.fn.cookie 'PHPSESSID'
 		params or= 
-			data:{ filter: fields, token: sessionStorage.token } 
+			data:{ filter: fields, token:token } 
 			processData: true
 		super(params)
 
 	finish:->
-		Thisstate.findByAttribute "stateid",@id
+		Thisstate.findByAttribute "stateid",parseInt @id
 
 	optionTime:->
 		Thisstate.findByAttribute( "stateid",@id).time
 
 	isLast:->
-		@id is OrderState.last().id
+		parseInt(@id) is 13#OrderState.last().id
 
 module.exports = OrderState

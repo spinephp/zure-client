@@ -33,7 +33,7 @@
         <p>
           <%= @defaults.translate 'Category filter' %>: 
           <% for item,index in ['Unrestricted','Silicon-Nitride Bonded','Silica Bonded','Castable']: %>
-            <span><input type="radio" name="filterclass" value="<%= index %>" <%=  'checked' if @filterclass is index %> /><%= @defaults.translate item %></span>
+            <span><input type="radio" name="filterclass" value="<%= index %>" <%=  'checked' if @filterclass is index %> /><%= @defaults.translates item %></span>
           <% end %>
         </p>
         <p>
@@ -45,7 +45,7 @@
           <%= @defaults.translate 'Only show' %>:
             <% for item,index in ['Cutprice','Spot Goods','Promotion']: %>
             <span>
-            <input type="checkbox" name="careshow<%= index %>" value="<%= index %>" <%=  'checked' if @careshowchecked[index] %> /><%= @defaults.translate item %>
+            <input type="checkbox" name="careshow<%= index %>" value="<%= index %>" <%=  'checked' if @careshowchecked[index] %> /><%= @defaults.translates item %>
           </span>
               <% end %>
           <span>

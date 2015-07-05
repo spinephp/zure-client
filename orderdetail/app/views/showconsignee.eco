@@ -1,10 +1,24 @@
+<div class="infotitle"><%= @default.translate "Order information" %></div>
 <dl>
   <dt>
-    <b>收货人信息</b>
+    <b><%= @default.translate "Consignee information" %></b>
   </dt>
-  <% for key,value of @receipt: %>
+  <% pName = @provinces.find( @consignees.province).name %>
+  <% cName = @provinces.getCityName ""+@consignees.province+@consignees.city %>
+  <% zName = @provinces.find( @consignees.province).name %>
   <dd>
-    <label><%= key %>:</label> <%= value %>
+    <label><%= @default.translate 'Consignee' %>:</label> <%= @default.toPinyin @consignees.name %>
   </dd>
-  <% end %>
+  <dd>
+    <label><%= @default.translate 'Address' %>:</label> <%= @default.address(pName,cName,zName,@consignees.address) %>
+  </dd>
+  <dd>
+    <label><%= @default.translate 'Tel' %>:</label> <%= @consignees.tel %>
+  </dd>
+  <dd>
+    <label><%= @default.translate 'Mobile' %>:</label><%= @consignees.mobile %>
+  </dd>
+  <dd>
+    <label><%= @default.translate 'Email' %>:</label> <%= @consignees.email %>
+  </dd>
 </dl>

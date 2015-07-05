@@ -92,7 +92,7 @@ class Logouts extends Spine.Controller
 	# Î¯ÍĞÊÂ¼ş
 	events:
 		"click input[name=logout]": "logout"
-		"click p a": "myClick"
+		"click ul li a": "myClick"
 
 	constructor: ->
 		super

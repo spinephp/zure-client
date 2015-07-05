@@ -1,4 +1,5 @@
 Spine   = require('spine')
+Default = require('models/default')
 Orderstate = require('models/orderstate')
 Thisstate = require('models/theorderstate')
 $       = Spine.$
@@ -15,19 +16,33 @@ class Process extends Spine.Controller
 		@orderid = $.getUrlParam "orderid"
 
 		@active @change
-		Thisstate.bind('refresh change', @render)
-		Orderstate.bind('refresh change', @render)
+		
+		@default = $.Deferred()
+		@orderstate= $.Deferred()
+		@thisstate = $.Deferred()
+		Default.bind "refresh",=>@default.resolve()
+		Orderstate.bind "refresh",=>@orderstate.resolve()
+		Thisstate.bind "refresh",=>@thisstate.resolve()
+		Default.bind "change",=>
+			if @item?
+				@item.default = Default.first()
+				@render()
   
 	render: =>
-		try
-			if Thisstate.count() and Orderstate.count()
-				state = Orderstate.all()
-				thisstate = Thisstate.findByAttribute "orderid",@orderid
-				@html require('views/showprocess')({thisstate:thisstate,state:state})
-		catch err
-			console.log err.message
+		@html require('views/showprocess') @item
     
 	change: (params) =>
-		@render()
+		try
+			$.when(@orderstate,@thisstate,@default).done =>
+				default1 = Default.first()
+				state = Orderstate.all()
+				thisstate = Thisstate.findByAttribute "orderid",parseInt @orderid
+				@item = 
+					default:default1
+					state:state
+					thisstate:Thisstate
+				@render()
+		catch err
+			@log "file:ordertetail.product.coffee\nclass:Products\nerror: #{err.message}"
     
 module.exports = Process

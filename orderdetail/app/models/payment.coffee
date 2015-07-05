@@ -3,7 +3,7 @@ require('spine/lib/ajax')
 
 # 创支付方式模型
 class Payment extends Spine.Model
-	@configure 'Payment', 'id', 'name', 'note', 'url', 'urltext'
+	@configure 'Payment', 'id', 'names', 'note', 'url', 'urltext'
 
 	@extend Spine.Model.Ajax
 
@@ -11,8 +11,9 @@ class Payment extends Spine.Model
 
 	@fetch: (params) ->
 		fields = @attributes
+		token = $.fn.cookie 'PHPSESSID'
 		params or= 
-			data:{ filter: fields, token: sessionStorage.token } 
+			data:{ filter: fields, token:token } 
 			processData: true
 		super(params)
 

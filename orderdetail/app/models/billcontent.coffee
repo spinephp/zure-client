@@ -3,7 +3,7 @@ require('spine/lib/ajax')
 
 # 创建增值税模型
 class Billcontent extends Spine.Model
-	@configure 'Billcontent', 'id','name'
+	@configure 'Billcontent', 'id','names'
 
 	@extend Spine.Model.Ajax
 
@@ -11,8 +11,9 @@ class Billcontent extends Spine.Model
 
 	@fetch: (params) ->
 		fields = @attributes
+		token = $.fn.cookie 'PHPSESSID'
 		params or= 
-			data:{ filter: fields, token: sessionStorage.token } 
+			data:{ filter: fields, token:token } 
 			processData: true
 		super(params)
 

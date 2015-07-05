@@ -1,11 +1,15 @@
+<% money=(rmb)-> %>
+	<%= (new Number(rmb)).toFixed(2) %>
+<% end %>
+
 <dl>
   <dt>
-    <b>配送方式</b>
+    <b><%= @default.translate "Distribution mode" %></b>
   </dt>
   <dd>
-    <label>配送方式:</label> <%= @transports.name %>
+    <label><%= @default.translate "Distribution mode" %>:</label> <%= @default.translates @transports.names %>
     </dd>
     <dd>
-      <label>运费:</label> ¥<%= (new Number(@orders.carriagecharge)).toFixed(2) %>
+      <label><%= @default.translate "Freight" %>:</label> <%= @currencys.symbol %><%= money(@orders.carriagecharge/@currencys.exchangerate) %>
       </dd>
     </dl>

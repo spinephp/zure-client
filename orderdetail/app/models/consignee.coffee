@@ -10,9 +10,10 @@ class Consignee extends Spine.Model
 
 	@fetch: (params) ->
 		fields = @attributes
-		condition = [{field:"userid",value:"?",operator:"eq"}]
+		condition = [{field:"userid",value:"?userid",operator:"eq"}]
+		token = $.fn.cookie 'PHPSESSID'
 		params or= 
-			data:{ cond:condition,filter: fields, token: sessionStorage.token } 
+			data:{ cond:condition,filter: fields, token:token } 
 			processData: true
 		super(params)
 

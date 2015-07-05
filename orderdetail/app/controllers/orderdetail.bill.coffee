@@ -4,6 +4,7 @@ Bill = require('models/bill')
 Billfree = require('models/billfree')
 Billsale = require('models/billsale')
 Billcontent = require('models/billcontent')
+Default = require('models/default')
 $       = Spine.$
 
 class Bills extends Spine.Controller
@@ -12,25 +13,44 @@ class Bills extends Spine.Controller
 	constructor: ->
 		super
 		@active @change
-		Order.bind('refresh change', @render)
-		Bill.bind('refresh change', @render)
-		Billfree.bind('refresh change', @render)
-		Billsale.bind('refresh change', @render)
-		Billcontent.bind('refresh change', @render)
+		
+		@default = $.Deferred()
+		@order= $.Deferred()
+		@bill = $.Deferred()
+		@billfree = $.Deferred()
+		@billsale = $.Deferred()
+		@billcontent = $.Deferred()
+		Default.bind "refresh",=>@default.resolve()
+		Order.bind "refresh",=>@order.resolve()
+		Bill.bind "refresh",=>@bill.resolve()
+		Billfree.bind "refresh",=>@billfree.resolve()
+		Billsale.bind "refresh",=>@billsale.resolve()
+		Billcontent.bind "refresh",=>@billcontent.resolve()
+		Default.bind "change",=>
+			if @item?
+				@item.default = Default.first()
+				#@item.currency = Currency.find @item.default.currencyid
+				@render()
   
 	render: =>
-		try
-			if Order.count() and Bill.count() and Billfree.count() and Billsale.count() and Billcontent.count()
-				order = Order.first()
-				bill = Bill.find order.billtypeid
-				content = Billcontent.find order.billcontentid
-				curbill = if bill.id is 1 then Billfree else Billsale
-				billcur = curbill.find order.billid
-				@html require('views/showbill')({types:bill,contents:content,bills:billcur})
-		catch err
-			console.log err.message
+		@html require('views/showbill') @item
     
 	change: (params) =>
-		@render()
+		try
+			$.when(@order,@bill,@billfree,@billsale,@billcontent,@default).done =>
+				default1 = Default.first()
+				order = Order.find $.getUrlParam "orderid"
+				bill = Bill.find order.billtypeid
+				content = Billcontent.find order.billcontentid
+				curbill = if bill.id is '1' then Billfree else Billsale
+				billcur = curbill.find order.billid
+				@item = 
+					default:default1
+					types:bill
+					contents:content
+					bills:billcur
+				@render()
+		catch err
+			@log "file:ordertetail.product.coffee\nclass:Products\nerror: #{err.message}"
     
 module.exports =  Bills

@@ -1,21 +1,21 @@
 <dl>
   <dt>
-    <b>支付方式</b>
+    <b><%= @default.translate "Payment method" %></b>
   </dt>
   <dd>
-    <label>支付方式:</label> <%= @pays.name %><%= "，全额支付" if parseInt(@orders.downpayment)- parseInt(@orders.guarantee) is 100 %>
+    <label><%= @default.translate("Payment method") %>:</label> <%= @default.translates @pays.names %><%= "，"+@default.translate('Full payment') if parseInt(@orders.downpayment)- parseInt(@orders.guarantee) is 100 %>
     </dd>
   <% if parseInt(@orders.downpayment) < 100: %>
   <dd>
-    <label>预付款:</label> <%= @orders.downpayment %>%
+    <label><%= @default.translate "Prepayment" %>:</label> <%= @orders.downpayment %>%
   </dd>
   <% end %>
   <% if parseInt(@orders.guarantee) > 0: %>
   <dd>
-    <label>质保金:</label> 订单商品金额的 <%= @orders.guarantee %>%
+    <label><%= @default.translate "Quality assurance" %>:</label> <%= @default.translate "The amount of the order goods" %> <%= @orders.guarantee %>%
     </dd>
     <dd>
-      <label>质保期:</label> <%= @orders.guaranteeperiod %> 个月
+      <label><%= @default.translate "Puarantee period" %>:</label> <%= @orders.guaranteeperiod %> <%= @default.translate "Months" %>
     </dd>
     <% end %>
 </dl>

@@ -1,4 +1,5 @@
 Spine   = require('spine')
+Default = require('models/default')
 Orderstate = require('models/orderstate')
 Order = require('models/order')
 $       = Spine.$
@@ -62,31 +63,45 @@ class CurrentState extends Spine.Controller
 		@orderid = $.getUrlParam "orderid"
 
 		@active @change
-		Order.bind('refresh change', @render)
-		Orderstate.bind('refresh change', @render)
+		
+		@default = $.Deferred()
+		@order= $.Deferred()
+		@orderstate = $.Deferred()
+		Default.bind "refresh",=>@default.resolve()
+		Order.bind "refresh",=>@order.resolve()
+		Orderstate.bind "refresh",=>@orderstate.resolve()
+		Default.bind "change",=>
+			if @item?
+				@item.default = Default.first()
+				@render()
   
 	render: =>
-		try
-			if Order.count() and Orderstate.count()
-				order = Order.find(@orderid)
-				item = Orderstate.find(order.stateid)
-				@html require('views/showcurrentstate')({order:order,state:item})
-				switch order.stateid
-					when 2
-						if order.downpayment is 100
-							if order.paymentid is 7 # 在线支付
-								dom1 = "<buttom class='gopayment'>去付款</buttom>"
-							else
-								dom2 = "请你及时付款"
-						else 
-							dom1 = "<buttom class='prncontract'>打印合同</buttom><buttom class='uploadcontract'>回传合同</buttom>"
-				@pEl[0].append dom1 if dom1?
-				@pEl[1].append dom2 if dom2?
-		catch err
-			console.log err.message
+		@html require('views/showcurrentstate') @item
+		switch @item.order.stateid
+			when 2
+				if order.downpayment is 100
+					if @item.order.paymentid is 7 # 在线支付
+						dom1 = "<buttom class='gopayment'>"+@item.default.translate("To pay for")+"</buttom>"
+					else
+						dom2 = @item.default.translate "Please pay in time"
+				else 
+					dom1 = "<buttom class='prncontract'>"+@item.default.translate("Print contract")+"</buttom><buttom class='uploadcontract'>"+@item.default.translate("Return contract")+"</buttom>"
+		@pEl[0].append dom1 if dom1?
+		@pEl[1].append dom2 if dom2?
 	
 	change: (params) =>
-		@render()
+		try
+			$.when(@order,@orderstate,@default).done =>
+				default1 = Default.first()
+				theOrder = Order.find @orderid
+				theorderstate = Orderstate.find(theOrder.stateid)
+				@item = 
+					default:default1
+					order:theOrder
+					state:theorderstate
+				@render()
+		catch err
+			@log "file:ordertetail.product.coffee\nclass:Products\nerror: #{err.message}"
 
 	print: ->
 		w = window.open()

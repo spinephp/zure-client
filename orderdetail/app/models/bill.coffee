@@ -3,15 +3,16 @@ require('spine/lib/ajax')
 
 # 创增值税发票模型
 class Bill extends Spine.Model
-	@configure 'Bill', 'id','name'
+	@configure 'Bill', 'id','names'
 
 	@extend Spine.Model.Ajax
 
 	@url: '? cmd=Bill'
 
 	@fetch: (params) ->
+		token = $.fn.cookie 'PHPSESSID'
 		params or= 
-			data:{ filter: @attributes, token: sessionStorage.token } 
+			data:{ filter: @attributes, token:token } 
 			processData: true
 		@ajax().fetch(params)
 		true

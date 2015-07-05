@@ -3,7 +3,7 @@ require('spine/lib/ajax')
 
 # 创建增值税模型
 class Billsale extends Spine.Model
-	@configure 'Billsale','id','name','address','tel','duty','bank','account'
+	@configure 'Billsale','id','names','address','tel','duty','bank','account'
 
 	@extend Spine.Model.Ajax
 
@@ -11,8 +11,9 @@ class Billsale extends Spine.Model
 
 	@fetch: (params) ->
 		condition = [{field:"userid",value:"?",operator:"eq"}]
+		token = $.fn.cookie 'PHPSESSID'
 		params or= 
-			data:{ cond:condition,filter:@attributes,token: sessionStorage.token } 
+			data:{ cond:condition,filter:@attributes,token:token } 
 			processData: true
 
 		super(params)

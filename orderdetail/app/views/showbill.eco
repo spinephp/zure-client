@@ -1,14 +1,14 @@
 <dl>
   <dt>
-    <b>票据信息</b>
+    <b><%= @default.translate "Bill information" %></b>
   </dt>
   <dd>
-    <label>票据类型:</label> <%= @types.name %>
+    <label><%= @default.translate "Bill type" %>:</label> <%= @default.translates @types.names %>
   </dd>
   <dd>
-    <label>票据抬头:</label> <%= @bills.name %>
+    <label><%= @default.translate "Bill looked up" %>:</label> <%= @default.translates @bills.names %>
   </dd>
   <dd>
-    <label>票据内容:</label> <%= @contents.name %>
+    <label><%= @default.translate "Content of the bill" %>:</label> <%= @default.translates @contents.names %>
   </dd>
 </dl>

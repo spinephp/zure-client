@@ -4,7 +4,7 @@ Order   = require('models/order')
 
 # 创增值税发票模型
 class OrderProducts extends Spine.Model
-	@configure 'OrderProducts', 'id',  'longname', 'size','picture','unit'
+	@configure 'OrderProducts', 'id',  'longnames', 'size','picture','unit'
 
 	@extend Spine.Model.Ajax
 
@@ -12,11 +12,12 @@ class OrderProducts extends Spine.Model
 
 	@fetch: (params) ->
 		fields = @attributes
-		item = Order.first()
+		item = Order.find $.getUrlParam "orderid"
 		values = (rec.proid for rec in item.products)
 		condition = [{field:"id",value:values,operator:"in"}]
+		token = $.fn.cookie 'PHPSESSID'
 		params or= 
-			data:{ cond:condition,filter: fields, token: sessionStorage.token } 
+			data:{ cond:condition,filter: fields, token:token } 
 			processData: true
 		super(params)
 
@@ -25,32 +26,26 @@ class OrderProducts extends Spine.Model
 		str = "0"+str while str.length<8
 		str
 
-	price:->
-		rec.price for rec in Order.first().products when rec.proid is @id 
-
-	returnnow:->
-		rec.returnnow for rec in Order.first().products when rec.proid is @id 
-
-	number:->
-		sum = rec.number for rec in Order.first().products when rec.proid is @id 
-
-	sumNumber:->
+	@sumNumber:->
 		sum = 0
-		sum += parseInt rec.number for rec in Order.first().products
+		goods = Order.find $.getUrlParam "orderid"
+		sum += parseInt rec.number for rec in goods.products
 		sum
 
-	sumPrice:->
+	@sumPrice:->
 		sum = 0
-		sum += rec.price*rec.number for rec in Order.first().products
+		goods = Order.find $.getUrlParam "orderid"
+		sum += rec.price*rec.number for rec in goods.products
 		sum
 
-	sumReturnnow:->
-		item = Order.first()
-		sum = item.returnnow
+	@sumReturnnow:->
+		item = Order.find $.getUrlParam "orderid"
+		sum = 0
 		sum += rec.returnnow*rec.number for rec in item.products
 		sum
 
-	total:->
-		@sumPrice()+Order.first().carriagecharge
+	@total:->
+		goods = Order.find $.getUrlParam "orderid"
+		@sumPrice()-@sumReturnnow()+goods.carriagecharge
 
 module.exports = OrderProducts

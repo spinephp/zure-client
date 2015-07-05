@@ -35,6 +35,7 @@ class Default extends Spine.Model
 			'Consulting reply':['咨询回复']
 			'Prices of goods':['降价商品']
 			'My attention':['我的关注']
+			'My concern':['我的关注']
 
 
 			'Go cart':['购物车']
@@ -94,6 +95,7 @@ class Default extends Spine.Model
 			'Spot Goods':['现货商品']
 			'More':['更多']
 			'have':['有']
+			'Have':['有']
 			'Evaluation':['评价']
 			'None goods have concerned':['无关注的商品']
 			
@@ -117,7 +119,7 @@ class Default extends Spine.Model
 			'Contract':['等待合同']
 			'Finished':['已完成']
 			'Cancel':['已取消']
-			'Option':['操作']
+			'Operation':['操作']
 			'View':['查看']
 			'Del':['删除']
 			'Eval':['评价']
@@ -127,8 +129,16 @@ class Default extends Spine.Model
 			
 			'Goods review/single':['产品评价/晒单']
 
-			# 产品树
-			'Product category list':['产品分类列表']
+			# 我的关注
+			'Concern goods':['关注的产品']
+			'Concern activities':['关注的活动']
+			'Category filter':['类别']
+			'Label filter':['标签']
+			'Only show':['仅显示']
+			'Unrestricted':['不限']
+			'Silicon Nitride bonded':['氮化硅结合']
+			'Silica bonded':['氧化硅结合']
+			'Castable':['浇注料']
 
 			# 产品类
 			'Recommended to you based on your concerns':['根据您的关注为您推荐']
