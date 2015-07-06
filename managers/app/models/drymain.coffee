@@ -27,3 +27,4 @@ class Drymain extends Spine.Model
 		@current
 
 module.exports = Drymain
+
