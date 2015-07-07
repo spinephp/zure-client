@@ -23,7 +23,7 @@ class Dryingview extends Spine.Controller
 				condition = [{field:"mainid",value:item.id,operator:"eq"}]
 				token =  $.fn.cookie 'PHPSESSID'
 				params = 
-					data:{ filter: Drydata.attributes,cond:condition,token:token} 
+					data:{ filter: Drydata.attributes,cond:condition,token:token}
 					processData: true
 
 				Drydata.fetch params
