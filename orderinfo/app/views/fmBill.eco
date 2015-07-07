@@ -60,21 +60,19 @@
 							<label>
 							<input type="radio" name="receiptheader" value="2" />
 							<span>单位</span>
-							</label>
 							<span class="receiptheader">
 							<input type="text" name="receipcompany" value="" />
 							</span>
+							</label>
 						</li>
 					</ul>
 				</div>
 				<div class="billtype" data-billtype="2">
-          <% if @billsales?: %>
-					<% for key,title of @billsales.titles(): %>
-					<label>
-					<span><%= title%>：</span><input type="text" name="<%= key %>" value="<%= @billsales[key] %>" />
-					</label>
-					<br />
-            <% end %>
+ 					<% for key,title of @billsales.titles(): %>
+						<% billsale=@billsales.first() %>
+						<label>
+						<span><%= title %>：</span><input type="text" name="<%= key %>" value="<%= billsale?[key] %>" />
+						</label>
 					<% end %>
 				</div>
 			</div>

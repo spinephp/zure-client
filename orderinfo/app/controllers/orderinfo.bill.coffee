@@ -72,7 +72,7 @@ class Edit extends Spine.Controller
       Billfree.url += "&token="+sessionStorage.token unless Billfree.url.match /token/
   
   render: ->
-    @html require('views/fmBill')({billfrees:Billfree.all(),billsales:Billsale.first(),billcontents:Billcontent.all()})
+    @html require('views/fmBill')({billfrees:Billfree.all(),billsales:Billsale,billcontents:Billcontent.all()})
     
   change: (params) =>
     @render()

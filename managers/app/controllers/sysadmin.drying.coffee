@@ -4,8 +4,8 @@ $       = Spine.$
 Drymain = require('models/drymain')
 Drydata = require('models/drydata')
 
-Option    = require('controllers/sysadmin.employee.option')
-Tree = require('controllers/sysadmin.employee.tree')
+Option    = require('controllers/sysadmin.drying.option')
+Tree = require('controllers/sysadmin.drying.tree')
 
 class Dryings extends Spine.Controller
 	className: 'dryings'
@@ -18,7 +18,7 @@ class Dryings extends Spine.Controller
 
 		Spine.bind "userlogined",(user)->
 			Drymain.one 'refresh',->
-				Person.append (item.userid for  item in Employee.all() when not Person.exists item.userid)
+				Drydata.append (item.userid for  item in Employee.all() when not Person.exists item.userid)
 			Drymain.fetch()
 
 			

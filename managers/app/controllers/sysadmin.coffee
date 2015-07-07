@@ -37,6 +37,9 @@ class Sysadmins extends Spine.Controller
 			'/sysadmins/progress': (params) -> 
 				@sidebar.active(params)
 				@main.progress.active(params)
+			'/sysadmins/drying': (params) -> 
+				@sidebar.active(params)
+				@main.drying.active(params)
 			'/sysadmins/employee': (params) -> 
 				@sidebar.active(params)
 				@main.employee.active(params)
