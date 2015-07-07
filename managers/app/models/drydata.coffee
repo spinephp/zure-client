@@ -2,8 +2,8 @@ Spine = require('spine')
 require('spine/lib/ajax')
 
 # 创增值税发票模型
-class Drymain extends Spine.Model
-	@configure 'Drymain', 'id','mainid','time','settingtemperature','temperature','mode'
+class Drydata extends Spine.Model
+	@configure 'Drydata', 'id','mainid','time','settingtemperature','temperature','mode'
 
 	@extend Spine.Model.Ajax
 
@@ -17,4 +17,4 @@ class Drymain extends Spine.Model
 		@ajax().fetch(params)
 		true
 
-module.exports = Drymain
+module.exports = Drydata
