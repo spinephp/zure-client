@@ -35,4 +35,5 @@ class Dryingview extends Spine.Controller
 	change: (params) ->
 		@figures.active params
 		@headers params
+		
 module.exports = Dryingview
