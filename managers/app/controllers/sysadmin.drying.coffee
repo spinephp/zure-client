@@ -20,7 +20,6 @@ class Dryings extends Spine.Controller
 			Drymain.one 'refresh',->
 				Person.append (item.userid for  item in Employee.all() when not Person.exists item.userid)
 			Drymain.fetch()
-			Employee.fetch()
 
 			
 		@routes
