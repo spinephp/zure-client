@@ -82,13 +82,7 @@ class DryingTrees extends Spine.Controller
 			$(@buttonEl).button  "option", "disabled", false
 			@node = treeNode
 			id = parseInt treeNode.id,10
-
-			if id < 1000
-				name = '/drying/state'
-			else
-				name = '/drying'
-				id -= parseInt(treeNode.pId,10)*100000
-			@navigate(name,id,'show') 
+			@navigate('/drying',id,'show') 
 		else
 			$(@buttonEl)[1..].button  "option", "disabled", true 
 
@@ -105,12 +99,6 @@ class DryingTrees extends Spine.Controller
 		return ids;
 
 	option: (e)=>
-		if @node.id < 1000
-			name = '/drying/state'
-			id = @node.id
-		else
-			name = '/drying'
-			id = @node.id - @node.pId*100000
-		@navigate(name, id, 'edit') if id > 0
+		@navigate('/drying' @node.id, 'edit') if @node.id > 0
 
 module.exports = DryingTrees
