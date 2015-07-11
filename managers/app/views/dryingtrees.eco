@@ -1,0 +1,6 @@
+<div>干燥记录列表</div>
+<ul id="dryingTree" class="ztree"></ul>
+<div>
+  <button>监控</button>
+  <button>删除</button>
+</div>
