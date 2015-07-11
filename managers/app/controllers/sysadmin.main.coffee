@@ -12,7 +12,7 @@ Exports = require('controllers/sysadmin.export')
 Goods = require('controllers/sysadmin.good')
 Orders = require('controllers/sysadmin.order')
 Progress = require('controllers/sysadmin.progress')
-Dryings = require('controllers/sysadmin.dryings')
+Dryings = require('controllers/sysadmin.drying')
 Employees = require('controllers/sysadmin.employee')
 Customs = require('controllers/sysadmin.custom')
 
@@ -128,10 +128,8 @@ class Logins extends Spine.Controller
 		catalog[3].state |= 2 if state & parseInt("0x00004000")			# 编辑雇员信息
 		catalog[3].state |= 1 if state & parseInt("0x00002000")			# 设置管理者权限
 
-		catalog[2].state |= 8 if state & parseInt("0x00001000")			# 查看生产进度
-		catalog[2].state |= 4 if state & parseInt("0x00000800")			# 编辑生产进度
-
-		
+		catalog[2].state |= 8 if state & parseInt("0x00001000")			# 查看干燥记录
+		catalog[2].state |= 4 if state & parseInt("0x00000800")			# 监控干燥
 	# 重置校验码
 	resetValidate:->
 		url = 'admin/checkNum_session.php?' + Math.ceil(Math.random() * 1000)
@@ -222,6 +220,7 @@ class Main extends Spine.Stack
 		good:Goods
 		order: Orders
 		progress:Progress
+		drying:Dryings
 		login:Logins
 		export:Exports
 	

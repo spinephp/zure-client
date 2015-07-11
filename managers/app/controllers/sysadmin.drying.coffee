@@ -44,6 +44,6 @@ class Dryings extends Spine.Controller
     
 		@append @tree, divide, @option
     
-		@navigate('/dryings',@item.id,'show')
+		@navigate('/dryings',@item.id,'show') if @item?
     
 module.exports = Dryings

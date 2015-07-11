@@ -12,7 +12,7 @@ class Drydata extends Spine.Model
 	@fetch: (params) ->
 		condition = [{field:"state",value:"0",operator:"eq"}]
 		params or= 
-			data:{ filter: @attributes, ,cond:condition,token: $.fn.cookie 'PHPSESSID'} 
+			data:{ filter: @attributes,cond:condition,token: $.fn.cookie 'PHPSESSID'} 
 			processData: true
 		@ajax().fetch(params)
 		true

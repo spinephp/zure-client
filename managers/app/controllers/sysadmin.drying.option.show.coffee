@@ -1,38 +1,34 @@
 Spine	= require('spine')
-Employee = require('models/employee')
-Person = require('models/person')
-Department = require('models/department')
+Drymain = require('models/drymain')
+Drydata = require('models/drydata')
 
 $		= Spine.$
 
-class EmployeeShows extends Spine.Controller
+class DryingShows extends Spine.Controller
 	className: 'employeeshows'
   
 	constructor: ->
 		super
 		@active @change
-		@employee = $.Deferred()
-		@department = $.Deferred()
-		@person = $.Deferred()
-		Department.bind "refresh",=>@department.resolve()
-		Employee.bind "refresh",=>@employee.resolve()
-		Person.bind "refresh",=>@person.resolve()
+		@drymain = $.Deferred()
+		@drydata = $.Deferred()
+		Drymain.bind "refresh",=>@drymain.resolve()
+		Drydata.bind "refresh",=>@drydata.resolve()
   
 	render: ->
-		@html require("views/employee")(@item)
-		$("body >header h2").text "劳资管理->员工管理->员工信息"
+		@html require("views/dryshow")(@item)
+		$("body >header h2").text "????->????->????"
 	
 	change: (params) =>
 		try
-			$.when(@employee,@person,@department).done =>
-				if Employee.exists params.id
-					employee = Employee.find params.id
+			$.when(@drymain,@drydata).done =>
+				if Drymain.exists params.id
+					drymain = Drymain.find params.id
 					@item = 
-						employee:employee
-						person:Person.find employee.userid
-						department:Department.find employee.departmentid
+						drymains:drymain
+						drydatas:Show
 					@render()
 		catch err
-			@log "file: sysadmin.main.employee.option.classshow.coffee\nclass: EmployeeclassShows\nerror: #{err.message}"
+			@log "file: sysadmin.drying.option.show.coffee\nclass: DryingShows\nerror: #{err.message}"
 
-module.exports = EmployeeShows
+module.exports = DryingShows
