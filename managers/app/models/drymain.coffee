@@ -7,10 +7,10 @@ class Drymain extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Drymain'
+	@url: '? cmd=DryMain'
 
 	@fetch: (params) ->
-		condition = [{field:"state",value:"0",operator:"eq"}]
+		condition = [{field:"state",value:"0",operator:"ne"}]
 		params or= 
 			data:{ filter: @attributes,cond:condition,token: $.fn.cookie 'PHPSESSID'} 
 			processData: true

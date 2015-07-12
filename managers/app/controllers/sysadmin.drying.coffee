@@ -15,17 +15,21 @@ class Dryings extends Spine.Controller
 			
 		@tree = new Tree
 		@option    = new Option
+
+		Spine.bind "userlogined",(user)->
+			Drymain.fetch()
+		
 		Drymain.bind 'refresh',=>
 			if Drymain.count()
-				@item = Drymain.first()
-				condition = [{field:"mainid",value:@item.id,operator:"eq"}]
+				item = Drymain.first()
+				condition = [{field:"mainid",value:item.id,operator:"eq"}]
 				token =  $.fn.cookie 'PHPSESSID'
 				params = 
 					data:{ filter: Drydata.attributes,cond:condition,token:token}
 					processData: true
 
 				Drydata.fetch params
-			
+				
 		@routes
 			'/dryings/:id/show': (params) -> 
 				@active(params)
@@ -44,6 +48,8 @@ class Dryings extends Spine.Controller
     
 		@append @tree, divide, @option
     
-		@navigate('/dryings',@item.id,'show') if @item?
+		if Drymain.count()
+			id = Drymain.first()
+		@navigate('/dryings',id,'show') 
     
 module.exports = Dryings

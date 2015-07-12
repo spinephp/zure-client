@@ -25,7 +25,7 @@ class DryingTrees extends Spine.Controller
 
 		@drymain = $.Deferred()
 
-		Drymain.bind "refresh",=>@order.resolve()
+		Drymain.bind "refresh",=>@drymain.resolve()
 
 	addTreeNode:(childNode)=>
 		parentZNode = @zTree.getNodeByParam("id", childNode.pId, null) #获取父节点
@@ -82,7 +82,7 @@ class DryingTrees extends Spine.Controller
 			$(@buttonEl).button  "option", "disabled", false
 			@node = treeNode
 			id = parseInt treeNode.id,10
-			@navigate('/drying',id,'show') 
+			@navigate('/dryings',id,'show') 
 		else
 			$(@buttonEl)[1..].button  "option", "disabled", true 
 
