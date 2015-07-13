@@ -3,9 +3,7 @@
 <li>干燥曲线：<span><%= @drymains.lineno %></span></li>
 </ul>
 <div id="dryfigure">
-<canvas id="dry_temperature"></canvas>
 <canvas id="dry_lines"></canvas>
-<canvas id="dry_time"></canvas>
 </div>
 <select>
 <option>default</option>

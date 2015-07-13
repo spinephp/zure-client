@@ -225,7 +225,7 @@ header#header
 	>ul
 		box-flex(1)
 		overflow-y: scroll
-.goodoption,.orderoption,.employeeoption,.customoption,.progressoption
+.goodoption,.orderoption,.employeeoption,.customoption,.progressoption,.dryingoption
 	vbox()
 	box-flex(1)
 
@@ -343,3 +343,20 @@ header#header
 		height:53px;
 		margin:0 auto
 		vertical-align:middle
+.dryingshows
+	box-flex(1)
+	overflow-y: scroll
+	ul
+		list-style:none
+		float:left
+		li
+			float:left
+	>div
+		width:100%
+		margin:0;
+		padding:0
+		clear:both
+		canvas
+			width:100%
+			border:1px solid #999
+			margin:5px
