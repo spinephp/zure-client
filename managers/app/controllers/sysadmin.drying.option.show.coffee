@@ -18,21 +18,26 @@ class draw
 		x1 = @ruleTemperatureWidth
 		@ctx.lineWidth = 1
 		i = -50
-		for y in [@ruleTemperatureHeight..20] by -@space
+		for y in [@ruleTemperatureHeight..0] by -@space
 			linelen = 0
 			unless i%50
 				linelen = 3
 				s =  i.toString()
 				x = 15 + (3-s.length)*8
 				@ctx.fillText i.toString(),x,y+4
+			@ctx.beginPath()
 			@ctx.moveTo x0 - linelen,y
 			@ctx.lineTo x1,y
-			@ctx.strokeStyle = "#999999"
+			@ctx.strokeStyle = "rgba(0,0,0,0.8)"
 			@ctx.stroke()
+			
 			@ctx.beginPath()
 			@ctx.moveTo x1,y
 			@ctx.lineTo $(@canvas)[0].width,y
-			@ctx.strokeStyle = "rgba(254,254,254,0.5)"
+			if i is -50
+				@ctx.strokeStyle = "rgba(0,0,0,0.5)"
+			else
+				@ctx.strokeStyle = "rgba(200,200,200,0.5)"
 			@ctx.stroke()
 			i += 10
 	
@@ -41,10 +46,9 @@ class draw
 		space = 60 # 每像素10秒，10分钟=60个像素，画一短标尺
 		y0 = @ruleTemperatureHeight
 		y1 = @ruleTemperatureHeight+5
-		@ctx.strokeStyle = "rgba(0,0,0,0.5)"
 		@ctx.lineWidth = 1
 		i = 0
-		for x in [@ruleTemperatureWidth..@ruleTimeWidth] by space
+		for x in [@ruleTemperatureWidth...@ruleTimeWidth+@ruleTemperatureWidth] by space
 			#@ctx.beginPath()
 			linelen = 0
 			unless i%6
@@ -54,14 +58,19 @@ class draw
 					s += "0"
 				s +=  (i/6).toString()+":00"
 				@ctx.fillText s,x-15,y1+16
+			@ctx.beginPath()
 			@ctx.moveTo x ,y0
 			@ctx.lineTo x,y1+ linelen
+			@ctx.strokeStyle = "rgba(0,0,0,0.5)"
 			@ctx.stroke()
 			
 			@ctx.beginPath()
 			@ctx.moveTo x,y0
 			@ctx.lineTo x,0
-			@ctx.strokeStyle = "rgba(200,200,200,0.5)"
+			if i is 0
+				@ctx.strokeStyle = "rgba(0,0,0,0.5)"
+			else
+				@ctx.strokeStyle = "rgba(200,200,200,0.5)"
 			@ctx.stroke()
 			i++
 	
