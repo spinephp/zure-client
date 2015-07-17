@@ -8,7 +8,7 @@ class draw
 		@canvas = canvas
 		@ruleTemperatureWidth = 50
 		@ruleTimeHeight = 35
-		@scale = 1
+		@scale = 0
 		@resize()
 	
 	# 画温度标尺
@@ -44,6 +44,24 @@ class draw
 	# 画时间标尺
 	drawRuleTime:()->
 		space = 60 # 每像素10秒，10分钟=60个像素，画一短标尺
+		interval = 6
+		unit = 1
+		switch @scale
+			when 1
+				space = @ruleTimeWidth / 12
+				interval = 3
+				unit = 6
+			when 2
+				space = @ruleTimeWidth / 12
+				interval = 3
+				unit = 12
+			when 3
+				space = @ruleTimeWidth / 12
+				interval = 3
+				unit = 48
+			else
+				space = 60
+				interval = 6
 		y0 = @ruleTemperatureHeight
 		y1 = @ruleTemperatureHeight+5
 		@ctx.lineWidth = 1
@@ -51,7 +69,7 @@ class draw
 		for x in [@ruleTemperatureWidth...@ruleTimeWidth+@ruleTemperatureWidth] by space
 			#@ctx.beginPath()
 			linelen = 0
-			unless i%6
+			unless i%(interval*unit)
 				s = ""
 				linelen = 3
 				if i < 60
@@ -72,7 +90,7 @@ class draw
 			else
 				@ctx.strokeStyle = "rgba(200,200,200,0.5)"
 			@ctx.stroke()
-			i++
+			i+=unit
 	
 	# 画温度线
 	drawTemperature:(recs)->
@@ -113,11 +131,20 @@ class draw
 		@drawRuleTemperature()
 		@drawRuleTime()
 		
+	setScale:(value)->
+		@scale = parseInt value
+		@resize()
+		@
+		
 class DryingShows extends Spine.Controller
 	className: 'dryingshows'
 	
 	elements:
-		".drylines":"canvasEl"
+		".drylines":"canvasEl" # 画布元素
+		".scale":"scaleEl"
+  
+	events:
+		'change select[name=scale]':'scaleEdited'
   
 	constructor: ->
 		super
@@ -131,12 +158,16 @@ class DryingShows extends Spine.Controller
 		$(window).resize => 
 			@render()
 		
+
+	scaleEdited:(e)->
+		e.stopPropagation()
+		scale = parseInt $(e.target).val()
+		@curDraw?.setScale(scale).drawTemperature(@item.drydatas)
+			
 	render: ->
 		@html require("views/dryshow")(@item)
 		$("body >header h2").text "????->????->????"
 		@curDraw = new draw @canvasEl
-		#@curDraw.drawRuleTemperature()
-		#@curDraw.drawRuleTime()
 		@curDraw.drawTemperature(@item.drydatas)
 		
 	change: (params) =>

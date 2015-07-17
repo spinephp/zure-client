@@ -5,12 +5,13 @@
 <div id="dryfigure">
 <canvas class="drylines"></canvas>
 </div>
-<select>
-<option>default</option>
-<option>8</option>
-<option>16</option>
-<option>24</option>
-<option>48</option>
-<option>72</option>
-<option>all</option>
+<ul>
+<li>缩放：
+<select name='scale'>
+<option value='0' >默认</option>
+<option value='1' >12 小时</option>
+<option value='2' >24 小时</option>
+<option value='3' >全部</option>
 </select>
+</li>
+</ul>
