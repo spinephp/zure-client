@@ -43,33 +43,33 @@ class draw
 	
 	# 画时间标尺
 	drawRuleTime:()->
-		space = 60 # 每像素10秒，10分钟=60个像素，画一短标尺
+		@xSpace = 60 # 每像素10秒，10分钟=60个像素，画一短标尺
 		interval = 6
-		unit = 1
+		@unit = 1
 		switch @scale
 			when 1
-				space = @ruleTimeWidth / 12
+				@xSpace = @ruleTimeWidth / 12
 				interval = 3
-				unit = 6
+				@unit = 6
 			when 2
-				space = @ruleTimeWidth / 12
+				@xSpace= @ruleTimeWidth / 12
 				interval = 3
-				unit = 12
+				@unit = 12
 			when 3
-				space = @ruleTimeWidth / 12
+				@xSpace= @ruleTimeWidth / 12
 				interval = 3
-				unit = 48
+				@unit = 48
 			else
-				space = 60
+				@xSpace = 60
 				interval = 6
 		y0 = @ruleTemperatureHeight
 		y1 = @ruleTemperatureHeight+5
 		@ctx.lineWidth = 1
 		i = 0
-		for x in [@ruleTemperatureWidth...@ruleTimeWidth+@ruleTemperatureWidth] by space
+		for x in [@ruleTemperatureWidth...@ruleTimeWidth+@ruleTemperatureWidth] by @xSpace
 			#@ctx.beginPath()
 			linelen = 0
-			unless i%(interval*unit)
+			unless i%(interval*@unit)
 				s = ""
 				linelen = 3
 				if i < 60
@@ -90,7 +90,7 @@ class draw
 			else
 				@ctx.strokeStyle = "rgba(200,200,200,0.5)"
 			@ctx.stroke()
-			i+=unit
+			i+=@unit
 	
 	# 画温度线
 	drawTemperature:(recs)->
@@ -98,7 +98,7 @@ class draw
 		@ctx.beginPath()
 		for rec,i in recs
 			t = rec.temperature >> 4
-			x = rec.time+@ruleTemperatureWidth
+			x = rec.time/@unit+@ruleTemperatureWidth
 			y = @ruleTemperatureHeight-(t+50)*@space/10
 			if i
 				@ctx.lineTo x,y
@@ -110,7 +110,7 @@ class draw
 		@ctx.beginPath()
 		for rec,i in recs
 			t = rec.settingtemperature >> 4
-			x = rec.time+@ruleTemperatureWidth
+			x = rec.time/@unit+@ruleTemperatureWidth
 			y = @ruleTemperatureHeight-(t+50)*@space/10
 			if i
 				@ctx.lineTo x,y
