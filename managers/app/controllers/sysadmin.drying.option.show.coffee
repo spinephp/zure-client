@@ -96,9 +96,10 @@ class draw
 	drawTemperature:(recs)->
 		@ctx.lineWidth = 1
 		@ctx.beginPath()
+		rote = @unit/60*@xSpace
 		for rec,i in recs
 			t = rec.temperature >> 4
-			x = rec.time/@unit+@ruleTemperatureWidth
+			x = rec.time/rote+@ruleTemperatureWidth
 			y = @ruleTemperatureHeight-(t+50)*@space/10
 			if i
 				@ctx.lineTo x,y
@@ -110,7 +111,7 @@ class draw
 		@ctx.beginPath()
 		for rec,i in recs
 			t = rec.settingtemperature >> 4
-			x = rec.time/@unit+@ruleTemperatureWidth
+			x = rec.time/rote+@ruleTemperatureWidth
 			y = @ruleTemperatureHeight-(t+50)*@space/10
 			if i
 				@ctx.lineTo x,y
