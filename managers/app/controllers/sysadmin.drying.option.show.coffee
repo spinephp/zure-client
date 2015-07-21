@@ -9,6 +9,7 @@ class draw
 		@ruleTemperatureWidth = 50
 		@ruleTimeHeight = 35
 		@scale = 0
+		@offsetX = 0
 		@resize()
 	
 	# 画温度标尺
@@ -66,28 +67,32 @@ class draw
 		y1 = @ruleTemperatureHeight+5
 		@ctx.lineWidth = 1
 		i = 0
-		for x in [@ruleTemperatureWidth...@ruleTimeWidth+@ruleTemperatureWidth] by @xSpace
+		for sx in [@ruleTemperatureWidth...@ruleTimeWidth+@ruleTemperatureWidth+@offsetX] by @xSpace
 			#@ctx.beginPath()
 			linelen = 0
+			x = sx - @offsetX
 			unless i%(interval*@unit)
 				s = ""
 				linelen = 3
 				if i < 60
 					s += "0"
 				s +=  (i/6).toString()+":00"
-				@ctx.fillText s,x-15,y1+16
-			@ctx.beginPath()
-			@ctx.moveTo x ,y0
-			@ctx.lineTo x,y1+ linelen
-			@ctx.strokeStyle = "rgba(0,0,0,0.5)"
-			@ctx.stroke()
+				@ctx.fillText s,x-15,y1+16 if x >= @ruleTemperatureWidth 
+			if x >= @ruleTemperatureWidth
+				@ctx.beginPath()
+				@ctx.moveTo x ,y0
+				@ctx.lineTo x,y1+ linelen
+				@ctx.strokeStyle = "rgba(0,0,0,0.5)"
+				@ctx.stroke()
 			
 			@ctx.beginPath()
-			@ctx.moveTo x,y0
-			@ctx.lineTo x,0
 			if i is 0
+				@ctx.moveTo sx,y0
+				@ctx.lineTo sx,0
 				@ctx.strokeStyle = "rgba(0,0,0,0.5)"
 			else
+				@ctx.moveTo x,y0
+				@ctx.lineTo x,0
 				@ctx.strokeStyle = "rgba(200,200,200,0.5)"
 			@ctx.stroke()
 			i+=@unit
@@ -97,9 +102,9 @@ class draw
 		@ctx.lineWidth = 1
 		@ctx.beginPath()
 		rote = @unit*60/@xSpace
-		for rec,i in recs
+		for rec,i in recs when rec.time > @offsetX*@unit
 			t = rec.temperature >> 4
-			x = rec.time/rote+@ruleTemperatureWidth
+			x = (rec.time-@offsetX*@unit)/rote+@ruleTemperatureWidth
 			y = @ruleTemperatureHeight-(t+50)*@space/10
 			if i
 				@ctx.lineTo x,y
@@ -109,9 +114,9 @@ class draw
 		@ctx.stroke()
 		
 		@ctx.beginPath()
-		for rec,i in recs
+		for rec,i in recs when rec.time > @offsetX*@unit
 			t = rec.settingtemperature >> 4
-			x = rec.time/rote+@ruleTemperatureWidth
+			x = (rec.time-@offsetX*@unit)/rote+@ruleTemperatureWidth
 			y = @ruleTemperatureHeight-(t+50)*@space/10
 			if i
 				@ctx.lineTo x,y
@@ -123,7 +128,7 @@ class draw
 	resize:()->
 		width = $("body").outerWidth()-$(".sizebar").outerWidth()-$(".dryingtrees").outerWidth()-$(".vdivide").outerWidth()*2
 		height = 450
-		$(@canvas)[0].width = width
+		$(@canvas)[0].width = $(@canvas).width()
 		$(@canvas)[0].height = height
 		@ruleTemperatureHeight = $(@canvas)[0].height - @ruleTimeHeight
 		@ruleTimeWidth = $(@canvas)[0].width - @ruleTemperatureWidth
@@ -137,15 +142,24 @@ class draw
 		@resize()
 		@
 		
+	setOffset:(value)->
+		@offsetX = parseInt value
+		@resize()
+		@
+		
 class DryingShows extends Spine.Controller
 	className: 'dryingshows'
 	
 	elements:
 		".drylines":"canvasEl" # 画布元素
 		".scale":"scaleEl"
+		".scrollbar-track-x":"scrollTrackEl"
+		".scrollbar-thumb-x":"scrollThumbEl"
   
 	events:
 		'change select[name=scale]':'scaleEdited'
+		'click .scrollbar-left':'ckScrollLeft'
+		'click .scrollbar-right':'ckScrollRight'
   
 	constructor: ->
 		super
@@ -154,6 +168,10 @@ class DryingShows extends Spine.Controller
 		@drydata = $.Deferred()
 		Drymain.bind "refresh",=>@drymain.resolve()
 		Drydata.bind "refresh",=>@drydata.resolve()
+
+		@stepScroll = 1
+		@stepFigure = 1
+		@maxScrollerThumb = 200
 		
 		# 窗口尺寸改变事件处理，调整画布大小并重绘页面
 		$(window).resize => 
@@ -170,6 +188,8 @@ class DryingShows extends Spine.Controller
 		$("body >header h2").text "????->????->????"
 		@curDraw = new draw @canvasEl
 		@curDraw.drawTemperature(@item.drydatas)
+		$(@scrollTrackEl).width $(@canvasEl).parent().width() - 70
+		@maxScrollerThumb = $(@scrollTrackEl).width() - 10
 		
 	change: (params) =>
 		try
@@ -199,5 +219,20 @@ class DryingShows extends Spine.Controller
 						@render()
 		catch err
 			@log "file: sysadmin.drying.option.show.coffee\nclass: DryingShows\nerror: #{err.message}"
- 
+
+	ckScrollLeft:(e)=>
+		e.stopPropagation()
+		ox = $(@scrollThumbEl).position().left - 10
+		ox -= @stepScroll
+		ox = 0 if ox < 0
+		$(@scrollThumbEl).css('left':ox.toString()+'px')
+		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
+
+	ckScrollRight:(e)=>
+		e.stopPropagation()
+		ox = $(@scrollThumbEl).position().left-10
+		ox += @stepScroll
+		$(@scrollThumbEl).css('left':ox.toString()+'px') if ox < @maxScrollerThumb
+		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
+		
 module.exports = DryingShows
