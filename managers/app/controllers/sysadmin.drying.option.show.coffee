@@ -128,7 +128,7 @@ class draw
 	resize:()->
 		width = $("body").outerWidth()-$(".sizebar").outerWidth()-$(".dryingtrees").outerWidth()-$(".vdivide").outerWidth()*2
 		height = 450
-		$(@canvas)[0].width = $(@canvas).width()
+		$(@canvas)[0].width = $(@canvas).parent().width()
 		$(@canvas)[0].height = height
 		@ruleTemperatureHeight = $(@canvas)[0].height - @ruleTimeHeight
 		@ruleTimeWidth = $(@canvas)[0].width - @ruleTemperatureWidth
@@ -160,6 +160,7 @@ class DryingShows extends Spine.Controller
 		'change select[name=scale]':'scaleEdited'
 		'click .scrollbar-left':'ckScrollLeft'
 		'click .scrollbar-right':'ckScrollRight'
+		"click .scrollbar-track-x":"ckScrollTrack"
   
 	constructor: ->
 		super
@@ -188,8 +189,8 @@ class DryingShows extends Spine.Controller
 		$("body >header h2").text "????->????->????"
 		@curDraw = new draw @canvasEl
 		@curDraw.drawTemperature(@item.drydatas)
-		$(@scrollTrackEl).width $(@canvasEl).parent().width() - 70
-		@maxScrollerThumb = $(@scrollTrackEl).width() - 10
+		$(@scrollTrackEl).width $(@canvasEl).parent().width() - 50
+		@maxScrollerThumb = $(@scrollTrackEl).width() - 30
 		
 	change: (params) =>
 		try
@@ -206,6 +207,7 @@ class DryingShows extends Spine.Controller
 							processData: true
 							
 						Drydata.one "refresh",=>
+							@setScrollBar()
 							@item = 
 								drymains:drymain
 								drydatas:Drydata.all()
@@ -213,13 +215,39 @@ class DryingShows extends Spine.Controller
 
 						Drydata.fetch params
 					else
+						@setScrollBar()
 						@item = 
 							drymains:drymain
 							drydatas:datas
 						@render()
 		catch err
 			@log "file: sysadmin.drying.option.show.coffee\nclass: DryingShows\nerror: #{err.message}"
-
+			
+	setScrollBar:->
+		@lasttime = Drydata.last().time
+		if @lasttime < @maxScrollerThumb
+			$(@scrollTrackEl).attr "disabled","disabled"
+			$(@scrollThumbEl).width(0)
+		else
+			$(@scrollTrackEl).removeAttr("disabled")
+			len = $(@scrollTrackEl).width()+@maxScrollerThumb-@lasttime
+			if len < 0
+				@stepScroll = @maxScrollerThumb / (@lasttime-$(@scrollTrackEl).width())
+			else
+				@stepScroll = 1
+			
+			len = 9 if len < 9
+			$(@scrollThumbEl).width len
+	
+	ckScrollTrack:(e)->
+		e.stopPropagation()
+		console.log e
+		ox = e.clientX-10
+		#ox *= @stepScroll
+		ox = 0 if ox < 0
+		$(@scrollThumbEl).css('left':ox.toString()+'px')
+		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
+	
 	ckScrollLeft:(e)=>
 		e.stopPropagation()
 		ox = $(@scrollThumbEl).position().left - 10

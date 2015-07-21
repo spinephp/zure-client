@@ -4,6 +4,11 @@
 </ul>
 <div id="dryfigure">
 <canvas class="drylines"></canvas>
+<div class="scrollbar-track-x">
+	<div class="scrollbar-left"></div>
+	<div class="scrollbar-thumb-x"></div>
+	<div class="scrollbar-right"></div>
+</div>
 </div>
 <ul>
 <li>缩放：
@@ -15,10 +20,5 @@
 </select>
 </li>
 <li>
-<div class="scrollbar-track-x">
-	<div class="scrollbar-left"></div>
-	<div class="scrollbar-thumb-x"></div>
-	<div class="scrollbar-right"></div>
-</div>
 </li>
 </ul>
