@@ -99,7 +99,7 @@ class DryingTrees extends Spine.Controller
 		return ids;
 
 	option: (e)=>
-		@navigate('/drying' ,@node.id, 'edit') if @node.id > 0
+		@navigate('/dryings' ,@node.id, 'edit') if @node.id > 0
 
 module.exports = DryingTrees
 

@@ -43,7 +43,7 @@ class DryingShows extends Spine.Controller
 		@curDraw?.setScale(scale).drawTemperature(@item.drydatas)
 			
 	render: ->
-		@html require("views/dryshow")(@item)
+		@html require("views/dryedit")(@item)
 		$("body >header h2").text "????->????->????"
 		@curDraw = new draw @canvasEl
 		@curDraw.drawTemperature(@item.drydatas)
@@ -54,12 +54,11 @@ class DryingShows extends Spine.Controller
 	change: (params) =>
 		try
 			$.when(@drymain,@drydata).done =>
-				if Drymain.exists params.id
-					drymain = Drymain.find params.id
-					datas = Drydata.findByAttribute 'mainid',params.id
-					Drydata.destroyAll ajax:false
+				drymain = Drymain.findByAttribute 'state',0
+				if drymain?
+					datas = Drydata.findByAttribute 'mainid',drymain.id
 					unless datas?
-						condition = [{field:"mainid",value:params.id,operator:"eq"}]
+						condition = [{field:"mainid",value:drymain.id,operator:"eq"}]
 						token =  $.fn.cookie 'PHPSESSID'
 						params = 
 							data:{ filter: Drydata.attributes,cond:condition,token:token}
@@ -82,12 +81,17 @@ class DryingShows extends Spine.Controller
 						source=new EventSource("/woo/view/drymain_sse.php")
 						source.onmessage=(event)->     
 							item = new Drymain event.data
-							item.save()
+							item.save ajax:false
 					else
 						alert "Sorry, your browser does not support server-sent events..."
 		catch err
 			@log "file: sysadmin.drying.option.show.coffee\nclass: DryingShows\nerror: #{err.message}"
 			
+	findNewData:(mainid)->
+		Drydata.getNew mainid,(record)->
+			@setScrollBar()
+			@curDraw.drawToPoint record
+
 	setScrollBar:=>
 		@lasttime = Drydata.last().time
 		if @lasttime < @maxScrollerThumb

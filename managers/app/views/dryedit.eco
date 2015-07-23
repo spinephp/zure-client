@@ -3,16 +3,22 @@
 <li>干燥曲线：<span><%= @drymains.lineno %></span></li>
 </ul>
 <div id="dryfigure">
-<canvas id="dry_temperature"></canvas>
-<canvas id="dry_lines"></canvas>
-<canvas id="dry_time"></canvas>
+<canvas class="drylines"></canvas>
+<div class="scrollbar-track-x">
+	<div class="scrollbar-left"></div>
+	<div class="scrollbar-thumb-x"></div>
+	<div class="scrollbar-right"></div>
 </div>
-<select>
-<option>default</option>
-<option>8</option>
-<option>16</option>
-<option>24</option>
-<option>48</option>
-<option>72</option>
-<option>all</option>
+</div>
+<ul>
+<li>缩放：
+<select name='scale'>
+<option value='0' >默认</option>
+<option value='1' >12 小时</option>
+<option value='2' >24 小时</option>
+<option value='3' >全部</option>
 </select>
+</li>
+<li>
+</li>
+</ul>

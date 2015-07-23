@@ -16,5 +16,15 @@ class Drydata extends Spine.Model
 			processData: true
 		@ajax().fetch(params)
 		true
+		
+	@getNew:(mainid,sucess) ->
+		fields = @attributes
+		condition = [{field:"mainid",value:mainid,operator:"eq"},{field:"id",value:Drydata.last().id,operator:"lt"}]
+		token =  $.fn.cookie 'PHPSESSID'
+		jQuery.getJSON Drydata.url,{ cond:condition,filter: fields,token:token },(result) =>
+			if result.length
+				for o in result
+					data = new Drydata o
+					#sucess? data
 
 module.exports = Drydata
