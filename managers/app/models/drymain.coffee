@@ -10,13 +10,24 @@ class Drymain extends Spine.Model
 	@url: '? cmd=DryMain'
 
 	@fetch: (params) ->
-		condition = [{field:"state",value:"0",operator:"ne"}]
+		#condition = [{field:"state",value:"0",operator:"ne"}]
 		params or= 
-			data:{ filter: @attributes,cond:condition,token: $.fn.cookie 'PHPSESSID'} 
+			data:{ filter: @attributes,token: $.fn.cookie 'PHPSESSID'} 
 			processData: true
 		@ajax().fetch(params)
 		true
-	
+		
+	@getStart:(sucess) ->
+		fields = @attributes
+		condition = [{field:"state",value:0,operator:"eq"}]
+		token =  $.fn.cookie 'PHPSESSID'
+		jQuery.getJSON @url,{ cond:condition,filter: fields,token:token },(result) =>
+			if result.length
+				for o in result
+					data = new Drymain o
+					data.save ajax:false
+					sucess? data
+					
 	@current:null
 
 	@setCurrent: (item) ->

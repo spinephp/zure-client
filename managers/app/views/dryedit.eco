@@ -1,6 +1,6 @@
 <ul>
-<li>开始干燥时间：<span><%= @drymains.starttime %></span></li>
-<li>干燥曲线：<span><%= @drymains.lineno %></span></li>
+<li>开始干燥时间：<span><%= if @drymains then @drymains.starttime else "等待干燥开始..." %></span></li>
+<li>干燥曲线：<span><%= if @drymains then @drymains.lineno else "等待干燥开始..." %></span></li>
 </ul>
 <div id="dryfigure">
 <canvas class="drylines"></canvas>

@@ -5,8 +5,8 @@ draw = require('controllers/draw')
 
 $		= Spine.$
 		
-class DryingShows extends Spine.Controller
-	className: 'dryingshows'
+class DryingEdits extends Spine.Controller
+	className: 'dryingedits'
 	
 	elements:
 		".drylines":"canvasEl" # 画布元素
@@ -24,9 +24,7 @@ class DryingShows extends Spine.Controller
 		super
 		@active @change
 		@drymain = $.Deferred()
-		@drydata = $.Deferred()
 		Drymain.bind "refresh",=>@drymain.resolve()
-		Drydata.bind "refresh",=>@drydata.resolve()
 
 		@stepScroll = 1
 		@stepFigure = 1
@@ -53,39 +51,43 @@ class DryingShows extends Spine.Controller
 		
 	change: (params) =>
 		try
-			$.when(@drymain,@drydata).done =>
+			$.when(@drymain).done =>
 				drymain = Drymain.findByAttribute 'state',0
 				if drymain?
 					datas = Drydata.findByAttribute 'mainid',drymain.id
-					unless datas?
-						condition = [{field:"mainid",value:drymain.id,operator:"eq"}]
-						token =  $.fn.cookie 'PHPSESSID'
-						params = 
-							data:{ filter: Drydata.attributes,cond:condition,token:token}
-							processData: true
-							
-						Drydata.one "refresh",=>
-							@item = 
-								drymains:drymain
-								drydatas:Drydata.all()
-							@render()
-
-						Drydata.fetch params
-					else
+					if datas?
 						@item = 
 							drymains:drymain
 							drydatas:datas
 						@render()
+					@checkData = setInterval ()=>
+						@findNewData drymain.id
+					, 10000 # 每10秒查寻一次数据
 				else
-					if typeof(EventSource) isnt "undefined"
-						source=new EventSource("/woo/view/drymain_sse.php")
-						source.onmessage=(event)->     
-							item = new Drymain event.data
-							item.save ajax:false
-					else
-						alert "Sorry, your browser does not support server-sent events..."
+					@item = 
+						drymains:null
+						drydatas:[]
+					@render()
+					@start = window.setInterval @checkDryStart , 10000 # 每10秒查寻一次数据
+					#if typeof(EventSource) isnt "undefined"
+					#	source=new EventSource("/woo/view/drymain_sse.php")
+					#	source.onmessage=(event)->     
+					#		item = new Drymain event.data
+					#		item.save ajax:false
+					#else
+					#	alert "Sorry, your browser does not support server-sent events..."
 		catch err
 			@log "file: sysadmin.drying.option.show.coffee\nclass: DryingShows\nerror: #{err.message}"
+			
+	checkDryStart:()->
+		Drymain.getStart (data)->
+			if data?
+				@checkData = setInterval ()->
+					@findNewData data.id
+				, 10000 # 每10秒查寻一次数据
+			else
+				$("ul li span").text "等待干燥开始..."
+		window.clearInterval @start
 			
 	findNewData:(mainid)->
 		Drydata.getNew mainid,(record)->
@@ -93,8 +95,8 @@ class DryingShows extends Spine.Controller
 			@curDraw.drawToPoint record
 
 	setScrollBar:=>
-		@lasttime = Drydata.last().time
-		if @lasttime < @maxScrollerThumb
+		@lasttime = Drydata.last()?.time
+		unless @lasttime? or @lasttime >= @maxScrollerThumb
 			$(@scrollTrackEl).attr "disabled","disabled"
 			$(@scrollThumbEl).width(0)
 		else
@@ -130,4 +132,4 @@ class DryingShows extends Spine.Controller
 		$(@scrollThumbEl).css('left':ox.toString()+'px') if ox < @maxScrollerThumb
 		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
 		
-module.exports = DryingShows
+module.exports = DryingEdits
