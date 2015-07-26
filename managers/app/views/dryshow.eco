@@ -1,8 +1,8 @@
 <ul>
-<li>开始干燥时间：<span><%= @drymains.starttime %></span></li>
-<li>干燥曲线：<span><%= @drymains.lineno %></span></li>
+<li>开始干燥时间：<span><%= @drymains?.starttime %></span></li>
+<li>干燥曲线：<span><%= @drymains?.lineno %></span></li>
 </ul>
-<div id="dryfigure">
+<div class="dryfigure">
 <canvas class="drylines"></canvas>
 <div class="scrollbar-track-x">
 	<div class="scrollbar-left"></div>

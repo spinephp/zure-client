@@ -124,6 +124,15 @@ class draw
 		@ctx.stroke()
 		@current_point = [x,y,y1]
 			
+	moveToPoint:(rec)->
+		rote = @unit*60/@xSpace
+		t = rec.temperature >> 4
+		x = (rec.time-@offsetX*@unit)/rote+@ruleTemperatureWidth
+		y = @ruleTemperatureHeight-(t+50)*@space/10
+		t = rec.settingtemperature >> 4
+		y1 = @ruleTemperatureHeight-(t+50)*@space/10
+		@current_point = [x,y,y1]
+			
 	drawToPoint:(rec)->
 		@ctx.lineWidth = 1
 		@ctx.beginPath()
@@ -140,13 +149,12 @@ class draw
 		t = rec.settingtemperature >> 4
 		y1 = @ruleTemperatureHeight-(t+50)*@space/10
 		@ctx.moveTo @current_point[0],@current_point[2]
-		@ctx.moveTo x ,y1
+		@ctx.lineTo x ,y1
 		@ctx.strokeStyle = "blue"
 		@ctx.stroke()
 		@current_point = [x,y,y1]
 	
 	resize:()->
-		width = $("body").outerWidth()-$(".sizebar").outerWidth()-$(".dryingtrees").outerWidth()-$(".vdivide").outerWidth()*2
 		height = 450
 		$(@canvas)[0].width = $(@canvas).parent().width()
 		$(@canvas)[0].height = height

@@ -1,8 +1,8 @@
 <ul>
-<li>开始干燥时间：<span><%= if @drymains then @drymains.starttime else "等待干燥开始..." %></span></li>
-<li>干燥曲线：<span><%= if @drymains then @drymains.lineno else "等待干燥开始..." %></span></li>
+<li>开始干燥时间：<span><%= @drymains?.starttime or "等待干燥开始..." %></span></li>
+<li>干燥曲线：<span><%= @drymains?.lineno or "等待干燥开始..." %></span></li>
 </ul>
-<div id="dryfigure">
+<div class="dryfigure">
 <canvas class="drylines"></canvas>
 <div class="scrollbar-track-x">
 	<div class="scrollbar-left"></div>
@@ -20,5 +20,26 @@
 </select>
 </li>
 <li>
+<fieldset>
+<legend>温度</legend>
+<label>设定：</label><span class="settingtemperature"></span><br />
+<label>实际：</label><span class="temperature"></span>
+</fieldset>
+</li>
+<li>
+<fieldset>
+<legend>狀态</legend>
+<label>区段：</label><span></span><br />
+<label>状况：</label><span></span>
+</fieldset>
+</li>
+<li>
+<fieldset>
+<legend>时间</legend>
+<label>区段：</label><span></span><br />
+<label>运行：</label><span></span>
+</fieldset>
 </li>
 </ul>
+<audio class="music" src="images/1.mp3" controls='controls' loop='false' hidden='true'></audio>
+<audio class="music" src="images/2.mp3" controls='controls' loop='false' hidden='true'></audio>

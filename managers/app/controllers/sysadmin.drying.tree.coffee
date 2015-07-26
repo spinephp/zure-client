@@ -39,8 +39,9 @@ class DryingTrees extends Spine.Controller
 		@html require("views/dryingtrees")()
 		$.fn.zTree.init($(@ztreeEl), @setting, @nodes)
 		@zTree = $.fn.zTree.getZTreeObj("dryingTree") #获取ztree对象
-		@node = @zTree.getNodeByParam?('id', @item.nodeid or 4) #获取id为1的点
-		@zTree.selectNode(@node) #选择点
+		if @item.nodeid > 0
+			@node = @zTree.getNodeByParam?('id', @item.nodeid or 4) #获取id为1的点
+			@zTree.selectNode(@node) #选择点
 		#zTree.setting.callback.onClick(null, zTree.setting.treeId, node,1) #调用事件
 		$(@buttonEl).button().click (event)=>
 			@option(event)
@@ -50,7 +51,6 @@ class DryingTrees extends Spine.Controller
 			$.when( @drymain).done( =>
 				if params.id?
 					id = parseInt params.id,10
-					#id += Order.find(params.id).stateid*100000 unless /\/orderstate/.test params.match[0]
 				@item = 
 					nodeid:id
 					drymains:Drymain.select (item)-> return parseInt(item.state,10) isnt 0
@@ -99,7 +99,20 @@ class DryingTrees extends Spine.Controller
 		return ids;
 
 	option: (e)=>
-		@navigate('/dryings' ,@node.id, 'edit') if @node.id > 0
+		opt = $(e.target)
+		id = @node.id
+		$(@buttonEl).each (index,item)=>
+			if item.childNodes[0] is opt[0]
+				name = '/dryings'
+				switch index
+					when 0 # edit 
+						@navigate(name, 0, 'edit')
+					when 1 # delete 
+						try
+							throw "该节点有子节点，无法删除！" if @node.isParent
+							@navigate(name, id, 'delete') if id > 0
+						catch err
+							alert err
 
 module.exports = DryingTrees
 
