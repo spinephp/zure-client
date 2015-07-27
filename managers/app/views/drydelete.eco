@@ -1,14 +1,31 @@
+<ul>
+<li>开始干燥时间：<span><%= @drymains?.starttime %></span></li>
+<li>干燥曲线：<span><%= @drymains?.lineno %></span></li>
+</ul>
+<div class="dryfigure">
+<canvas class="drylines"></canvas>
+<div class="scrollbar-track-x">
+	<div class="scrollbar-left"></div>
+	<div class="scrollbar-thumb-x"></div>
+	<div class="scrollbar-right"></div>
+</div>
+</div>
+<ul>
+<li>缩放：
+<select name='scale'>
+<option value='0' >默认</option>
+<option value='1' >12 小时</option>
+<option value='2' >24 小时</option>
+<option value='3' >全部</option>
+</select>
+</li>
+<li>
+</li>
+</ul>
+
 <form enctype="multipart/form-data" method="post" name="upform" action="">
   <div>
   <dl>
-    <dt>部门编码：</dt>
-    <dd>
-      <%= @drymains.id %>
-    </dd>
-    <dt>部门名称：</dt>
-    <dd>
-      <%= @drymains.starttime %>
-    </dd>
     <dt>
       <label for='code'>
         验证码:
@@ -23,6 +40,6 @@
 <div></div>
   <input type='hidden' name='action' value='drying_delete' />
   <p>
-    <input type="submit" value="删除部门" name="submit" />
+    <input type="submit" value="删除干燥记录" name="submit" />
   </p>
 </form>
