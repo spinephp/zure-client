@@ -344,7 +344,7 @@ header#header
 		margin:0 auto
 		vertical-align:middle
 		
-.dryingshows,.dryingedits
+.dryingshows,.dryingedits,.dryingdeletes
 	box-flex(1)
 	overflow-y: scroll
 	ul
@@ -353,6 +353,7 @@ header#header
 		margin: 5px 0
 		padding: 0 8px
 		font-size: small
+		clear:both
 		li
 			font-size:solid
 			margin: 5px 50px 5px 0
@@ -366,6 +367,23 @@ header#header
 		canvas
 			height:450px
 			margin:0
+			
+.dryingdeletes form
+	float:left
+	clear:both
+	dl 
+		float:left
+		dt
+			width:90px
+			height: 30px
+			text-align:right
+			margin-right:5px
+			float:left
+			clear:both
+		dd
+			width:360px
+			margin:0
+			float:left
 			
 .drytemperature
 	label:nth-child(2)

@@ -114,7 +114,7 @@ class DryingDeletes extends Spine.Controller
 		e.preventDefault()
 		key = $(@formEl).serializeArray()
 		Drymain.one "beforeDestroy", =>
-			Drymain.url = "woo/"+Drymain.url if Drymain.url.indexOf("woo/") is -1
+			Drymain.url = "woo/index.php"+Drymain.url if Drymain.url.indexOf("woo/index.phjp") is -1
 			Drymain.url += "&token="+ $.fn.cookie('PHPSESSID') unless Drymain.url.match /token/
 			Drymain.url += "&#{field.name}=#{field.value}" for field in key when not Drymain.url.match "&#{field.name}="
 
@@ -122,7 +122,6 @@ class DryingDeletes extends Spine.Controller
 			Drymain.url = @url
 			items = Drydatas.findByAttribute 'mainid',@item.drymains.id
 			items.destroy ajax:false
-
-		@item.drymains.destroy() if confirm("确实要删除该干燥记录吗?")
+		@item.drymains.destroy() if confirm("确实要删除 #{@item.drymains.starttime} 的干燥记录吗?")
 
 module.exports = DryingDeletes

@@ -24,7 +24,6 @@
 </ul>
 
 <form enctype="multipart/form-data" method="post" name="upform" action="">
-  <div>
   <dl>
     <dt>
       <label for='code'>
@@ -34,12 +33,12 @@
     <dd>
       <input name='code' type='text' required='' pattern='\d{4}' placeholder='输入右侧图片中的字符'/>
       <img class='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='点击重新获取验证码' width='50' height='20' />
+      <input type='hidden' name='action' value='drying_delete' />
     </dd>
+    <dt> </dt>
+    <dd>
+      <input type="submit" value="删除干燥记录" name="submit" />
+     </dd>
+    
   </dl>
-</div>
-<div></div>
-  <input type='hidden' name='action' value='drying_delete' />
-  <p>
-    <input type="submit" value="删除干燥记录" name="submit" />
-  </p>
-</form>
+ </form>
