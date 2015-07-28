@@ -32,6 +32,7 @@ class DryingEdits extends Spine.Controller
 		@stepScroll = 1
 		@stepFigure = 1
 		@maxScrollerThumb = 200
+		@curLineStartTime = 0
 		
 		# 窗口尺寸改变事件处理，调整画布大小并重绘页面
 		$(window).resize => 
@@ -92,16 +93,22 @@ class DryingEdits extends Spine.Controller
 	findNewData:(mainid)->
 		Drydata.getNew mainid,(record,islast)=>
 			@setScrollBar()
-			if Drydata.first() is record
+			if Drydata.first().eql record
 				@curDraw?.moveToPoint record
+				@curLine = record.mode
+				@curLineStartTemperature = record.settingtemperature
 			else
 				@curDraw?.drawToPoint record
+			if @curLine isnt record.mode 
+				@curLine = record.mode 
+				@curLineStartTime = record.time
 			@showDryParam record if islast
 				
 	showDryParam:(record)->
 		$(@dryDataEl).eq(0).text (record.settingtemperature >> 4).toString()
 		$(@dryDataEl).eq(1).text (record.temperature >> 4).toString()
 		$(@dryDataEl).eq(5).text parseInt(record.time / 360).toString()+":"+(parseInt(record.time/6) % 60).toString()
+		$(@dryDataEl).eq(4).text parseInt((record.time - @curLineStartTime) / 360).toString()+":"+(parseInt((record.time - @curLineStartTime)/6) % 60).toString()
 		color = 'green'
 		str = '正常'
 		if record.temperature - record.settingtemperature < -32

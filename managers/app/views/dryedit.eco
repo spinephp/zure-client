@@ -20,21 +20,21 @@
 </select>
 </li>
 <li>
-<fieldset>
+<fieldset class='drytemperature'>
 <legend>温度</legend>
 <label>设定：</label><span class="settingtemperature"></span><br />
 <label>实际：</label><span class="temperature"></span>
 </fieldset>
 </li>
 <li>
-<fieldset>
+<fieldset class='drystate'>
 <legend>狀态</legend>
 <label>区段：</label><span></span><br />
 <label>状况：</label><span></span>
 </fieldset>
 </li>
 <li>
-<fieldset>
+<fieldset class='drytime'>
 <legend>时间</legend>
 <label>区段：</label><span></span><br />
 <label>运行：</label><span></span>
