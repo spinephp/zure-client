@@ -128,7 +128,7 @@ class DryingEdits extends Spine.Controller
 		
 	setScrollBar:=>
 		@stepScroll = 1
-		@lasttime = Drydata.last()?.time | 0
+		@lasttime = Drydata.last()?.time or 0
 		if @lasttime < @maxScrollerThumb
 			$(@scrollTrackEl).attr "disabled","disabled"
 			$(@scrollThumbEl).width(0)

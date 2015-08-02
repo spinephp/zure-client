@@ -13,13 +13,15 @@ class DryingShows extends Spine.Controller
 		".scale":"scaleEl"
 		".scrollbar-track-x":"scrollTrackEl"
 		".scrollbar-thumb-x":"scrollThumbEl"
-  
+ 
 	events:
 		'change select[name=scale]':'scaleEdited'
 		'click .scrollbar-left':'ckScrollLeft'
 		'click .scrollbar-right':'ckScrollRight'
 		"click .scrollbar-track-x":"ckScrollTrack"
-  
+		"click .validate":"verifyCode"
+		'click input[type=submit]': 'option'
+ 
 	constructor: ->
 		super
 		@active @change
@@ -36,7 +38,6 @@ class DryingShows extends Spine.Controller
 		$(window).resize => 
 			@render()
 		
-
 	scaleEdited:(e)->
 		e.stopPropagation()
 		scale = parseInt $(e.target).val()
@@ -44,7 +45,7 @@ class DryingShows extends Spine.Controller
 			
 	render: ->
 		@html require("views/dryshow")(@item)
-		$("body >header h2").text "????->????->????"
+		$("body >header h2").text "生产管理->干燥管理->显示干燥记录"
 		@curDraw = new draw @canvasEl
 		@curDraw.drawTemperature(@item.drydatas)
 		$(@scrollTrackEl).width $(@canvasEl).parent().width() - 50
@@ -81,7 +82,7 @@ class DryingShows extends Spine.Controller
 			@log "file: sysadmin.drying.option.show.coffee\nclass: DryingShows\nerror: #{err.message}"
 			
 	setScrollBar:=>
-		@lasttime = Drydata.last().time
+		@lasttime = Drydata.last()?.time or 0
 		if @lasttime < @maxScrollerThumb
 			$(@scrollTrackEl).attr "disabled","disabled"
 			$(@scrollThumbEl).width(0)
@@ -117,5 +118,23 @@ class DryingShows extends Spine.Controller
 		ox += @stepScroll
 		$(@scrollThumbEl).css('left':ox.toString()+'px') if ox < @maxScrollerThumb
 		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
+
+	verifyCode:(e)->
+		e.stopPropagation()
+		$(e.target).attr "src","admin/checkNum_session.php?"+Math.ceil(Math.random()*1000)	
+
+	option: (e)=>
+		e.stopPropagation()
+		e.preventDefault()
+		key = $("form").serializeArray()
+		Drymain.one "beforeDestroy", =>
+			Drymain.url = "woo/index.php"+Drymain.url if Drymain.url.indexOf("woo/index.phjp") is -1
+			Drymain.url += "&token="+ $.fn.cookie('PHPSESSID') unless Drymain.url.match /token/
+			Drymain.url += "&#{field.name}=#{field.value}" for field in key when not Drymain.url.match "&#{field.name}="
+		Drymain.one "ajaxSuccess", (status, xhr) => 
+			Drymain.url = @url
+			items = Drydata.findByAttribute 'mainid',@item.drymains.id
+			items?.destroy ajax:false
+		@item.drymains.destroy() if confirm("确实要删除 #{@item.drymains.starttime} 的干燥记录吗?")
 		
 module.exports = DryingShows

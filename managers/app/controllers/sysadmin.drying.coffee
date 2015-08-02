@@ -39,10 +39,6 @@ class Dryings extends Spine.Controller
 				@active(params)
 				@tree.active params
 				@option.dryingedit.active(params)
-			'/dryings/:id/delete': (params) -> 
-				@active(params)
-				@tree.active params
-				@option.dryingdelete.active(params)
     
 		divide = $('<div />').addClass('vdivide')
     

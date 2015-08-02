@@ -27,6 +27,14 @@ class DryingTrees extends Spine.Controller
 
 		Drymain.bind "refresh",=>@drymain.resolve()
 
+		Drymain.bind "destroy",(item)=>
+			parentId = 0
+			childZNode = 
+				"id":parseInt(item.id,10)
+				"pId":parentId
+				"name":item.starttime
+			@zTree.removeNode(childZNode)
+
 	addTreeNode:(childNode)=>
 		parentZNode = @zTree.getNodeByParam("id", childNode.pId, null) #获取父节点
 		@node = @zTree.addNodes(parentZNode[0], childZNode, true)
@@ -82,6 +90,8 @@ class DryingTrees extends Spine.Controller
 			$(@buttonEl).button  "option", "disabled", false
 			@node = treeNode
 			id = parseInt treeNode.id,10
+			$(".dryingshows form").remove()
+			$("body >header h2").text "生产管理->干燥管理->显示干燥记录"
 			@navigate('/dryings',id,'show') 
 		else
 			$(@buttonEl)[1..].button  "option", "disabled", true 
@@ -90,6 +100,7 @@ class DryingTrees extends Spine.Controller
 		e.stopPropagation()
 		$(@trEl).removeClass 'rowselected'
 		$(e.target).parent().addClass 'rowselected'
+		$(".dryingshows form").remove()
 	
 	getChildren:(ids,treeNode)->
 		ids.push treeNode.id
@@ -99,8 +110,10 @@ class DryingTrees extends Spine.Controller
 		return ids;
 
 	option: (e)=>
+		e.stopPropagation()
 		opt = $(e.target)
 		id = @node.id
+		sDelForm = "<form enctype='multipart/form-data' method='post' name='upform' action=''><dl><dt><label for='code'>验证码:</label></dt><dd><input name='code' type='text' required='' pattern='\d{4}' placeholder='输入右侧图片中的字符'/><img class='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='点击重新获取验证码' width='50' height='20' /><input type='hidden' name='action' value='dryMain_delete' /></dd><dt> </dt><dd><input type='submit' value='删除干燥记录' name='submit' /></dd></dl></form>"
 		$(@buttonEl).each (index,item)=>
 			if item.childNodes[0] is opt[0]
 				name = '/dryings'
@@ -110,7 +123,10 @@ class DryingTrees extends Spine.Controller
 					when 1 # delete 
 						try
 							throw "该节点有子节点，无法删除！" if @node.isParent
-							@navigate(name, id, 'delete') if id > 0
+							$(@buttonEl)[1..].button  "option", "disabled", true
+							$("body >header h2").text "生产管理->干燥管理->删除干燥记录"
+							$(".dryingshows").append sDelForm if $(".dryingshows form").length is 0
+							#@navigate(name, id, 'delete') if id > 0
 						catch err
 							alert err
 
