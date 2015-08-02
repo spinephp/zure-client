@@ -21,9 +21,9 @@
 </li>
 <li>
 <fieldset class='drytemperature'>
-<legend>温度</legend>
-<label>设定：</label><span class="settingtemperature"></span><br />
-<label>实际：</label><span class="temperature"></span>
+<legend>温度()</legend>
+<label>设定：</label><span></span><span></span><br />
+<label>实际：</label><span></span><span></span>
 </fieldset>
 </li>
 <li>
@@ -35,7 +35,7 @@
 </li>
 <li>
 <fieldset class='drytime'>
-<legend>时间</legend>
+<legend>时间(HH:MM)</legend>
 <label>区段：</label><span></span><br />
 <label>运行：</label><span></span>
 </fieldset>

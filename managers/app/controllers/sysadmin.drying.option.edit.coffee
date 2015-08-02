@@ -33,6 +33,8 @@ class DryingEdits extends Spine.Controller
 		@stepFigure = 1
 		@maxScrollerThumb = 200
 		@curLineStartTime = 0
+		@maxSettingTemperature = 0
+		@maxTemperature =  0
 		
 		# 窗口尺寸改变事件处理，调整画布大小并重绘页面
 		$(window).resize => 
@@ -97,8 +99,24 @@ class DryingEdits extends Spine.Controller
 				@curDraw?.moveToPoint record
 				@curLine = record.mode
 				@curLineStartTemperature = record.settingtemperature
+				@maxSettingTemperature = record.settingtemperature
+				@maxTemperature =  record.temperature
 			else
 				@curDraw?.drawToPoint record
+				dx = Math.abs( record.settingtemperature - record.temperature)
+				if dx > Math.abs(@maxSettingTemperature - @maxTemperature)
+					@maxSettingTemperature = record.settingtemperature
+					@maxTemperature =  record.temperature
+					$(@dryDataEl).eq(1).text (record.settingtemperature >> 4).toString()
+					$(@dryDataEl).eq(3).text (record.temperature >> 4).toString()
+					color = 'white'
+					if dx > 32
+						color = 'yellow'
+						if dx > 48
+							color = 'red'
+				$(@dryDataEl).eq(1).css 'background',color
+				$(@dryDataEl).eq(3).css 'background',color
+
 			if @curLine isnt record.mode 
 				@curLine = record.mode 
 				@curLineStartTime = record.time
@@ -106,25 +124,26 @@ class DryingEdits extends Spine.Controller
 				
 	showDryParam:(record)->
 		$(@dryDataEl).eq(0).text (record.settingtemperature >> 4).toString()
-		$(@dryDataEl).eq(1).text (record.temperature >> 4).toString()
-		$(@dryDataEl).eq(5).text parseInt(record.time / 360).toString()+":"+(parseInt(record.time/6) % 60).toString()
-		$(@dryDataEl).eq(4).text parseInt((record.time - @curLineStartTime) / 360).toString()+":"+(parseInt((record.time - @curLineStartTime)/6) % 60).toString()
+		$(@dryDataEl).eq(2).text (record.temperature >> 4).toString()
+		$(@dryDataEl).eq(7).text parseInt(record.time / 360).toString()+":"+(parseInt(record.time/6) % 60).toString()
+		$(@dryDataEl).eq(6).text parseInt((record.time - @curLineStartTime) / 360).toString()+":"+(parseInt((record.time - @curLineStartTime)/6) % 60).toString()
 		color = 'green'
-		str = '正常'
-		if record.temperature - record.settingtemperature < -32
+		str = ', 正常'
+		dx = record.temperature - record.settingtemperature
+		if dx < -32
 			color = 'yellow'
-			str = '温度低！'
-			if record.temperature - record.settingtemperature < -48
-				str = '温度低, 暂停！'
+			str = ', 偏低！'
+			if dx < -48
+				str = ', 太低！'
 				color = 'red'
-		if record.temperature - record.settingtemperature > 32
+		if dx > 32
 			color = 'yellow'
-			str = '温度高！'
-			if record.temperature - record.settingtemperature > 48
-				str = '温度高！！！'
+			str = ', 偏高！'
+			if dx > 48
+				str = ', 太高！'
 				color = 'red'
-		$(@dryDataEl).eq(3).css 'background',color
-		$(@dryDataEl).eq(3).text str
+		$(@dryDataEl).eq(5).css 'background',color
+		$(@dryDataEl).eq(5).text "温差 "+(dx//16).toString() + str
 		
 	setScrollBar:=>
 		@stepScroll = 1
