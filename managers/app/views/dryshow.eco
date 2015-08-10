@@ -9,6 +9,7 @@
 	<div class="scrollbar-thumb-x"></div>
 	<div class="scrollbar-right"></div>
 </div>
+<canvas class="seelines" ></canvas>
 </div>
 <ul>
 <li>缩放：
@@ -20,5 +21,26 @@
 </select>
 </li>
 <li>
+<fieldset class='drytemperature'>
+<legend>温度()</legend>
+<label>设定：</label><span></span><span></span><br />
+<label>实际：</label><span></span><span></span>
+</fieldset>
+</li>
+<li>
+<fieldset class='drystate'>
+<legend>狀态</legend>
+<label>区段：</label><span></span><br />
+<label>状况：</label><span></span>
+</fieldset>
+</li>
+<li>
+<fieldset class='drytime'>
+<legend>时间(HH:MM)</legend>
+<label>区段：</label><span></span><br />
+<label>运行：</label><span></span>
+</fieldset>
 </li>
 </ul>
+<audio class="music" src="images/1.mp3" controls='controls' loop='false' hidden='true'></audio>
+<audio class="music" src="images/2.mp3" controls='controls' loop='false' hidden='true'></audio>

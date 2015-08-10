@@ -19,7 +19,7 @@ class Drydata extends Spine.Model
 		
 	@getNew:(mainid,sucess) ->
 		fields = @attributes
-		condition = [{field:"mainid",value:mainid,operator:"eq"},{field:"id",value:Drydata.last().id or 0,operator:"gt"}]
+		condition = [{field:"mainid",value:mainid,operator:"eq"},{field:"id",value:Drydata.last()?.id or 0,operator:"gt"}]
 		token =  $.fn.cookie 'PHPSESSID'
 		jQuery.getJSON @url,{ cond:condition,filter: fields,token:token },(result) =>
 			if result.length

@@ -8,6 +8,7 @@ class draw
 		@ruleTimeHeight = 35
 		@scale = 0
 		@offsetX = 0
+		@unit = 1
 		@resize()
 	
 	# 画温度标尺
@@ -95,6 +96,21 @@ class draw
 			@ctx.stroke()
 			i+=@unit
 	
+	# 画查看线
+	drawSeeLine:(x)->
+		#@ctxSee.width = @ctxSee.width
+		@ctxSee.setTransform 1,0,0,1,0,0
+		@ctxSee.beginPath()
+		@ctxSee.moveTo x,@canvas[1].height
+		@ctxSee.lineTo x,0
+		@ctxSee.strokeStyle = "rgba(0,0,0,0.5)"
+		@ctxSee.stroke()
+		(x+@offsetX)*@unit # 返回当前平移和缩放参数下的 x 坐标(时间)
+	
+	# 画查看线
+	removeSeeLine:(x)->
+		@ctxSee.clearRect x-1,0,x+1,@canvas[1].height
+	
 	# 画温度线
 	drawTemperature:(recs)->
 		@ctx.lineWidth = 1
@@ -155,12 +171,16 @@ class draw
 		@current_point = [x,y,y1]
 	
 	resize:()->
-		height = 450
-		$(@canvas)[0].width = $(@canvas).parent().width()
-		$(@canvas)[0].height = height
-		@ruleTemperatureHeight = $(@canvas)[0].height - @ruleTimeHeight
-		@ruleTimeWidth = $(@canvas)[0].width - @ruleTemperatureWidth
-		@ctx = $(@canvas)[0].getContext "2d"
+		h = 450
+		w = $(@canvas).parent().width()
+		@canvas[0].width = w
+		@canvas[0].height = h
+		@canvas[1].width = w- 50
+		@canvas[1].height = h - 35
+		@ruleTemperatureHeight = h - @ruleTimeHeight
+		@ruleTimeWidth = w - @ruleTemperatureWidth
+		@ctx = @canvas[0].getContext "2d"
+		@ctxSee = @canvas[1].getContext "2d"
 		@ctx.width = @ctx.width
 		@drawRuleTemperature()
 		@drawRuleTime()

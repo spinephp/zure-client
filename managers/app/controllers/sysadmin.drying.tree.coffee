@@ -119,7 +119,8 @@ class DryingTrees extends Spine.Controller
 				name = '/dryings'
 				switch index
 					when 0 # edit 
-						@navigate(name, 0, 'edit')
+						$(@buttonEl)[0..].button  "option", "disabled", true
+						@navigate(name, -1, 'show')
 					when 1 # delete 
 						try
 							throw "该节点有子节点，无法删除！" if @node.isParent

@@ -360,13 +360,22 @@ header#header
 			padding: 0
 			float:left
 	>div
+		height:465px
 		border: 1px solid #cccccc
 		margin:0
 		padding:0
 		clear:both
 		canvas
-			height:450px
 			margin:0
+		canvas:nth-child(1)
+			height:450px
+			z-index: 0
+		canvas:nth-child(3)
+			height:415px
+			position: relative
+			z-index: 1
+			top: -465px
+			left: 50px
 	form
 		float:left
 		clear:both
