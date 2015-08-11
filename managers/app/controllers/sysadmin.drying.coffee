@@ -41,7 +41,7 @@ class Dryings extends Spine.Controller
 		@append @tree, divide, @option
     
 		if Drymain.count()
-			id = Drymain.first()
+			id = Drymain.first().id
 		@navigate('/dryings',id,'show') 
     
 module.exports = Dryings

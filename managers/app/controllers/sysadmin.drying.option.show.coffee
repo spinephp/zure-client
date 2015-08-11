@@ -14,7 +14,7 @@ class DryingShows extends Spine.Controller
 		".scrollbar-track-x":"scrollTrackEl"
 		".scrollbar-thumb-x":"scrollThumbEl"
 		"fieldset span":"dryDataEl"
- 		#"audio.music":"musicEl"
+		"audio.music":"musicEl"
 
 	events:
 		'change select[name=scale]':'scaleEdited'
@@ -226,8 +226,12 @@ class DryingShows extends Spine.Controller
 					color = 'white'
 					if dx > 32
 						color = 'yellow'
+						@musicEl[1].pause()
+						@musicEl[0].play()
 						if dx > 48
 							color = 'red'
+							@musicEl[0].pause()
+							@musicEl[1].play()
 				$(@dryDataEl).eq(1).css 'background',color
 				$(@dryDataEl).eq(3).css 'background',color
 
@@ -258,6 +262,16 @@ class DryingShows extends Spine.Controller
 			if dx > 48
 				str = ', 太高！'
 				color = 'red'
+		if color is 'yellow'
+			@musicEl[1].pause()
+			@musicEl[0].play()
+		else if color is 'red'
+			@musicEl[0].pause()
+			@musicEl[1].play()
+		else
+			@musicEl[0].pause()
+			@musicEl[1].pause()
+		
 		$(@dryDataEl).eq(5).css 'background',color
 		$(@dryDataEl).eq(5).text "温差 "+(dx//16).toString() + str
 		
