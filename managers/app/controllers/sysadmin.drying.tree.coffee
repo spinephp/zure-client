@@ -57,20 +57,20 @@ class DryingTrees extends Spine.Controller
 	change: (params) =>
 		try
 			$.when( @drymain).done( =>
-				if params.id?
+				unless params.id is '-1'
 					id = parseInt params.id,10
-				@item = 
-					nodeid:id
-					drymains:Drymain.select (item)-> return parseInt(item.state,10) isnt 0
-				@setting = 
-					data: 
-						simpleData: 
-							enable: true
-					callback: 
-						beforeClick: @beforeTreeClick
-						onClick: @onTreeClick
+					@item = 
+						nodeid:id
+						drymains:Drymain.select (item)-> return parseInt(item.state,10) isnt 0
+					@setting = 
+						data: 
+							simpleData: 
+								enable: true
+						callback: 
+							beforeClick: @beforeTreeClick
+							onClick: @onTreeClick
 
-				@render()
+					@render()
 			)
 		catch err
 			@log "file: sysadmin.drying.coffee\nclass: Dryings\nerror: #{err.message}"
@@ -112,17 +112,17 @@ class DryingTrees extends Spine.Controller
 	option: (e)=>
 		e.stopPropagation()
 		opt = $(e.target)
-		id = @node.id
-		sDelForm = "<form enctype='multipart/form-data' method='post' name='upform' action=''><dl><dt><label for='code'>验证码:</label></dt><dd><input name='code' type='text' required='' pattern='\d{4}' placeholder='输入右侧图片中的字符'/><img class='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='点击重新获取验证码' width='50' height='20' /><input type='hidden' name='action' value='dryMain_delete' /></dd><dt> </dt><dd><input type='submit' value='删除干燥记录' name='submit' /></dd></dl></form>"
 		$(@buttonEl).each (index,item)=>
 			if item.childNodes[0] is opt[0]
 				name = '/dryings'
 				switch index
 					when 0 # edit 
-						$(@buttonEl)[0..].button  "option", "disabled", true
+						$(@buttonEl).button  "option", "disabled", true
 						@navigate(name, -1, 'show')
 					when 1 # delete 
 						try
+							id = @node.id
+							sDelForm = "<form enctype='multipart/form-data' method='post' name='upform' action=''><dl><dt><label for='code'>验证码:</label></dt><dd><input name='code' type='text' required='' pattern='\d{4}' placeholder='输入右侧图片中的字符'/><img class='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='点击重新获取验证码' width='50' height='20' /><input type='hidden' name='action' value='dryMain_delete' /></dd><dt> </dt><dd><input type='submit' value='删除干燥记录' name='submit' /></dd></dl></form>"
 							throw "该节点有子节点，无法删除！" if @node.isParent
 							$(@buttonEl)[1..].button  "option", "disabled", true
 							$("body >header h2").text "生产管理->干燥管理->删除干燥记录"

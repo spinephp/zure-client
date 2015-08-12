@@ -4,6 +4,26 @@ Drydata = require('models/drydata')
 draw = require('controllers/draw')
 
 $		= Spine.$
+
+class autoButton
+
+	constructor: (@btn,@callback) ->
+		console.log @btn
+		
+		# 处理鼠标按下事件
+		$(@btn).bind 'mousedown',(e)=>
+			unless @btnInterval?
+				@btnInterval = setInterval ()=>
+					@callback e
+				, 100 # 每10秒查寻一次数据
+
+		# 处理鼠标松开事件
+		$(@btn).bind 'mouseup',(e)=>
+			if @btnInterval?
+				clearInterval @btnInterval 
+				@btnInterval  = null
+			@callback e
+
 		
 class DryingShows extends Spine.Controller
 	className: 'dryingshows'
@@ -11,6 +31,8 @@ class DryingShows extends Spine.Controller
 	elements:
 		"canvas":"canvasEl" # 画布元素
 		".scale":"scaleEl"
+		'.scrollbar-left':'btnScrollLeftEl'
+		'.scrollbar-right':'btnScrollRightEl'
 		".scrollbar-track-x":"scrollTrackEl"
 		".scrollbar-thumb-x":"scrollThumbEl"
 		"fieldset span":"dryDataEl"
@@ -61,6 +83,9 @@ class DryingShows extends Spine.Controller
 		@maxScrollerThumb = $(@scrollTrackEl).width() - 20
 		@setScrollBar()
 		@findMaxTemperatureDiff @item.drydatas
+		
+		@btnScrollLeft = new autoButton @btnScrollLeftEl,@ckScrollLeft
+		@btnScrollRight = new autoButton @btnScrollRightEl,@ckScrollRight
 	
 	# 计算最大温差
 	findMaxTemperatureDiff:(recs)->
@@ -168,7 +193,8 @@ class DryingShows extends Spine.Controller
 		e.stopPropagation()
 		ox = $(@scrollThumbEl).position().left-10
 		ox += @stepScroll
-		$(@scrollThumbEl).css('left':ox.toString()+'px') if ox < @maxScrollerThumb
+		ox = @maxScrollerThumb if ox > @maxScrollerThumb
+		$(@scrollThumbEl).css('left':ox.toString()+'px') 
 		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
 
 	# 处理验证码单击事件
