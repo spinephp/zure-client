@@ -7,23 +7,25 @@ $		= Spine.$
 
 class autoButton
 
-	constructor: (@btn,@callback) ->
-		console.log @btn
+	constructor: (btns) ->
 		
-		# 处理鼠标按下事件
-		$(@btn).bind 'mousedown',(e)=>
-			unless @btnInterval?
-				@btnInterval = setInterval ()=>
-					@callback e
-				, 100 # 每10秒查寻一次数据
+		for btn in btns
+			# 处理鼠标按下事件
+			$(btn).bind 'mousedown',(e)=>
+				e.stopPropagation()
+				e.preventDefault()
+				unless @btnInterval?
+					@btnInterval = setInterval ()=>
+						$(e.target).trigger 'click',e #@fcallback?()
+					, 100 # 每10秒查寻一次数据
 
-		# 处理鼠标松开事件
-		$(@btn).bind 'mouseup',(e)=>
-			if @btnInterval?
-				clearInterval @btnInterval 
-				@btnInterval  = null
-			@callback e
-
+			# 处理鼠标松开事件
+			$(btn).bind 'mouseup',(e)=>
+				e.stopPropagation()
+				e.preventDefault()
+				if @btnInterval?
+					clearInterval @btnInterval 
+					@btnInterval  = null
 		
 class DryingShows extends Spine.Controller
 	className: 'dryingshows'
@@ -40,8 +42,7 @@ class DryingShows extends Spine.Controller
 
 	events:
 		'change select[name=scale]':'scaleEdited'
-		'click .scrollbar-left':'ckScrollLeft'
-		'click .scrollbar-right':'ckScrollRight'
+		'click .scrollbar-track-x button':'ckBtnScroll' # 滚动棒两端箭头单击事件
 		"click .scrollbar-track-x":"ckScrollTrack"
 		"click .validate":"verifyCode"
 		'click input[type=submit]': 'option'
@@ -62,6 +63,7 @@ class DryingShows extends Spine.Controller
 		@curLineStartTime = 0
 		@maxScrollerThumb = 200
 		@maxSettingTemperature = 0
+		@maxTemperatureDiffColor = 'white'
 		@maxTemperature =  0
 		@start = null
 		@checkData = null
@@ -73,36 +75,41 @@ class DryingShows extends Spine.Controller
 	scaleEdited:(e)->
 		e.stopPropagation()
 		scale = parseInt $(e.target).val()
-		@curDraw?.setScale(scale).drawTemperature(@item.drydatas)
+		@curDraw?.setScale(scale).setOffset(0).drawTemperature(@item.drydatas)
+		@setScrollBar()
 			
 	render: ->
 		@html require("views/dryshow")(@item)
 		@curDraw = new draw @canvasEl
 		@curDraw.drawTemperature(@item.drydatas)
 		$(@scrollTrackEl).width $(@canvasEl).parent().width() - 50
-		@maxScrollerThumb = $(@scrollTrackEl).width() - 20
-		@setScrollBar()
+		@maxScrollerThumb = $(@scrollTrackEl).width() - ($(@btnScrollLeftEl).outerWidth()+1)*2
 		@findMaxTemperatureDiff @item.drydatas
+		@setScrollBar()
 		
-		@btnScrollLeft = new autoButton @btnScrollLeftEl,@ckScrollLeft
-		@btnScrollRight = new autoButton @btnScrollRightEl,@ckScrollRight
+		@btnScrollLeft = new autoButton [@btnScrollLeftEl,@btnScrollRightEl]
 	
+	_maxTemperatureDiff:(record,color)->
+		dx = Math.abs( record.settingtemperature - record.temperature)
+		result = dx > Math.abs(@maxSettingTemperature - @maxTemperature)
+		if result
+			@maxSettingTemperature = record.settingtemperature
+			@maxTemperature =  record.temperature
+			if dx > 32
+				color.value = 'yellow'
+				if dx > 48
+					color.value = 'red'
+		result
+		
 	# 计算最大温差
 	findMaxTemperatureDiff:(recs)->
-		color = 'white'
+		color = {'value':'white'}
 		for record in recs
-			dx = Math.abs( record.settingtemperature - record.temperature)
-			if dx > Math.abs(@maxSettingTemperature - @maxTemperature)
-				@maxSettingTemperature = record.settingtemperature
-				@maxTemperature =  record.temperature
-				if dx > 32
-					color = 'yellow'
-					if dx > 48
-						color = 'red'
+			@_maxTemperatureDiff record,color
 		$(@dryDataEl).eq(1).text (@maxSettingTemperature >> 4).toString()
 		$(@dryDataEl).eq(3).text (@maxTemperature  >> 4).toString()
-		$(@dryDataEl).eq(1).css 'background',color
-		$(@dryDataEl).eq(3).css 'background',color
+		$(@dryDataEl).eq(1).css 'background',color.value
+		$(@dryDataEl).eq(3).css 'background',color.value
 		
 		
 	change: (params) =>
@@ -158,43 +165,44 @@ class DryingShows extends Spine.Controller
 			
 	setScrollBar:=>
 		@lasttime = Drydata.last()?.time or 0
-		if @lasttime < @maxScrollerThumb
+		scaleTime = @lasttime / (@curDraw?.getScale() or 1)
+		if scaleTime < @maxScrollerThumb
 			$(@scrollTrackEl).attr "disabled","disabled"
 			$(@scrollThumbEl).width(0)
 		else
 			$(@scrollTrackEl).removeAttr("disabled")
-			len = $(@scrollTrackEl).width()+@maxScrollerThumb-@lasttime
+			$(@scrollThumbEl).css('left':'0px')
+			len = $(@scrollTrackEl).width()+@maxScrollerThumb-scaleTime
 			if len < 0
-				@stepScroll = @maxScrollerThumb / (@lasttime-$(@scrollTrackEl).width())
+				@stepScroll = @maxScrollerThumb / (scaleTime-$(@scrollTrackEl).width())
 			else
 				@stepScroll = 1
 			len = 9 if len < 9
 			$(@scrollThumbEl).width len
 	
+	# 处理滚动坞单击事件
 	ckScrollTrack:(e)->
 		e.stopPropagation()
-		ox = e.offsetX-10
+		ox = e.offsetX - $(@btnScrollLeftEl).outerWidth()-1
 		ox = 0 if ox < 0
-		ox = @maxScrollerThumb - $(@scrollThumbEl).width() if ox > @maxScrollerThumb - $(@scrollThumbEl).width()
+		maxOffset = @maxScrollerThumb - $(@scrollThumbEl).width()
+		ox = maxOffset if ox > maxOffset
 		$(@scrollThumbEl).css('left':ox.toString()+'px')
 		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
 	
-	# 处理水平滚动棒左箭头单击事件
-	ckScrollLeft:(e)=>
+	# 处理水平滚动棒箭头单击事件
+	ckBtnScroll:(e)=>
 		e.stopPropagation()
-		ox = $(@scrollThumbEl).position().left - 10
-		ox -= @stepScroll
-		ox = 0 if ox < 0
+		e.preventDefault()
+		ox = $(@scrollThumbEl).position().left - $(@btnScrollLeftEl).outerWidth()-1
+		if $(e.target).hasClass "scrollbar-left" #左箭头
+			ox -= @stepScroll
+			ox = 0 if ox < 0
+		else # 右箭头
+			ox += @stepScroll
+			maxOffset = @maxScrollerThumb - $(@scrollThumbEl).width()
+			ox = maxOffset if ox > maxOffset
 		$(@scrollThumbEl).css('left':ox.toString()+'px')
-		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
-
-	# 处理水平滚动棒右箭头单击事件
-	ckScrollRight:(e)=>
-		e.stopPropagation()
-		ox = $(@scrollThumbEl).position().left-10
-		ox += @stepScroll
-		ox = @maxScrollerThumb if ox > @maxScrollerThumb
-		$(@scrollThumbEl).css('left':ox.toString()+'px') 
 		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
 
 	# 处理验证码单击事件
@@ -243,23 +251,13 @@ class DryingShows extends Spine.Controller
 				@maxTemperature =  record.temperature
 			else
 				@curDraw?.drawToPoint record
-				dx = Math.abs( record.settingtemperature - record.temperature)
-				if dx > Math.abs(@maxSettingTemperature - @maxTemperature)
-					@maxSettingTemperature = record.settingtemperature
-					@maxTemperature =  record.temperature
+				color = {'value':@maxTemperatureDiffColor}
+				if @_maxTemperatureDiff record,color
+					@maxTemperatureDiffColor = color.value
 					$(@dryDataEl).eq(1).text (record.settingtemperature >> 4).toString()
 					$(@dryDataEl).eq(3).text (record.temperature >> 4).toString()
-					color = 'white'
-					if dx > 32
-						color = 'yellow'
-						@musicEl[1].pause()
-						@musicEl[0].play()
-						if dx > 48
-							color = 'red'
-							@musicEl[0].pause()
-							@musicEl[1].play()
-				$(@dryDataEl).eq(1).css 'background',color
-				$(@dryDataEl).eq(3).css 'background',color
+					$(@dryDataEl).eq(1).css 'background',@maxTemperatureDiffColor
+					$(@dryDataEl).eq(3).css 'background',@maxTemperatureDiffColor
 
 			if @curLine isnt record.mode 
 				@curLine = record.mode 
@@ -277,29 +275,32 @@ class DryingShows extends Spine.Controller
 		str = ', 正常'
 		dx = record.temperature - record.settingtemperature
 		if dx < -32
-			color = 'yellow'
 			str = ', 偏低！'
 			if dx < -48
 				str = ', 太低！'
-				color = 'red'
 		if dx > 32
-			color = 'yellow'
 			str = ', 偏高！'
 			if dx > 48
 				str = ', 太高！'
-				color = 'red'
-		if color is 'yellow'
-			@musicEl[1].pause()
-			@musicEl[0].play()
-		else if color is 'red'
-			@musicEl[0].pause()
-			@musicEl[1].play()
-		else
-			@musicEl[0].pause()
-			@musicEl[1].pause()
+		color = @_setAudioAlarm Math.abs(dx),color
 		
 		$(@dryDataEl).eq(5).css 'background',color
 		$(@dryDataEl).eq(5).text "温差 "+(dx//16).toString() + str
+				
+	# 设置警告声音和颜色
+	_setAudioAlarm:(dt,color)->
+		if dt <= 32
+			@musicEl[0].pause()
+			@musicEl[1].pause()
+		else
+			color = 'yellow'
+			@musicEl[1].pause()
+			@musicEl[0].play()
+			if dt > 48
+				color = 'red'
+				@musicEl[0].pause()
+				@musicEl[1].play()
+		color
 		
 	# 显示 Drydata 的一个记录
 	_showOne:(rec)->

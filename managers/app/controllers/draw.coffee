@@ -185,6 +185,9 @@ class draw
 		@drawRuleTemperature()
 		@drawRuleTime()
 		
+	getScale:()->
+		@unit
+		
 	setScale:(value)->
 		@scale = parseInt value
 		@resize()

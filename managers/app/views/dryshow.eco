@@ -5,9 +5,9 @@
 <div class="dryfigure">
 <canvas class="drylines"></canvas>
 <div class="scrollbar-track-x">
-	<div class="scrollbar-left"></div>
+	<button class="scrollbar-left"></button>
 	<div class="scrollbar-thumb-x"></div>
-	<div class="scrollbar-right"></div>
+	<button class="scrollbar-right"></button>
 </div>
 <canvas class="seelines" ></canvas>
 </div>
