@@ -44,6 +44,9 @@ class DryingShows extends Spine.Controller
 		'change select[name=scale]':'scaleEdited'
 		'click .scrollbar-track-x button':'ckBtnScroll' # 滚动棒两端箭头单击事件
 		"click .scrollbar-track-x":"ckScrollTrack"
+		'mousedown .scrollbar-thumb-x': 'mdScrollThumb'
+		'mouseup .scrollbar-thumb-x': 'muScrollThumb'
+		'mousemove .scrollbar-thumb-x': 'mmScrollThumb'
 		"click .validate":"verifyCode"
 		'click input[type=submit]': 'option'
 		'mouseenter canvas:eq(1)': 'seeIn'
@@ -205,6 +208,21 @@ class DryingShows extends Spine.Controller
 		$(@scrollThumbEl).css('left':ox.toString()+'px')
 		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
 
+	mdScrollThumb:(e)->
+		e.stopPropagation()
+		@dropX = e.offsetX
+		@stLeft = $(@scrollThumbEl).position().left
+
+	muScrollThumb:(e)->
+		e.stopPropagation()
+		@dropX = e.offsetX
+
+	mmScrollThumb:(e)->
+		e.stopPropagation()
+		ox =e.offsetX-@dropX
+		$(@scrollThumbEl).css('left':(@stLeft+ox).toString()+'px')
+		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
+		
 	# 处理验证码单击事件
 	verifyCode:(e)->
 		e.stopPropagation()
