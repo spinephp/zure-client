@@ -22,7 +22,7 @@
 </li>
 <li>
 <fieldset class='drytemperature'>
-<legend>温度()</legend>
+<legend>温度(℃)</legend>
 <label>设定：</label><span></span><span></span><br />
 <label>实际：</label><span></span><span></span>
 </fieldset>

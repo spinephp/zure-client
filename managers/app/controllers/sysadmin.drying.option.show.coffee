@@ -96,7 +96,7 @@ class DryingShows extends Spine.Controller
 			@maxSettingTemperature = record.settingtemperature
 			@maxTemperature =  record.temperature
 			if dx > 32
-				color.value = 'yellow'
+				color.value = 'orange'
 				if dx > 48
 					color.value = 'red'
 		result
@@ -293,7 +293,7 @@ class DryingShows extends Spine.Controller
 			@musicEl[0].pause()
 			@musicEl[1].pause()
 		else
-			color = 'yellow'
+			color = 'orange'
 			@musicEl[1].pause()
 			@musicEl[0].play()
 			if dt > 48
