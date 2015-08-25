@@ -21,6 +21,7 @@
   </dl>
 </div>
 <div></div>
+  <input name="_method" type="hidden" value="delete" />
   <input type='hidden' name='action' value='department_delete' />
   <p>
     <input type="submit" value="删除部门" name="submit" />

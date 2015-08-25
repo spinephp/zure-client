@@ -9,6 +9,6 @@ class Company extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Company'
+	@url: 'woo/index.php? cmd=Company'
 
 module.exports = Company

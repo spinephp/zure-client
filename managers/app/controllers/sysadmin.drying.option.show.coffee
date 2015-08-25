@@ -182,16 +182,20 @@ class DryingShows extends Spine.Controller
 				@stepScroll = 1
 			len = 9 if len < 9
 			$(@scrollThumbEl).width len
+			
+	_limitRange:(ox)->
+		ox = 0 if ox < 0
+		maxOffset = @maxScrollerThumb - $(@scrollThumbEl).width()
+		ox = maxOffset if ox > maxOffset
+		ox
 	
 	# 处理滚动坞单击事件
 	ckScrollTrack:(e)->
 		e.stopPropagation()
-		ox = e.offsetX - $(@btnScrollLeftEl).outerWidth()-1
-		ox = 0 if ox < 0
-		maxOffset = @maxScrollerThumb - $(@scrollThumbEl).width()
-		ox = maxOffset if ox > maxOffset
-		$(@scrollThumbEl).css('left':ox.toString()+'px')
-		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
+		if e.target is @scrollTrackEl[0]
+			ox = @_limitRange e.offsetX - $(@btnScrollLeftEl).outerWidth()-1
+			$(@scrollThumbEl).css('left':ox.toString()+'px')
+			@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
 	
 	# 处理水平滚动棒箭头单击事件
 	ckBtnScroll:(e)=>
@@ -199,29 +203,32 @@ class DryingShows extends Spine.Controller
 		e.preventDefault()
 		ox = $(@scrollThumbEl).position().left - $(@btnScrollLeftEl).outerWidth()-1
 		if $(e.target).hasClass "scrollbar-left" #左箭头
-			ox -= @stepScroll
-			ox = 0 if ox < 0
+			ox = @_limitRange ox-@stepScroll
 		else # 右箭头
-			ox += @stepScroll
-			maxOffset = @maxScrollerThumb - $(@scrollThumbEl).width()
-			ox = maxOffset if ox > maxOffset
+			ox = @_limitRange ox+@stepScroll
 		$(@scrollThumbEl).css('left':ox.toString()+'px')
 		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
 
 	mdScrollThumb:(e)->
 		e.stopPropagation()
-		@dropX = e.offsetX
+		@dropX = e.pageX
 		@stLeft = $(@scrollThumbEl).position().left
+		off
 
 	muScrollThumb:(e)->
 		e.stopPropagation()
-		@dropX = e.offsetX
+		e.preventDefault()
+		@dropX = null
+		off
 
 	mmScrollThumb:(e)->
 		e.stopPropagation()
-		ox =e.offsetX-@dropX
-		$(@scrollThumbEl).css('left':(@stLeft+ox).toString()+'px')
-		@curDraw?.setOffset(ox*@stepFigure).drawTemperature(@item.drydatas)
+		if @dropX? and e.button is 0
+			ox = e.pageX-@dropX
+			ol = @_limitRange @stLeft+ox
+			$(@scrollThumbEl).css('left':ol.toString()+'px')
+			@curDraw?.setOffset(ol*@stepFigure).drawTemperature(@item.drydatas)
+		off
 		
 	# 处理验证码单击事件
 	verifyCode:(e)->

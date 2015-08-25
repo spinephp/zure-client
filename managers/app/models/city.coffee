@@ -5,6 +5,6 @@ class City extends Spine.Model
 
 	@extend Spine.Model.Local
 
-	@url: '? cmd=City'
+	@url: 'index.php? cmd=City'
 
 module.exports = City

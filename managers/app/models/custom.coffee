@@ -9,7 +9,7 @@ class Custom extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: 'index.php? cmd=Custom'
+	@url: 'woo/index.php? cmd=Custom'
 
 	@fetch: (params) ->
 		fields = @attributes

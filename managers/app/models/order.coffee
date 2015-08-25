@@ -10,7 +10,7 @@ class Order extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Order'
+	@url: 'woo/index.php? cmd=Order'
 
 	@fetch: (params) ->
 		fields = @attributes

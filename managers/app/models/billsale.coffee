@@ -7,7 +7,7 @@ class Billsale extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=BillSale'
+	@url: 'woo/index.php? cmd=BillSale'
 
 	@fetch: (params) ->
 		condition = [{field:"userid",value:"?",operator:"eq"}]

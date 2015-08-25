@@ -7,7 +7,7 @@ class Drymain extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=DryMain'
+	@url: 'woo/index.php? cmd=DryMain'
 
 	@fetch: (params) ->
 		#condition = [{field:"state",value:"0",operator:"ne"}]

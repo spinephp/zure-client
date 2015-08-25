@@ -9,7 +9,7 @@ class Person extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Person'
+	@url: 'index.php? cmd=Person'
 
 	@notFound:(id)->
 		fields = @attributes

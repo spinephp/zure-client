@@ -6,6 +6,6 @@ class Carriagecharge extends Spine.Model
 
 	@extend Spine.Model.Local
 
-	@url: '? cmd=CarriageCharge'
+	@url: 'woo/index.php? cmd=CarriageCharge'
 
 module.exports = Carriagecharge

@@ -7,7 +7,7 @@ class Billfree extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=BillFree'
+	@url: 'woo/index.php? cmd=BillFree'
 
 	@fetch: (params) ->
 		fields = @attributes
