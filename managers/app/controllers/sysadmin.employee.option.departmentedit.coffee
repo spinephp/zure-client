@@ -60,14 +60,15 @@ class DepartmentEdits extends Spine.Controller
 
 		param = JSON.stringify(item)
 
-		@item.department.scope = 'woo'
+		#@item.department.scope = 'woo'
 
 		$.ajax
 			url: @item.department.url() #"? cmd=ProductClass&token=#{@token}/"+@item.department.id # 提交的页面
 			data: param
-			type: "PUT" # 设置请求类型为"POST"，默认为"GET"
+			type: "POST" # 设置请求类型为"POST"，默认为"GET"
 			dataType: "json"
-			beforeSend: -> # 设置表单提交前方法
+			beforeSend: (xhr)-> # 设置表单提交前方法
+				xhr.setRequestHeader('X-HTTP-Method-Override', 'PUT')
 				# new screenClass().lock();
 			error: (request)->       # 设置表单提交出错
 				#new screenClass().unlock();

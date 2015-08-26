@@ -4,6 +4,6 @@ class Zone extends Spine.Model
 
 	@extend Spine.Model.Local
 
-	@url: '? cmd=District'
+	@url: 'index.php? cmd=District'
 
 module.exports = Zone

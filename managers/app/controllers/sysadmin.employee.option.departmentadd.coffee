@@ -54,12 +54,16 @@ class DepartmentAdds extends Spine.Controller
 				when 'D_'
 					item.department[field.name[2..]] = s if s isnt ''
 				else
-					item[field.name] = s if s isnt ''
+					if field.name is 'action'
+						item[field.name] = 'department_create'
+					else
+						item[field.name] = s if s isnt ''
 		item.token = @token
 
 		param = JSON.stringify(item)
+		url = Department.url.substr 4
 		$.ajax
-			url: Department.url # 提交的页面
+			url: url # 提交的页面
 			data: param
 			type: "POST" # 设置请求类型为"POST"，默认为"GET"
 			dataType: "json"
@@ -72,7 +76,7 @@ class DepartmentAdds extends Spine.Controller
 				#obj = JSON.parse(data)
 				if data.id > -1
 					alert "数据保存成功！"
-					@item.department.updateAttributes data.department[0],ajax: false
+					@item.department.updateAttributes data.department,ajax: false
 					Department.trigger "create",@item.department
 				else
 					switch data.error

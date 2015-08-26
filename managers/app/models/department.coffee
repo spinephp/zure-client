@@ -7,7 +7,7 @@ class Department extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: 'index.php? cmd=Department'
+	@url: 'woo/index.php? cmd=Department'
 
 	@fetch: (params) ->
 		fields = @attributes

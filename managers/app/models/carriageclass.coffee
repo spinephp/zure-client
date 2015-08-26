@@ -6,6 +6,6 @@ class Carriageclass extends Spine.Model
 
 	@extend Spine.Model.Local
 
-	@url: '? cmd=CarriageClass'
+	@url: 'woo/index.php? cmd=CarriageClass'
 
 module.exports = Carriageclass

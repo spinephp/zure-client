@@ -9,7 +9,7 @@ class OrderPerson extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Person'
+	@url: 'woo/index.php? cmd=Person'
 	
 	companyName:->
 		item = Company.find @companyid

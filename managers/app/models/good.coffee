@@ -8,7 +8,7 @@ class Good extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: 'index.php? cmd=Product'
+	@url: 'woo/index.php? cmd=Product'
 
 	@fetch: (params) ->
 		fields = @attributes

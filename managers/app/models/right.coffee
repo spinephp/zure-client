@@ -7,7 +7,7 @@ class Right extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Right'
+	@url: 'woo/index.php? cmd=Right'
 
 	@fetch: (params) ->
 		params or= 

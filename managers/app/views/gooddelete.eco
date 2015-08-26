@@ -66,6 +66,7 @@
       <img class='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='点击重新获取验证码' width='50' height='20' />
   </dd>
   </dl>
+  <input name="_method" type="hidden" value="delete" />
     <input type='hidden' name='action' value='product_delete' />
 </div>
   <div class='uploadimage'>

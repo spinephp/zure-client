@@ -7,7 +7,7 @@ class Drydata extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=DryData'
+	@url: 'woo/index.php? cmd=DryData'
 
 	@fetch: (params) ->
 		condition = [{field:"state",value:"0",operator:"eq"}]
