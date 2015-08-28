@@ -125,50 +125,27 @@ class GoodEdits extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		opt = $(e.target)
-		key = $(@formEl).serializeArray()
-		item = {product:{}}
-		for field in key
-			ckey = field.name[2..]
-			cval = $.trim(field.value)
-			if cval isnt ''
-				switch field.name[0..1]
-					when 'G_'
-						item.product[ckey] = cval if cval isnt @item.good[ckey]
-					else
-						item[field.name] = cval
+		item = $.fn.makeRequestParam e,@formEl,['product'],['G_'],[@item.good]
 
 		img = $(@goodimgEl).attr 'src'
 		name = img.replace 'images/good/',''
 		item.product['picture'] = name #if name isnt @item.goodclass.picture
-		item.token = @token
 
 		param = JSON.stringify(item)
 
 		@item.good.scope = 'woo'
-		$.ajax
-			url: @item.good.url() #"? cmd=Product&token=#{@token}/"+@item.good.id # 提交的页面
-			data: param
-			type: "PUT" # 设置请求类型为"POST"，默认为"GET"
-			dataType: "json"
-			beforeSend: -> # 设置表单提交前方法
-				# new screenClass().lock();
-			error: (request)->       # 设置表单提交出错
-				#new screenClass().unlock();
-				alert("表单提交出错，请稍候再试")
-			success: (data) =>
-				#obj = JSON.parse(data)
-				if data.id > -1
-					alert "数据保存成功！"
-					@item.good.updateAttributes data.product,ajax: false
-					Good.trigger 'update',@item.good
-				else
-					switch data.error
-						when "Access Denied"
-							window.location.reload()
-						when "Validate Code Error!"
-							alert "验证码错误，请重新填写。"
-							$(".validate").click()
-							$(@verifyEl).focus()
+		$.ajaxPut @item.good.url(),param,(data)=>
+			if data.id > -1
+				alert "数据保存成功！"
+				@item.good.updateAttributes data.product,ajax: false
+				Good.trigger 'update',@item.good
+			else
+				switch data.error
+					when "Access Denied"
+						window.location.reload()
+					when "Validate Code Error!"
+						alert "验证码错误，请重新填写。"
+						$(".validate").click()
+						$(@verifyEl).focus()
 
 module.exports = GoodEdits

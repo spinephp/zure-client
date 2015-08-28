@@ -113,50 +113,27 @@ class EmployeeEdits extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		opt = $(e.target)
-		key = $(@formEl).serializeArray()
-		item = {person:{},employee:{}}
-		for field in key
-			switch field.name[0..1]
-				when 'P_'
-					item.person[field.name[2..]] = field.value
-				when 'E_'
-					item.employee[field.name[2..]] = field.value
-				else
-					item[field.name] = field.value
-
+		item = $.fn.makeRequestParam e,@formEl,['person','employee'],['P_','E_'],[@item.persons,@item.employees]
 		headshot = $(@headshotimgEl).attr 'src'
 		name = headshot.replace 'images/user/',''
 		item.person['picture'] = name if name isnt @item.persons.picture
-		item.token = @token
 
 		param = JSON.stringify(item)
 		@item.employees.scope = 'woo'
-		$.ajax
-			url: @item.employees.url() # 提交的页面
-			data: param
-			type: "PUT" # 设置请求类型为"POST"，默认为"GET"
-			dataType: "json"
-			beforeSend: -> # 设置表单提交前方法
-				# new screenClass().lock();
-			error: (request)->       # 设置表单提交出错
-				#new screenClass().unlock();
-				alert("表单提交出错，请稍候再试")
-			success: (data) =>
-				#obj = JSON.parse(data)
-				if data.id > -1
-					alert "数据保存成功！"
-					@item.persons.updateAttributes data.person,ajax: false
-					@item.employees.updateAttributes data.employee,ajax: false
-					@navigate('/sysadmins/employee') 
-				else
-					switch data.error
-						when "Access Denied"
-							window.location.reload()
-						when "Validate Code Error!"
-							alert "验证码错误，请重新填写。"
-							$(".validate").click()
-							$(@verifyEl).focus()
+		$.ajaxPut @item.employees.url(),param,(data)=>
+			if data.id > -1
+				alert "数据保存成功！"
+				@item.persons.updateAttributes data.person,ajax: false
+				@item.employees.updateAttributes data.employee,ajax: false
+				@navigate('/sysadmins/employee') 
+			else
+				switch data.error
+					when "Access Denied"
+						window.location.reload()
+					when "Validate Code Error!"
+						alert "验证码错误，请重新填写。"
+						$(".validate").click()
+						$(@verifyEl).focus()
 
 
 module.exports = EmployeeEdits

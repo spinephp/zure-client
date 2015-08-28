@@ -45,21 +45,9 @@ class DepartmentAdds extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		opt = $(e.target)
-		key = $(@formEl).serializeArray()
-		item = {department:{}}
-		for field in key
-			s = $.trim field.value
-			switch field.name[0..1]
-				when 'D_'
-					item.department[field.name[2..]] = s if s isnt ''
-				else
-					if field.name is 'action'
-						item[field.name] = 'department_create'
-					else
-						item[field.name] = s if s isnt ''
-		item.token = @token
-
+		item = $.fn.makeRequestParam e,@formEl,['department'],['D_']
+		item['action'] = 'department_create'
+		
 		param = JSON.stringify(item)
 		url = Department.url.substr 4
 		$.ajax

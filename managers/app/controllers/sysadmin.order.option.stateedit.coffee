@@ -43,48 +43,25 @@ class OrderstateEdits extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		opt = $(e.target)
-		key = $(@formEl).serializeArray()
-		item = {orderstate:{}}
-		for field in key
-			ckey = field.name[2..]
-			cval = $.trim(field.value)
-			if cval isnt ''
-				switch field.name[0..1]
-					when 'S_'
-						item.orderstate[ckey] = cval if cval isnt @item.orderstate[ckey]
-					else
-						item[field.name] = cval 
-		item.token = @token
+		item = $.fn.makeRequestParam e,@formEl,['orderstate'],['S_'],[@item.orderstate]
 
 		param = JSON.stringify(item)
 
 		@item.orderstate.scope = 'woo'
 
-		$.ajax
-			url: @item.orderstate.url() # 提交的页面
-			data: param
-			type: "PUT" # 设置请求类型为"POST"，默认为"GET"
-			dataType: "json"
-			beforeSend: -> # 设置表单提交前方法
-				# new screenClass().lock();
-			error: (request)->       # 设置表单提交出错
-				#new screenClass().unlock();
-				alert("表单提交出错，请稍候再试")
-			success: (data) =>
-				#obj = JSON.parse(data)
-				if data.id > -1
-					alert "数据保存成功！"
-					@item.orderstate.updateAttributes data.orderstate,ajax: false
-					Orderstate.trigger 'update',@item.orderstate
-				else
-					switch data.error
-						when "Access Denied"
-							window.location.reload()
-						when "Validate Code Error!"
-							alert "验证码错误，请重新填写。"
-							$(".validate").click()
-							$(@verifyEl).focus()
+		$.ajaxPut @item.orderstate.url(),param,(data)=>
+			if data.id > -1
+				alert "数据保存成功！"
+				@item.orderstate.updateAttributes data.orderstate,ajax: false
+				Orderstate.trigger 'update',@item.orderstate
+			else
+				switch data.error
+					when "Access Denied"
+						window.location.reload()
+					when "Validate Code Error!"
+						alert "验证码错误，请重新填写。"
+						$(".validate").click()
+						$(@verifyEl).focus()
 
 
 module.exports = OrderstateEdits

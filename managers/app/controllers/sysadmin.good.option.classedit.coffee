@@ -114,52 +114,29 @@ class GoodclassEdits extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		opt = $(e.target)
-		key = $(@formEl).serializeArray()
-		item = {productclass:{}}
-		for field in key
-			ckey = field.name[2..]
-			cval = $.trim(field.value)
-			if cval isnt ''
-				switch field.name[0..1]
-					when 'G_'
-						item.productclass[ckey] = cval if cval isnt @item.goodclass[ckey]
-					else
-						item[field.name] = cval
+		item = $.fn.makeRequestParam e,@formEl,['productclass'],['G_'],[@item.goodclass]
 
 		img = $(@goodimgEl).attr 'src'
 		name = img.replace 'images/good/',''
 		item.productclass['picture'] = name #if name isnt @item.goodclass.picture
-		item.token = @token
 
 		param = JSON.stringify(item)
 
 		@item.goodclass.scope = 'woo'
 
-		$.ajax
-			url: @item.goodclass.url() #"? cmd=ProductClass&token=#{@token}/"+@item.goodclass.id # 提交的页面
-			data: param
-			type: "PUT" # 设置请求类型为"POST"，默认为"GET"
-			dataType: "json"
-			beforeSend: -> # 设置表单提交前方法
-				# new screenClass().lock();
-			error: (request)->       # 设置表单提交出错
-				#new screenClass().unlock();
-				alert("表单提交出错，请稍候再试")
-			success: (data) =>
-				#obj = JSON.parse(data)
-				if data.id > -1
-					alert "数据保存成功！"
-					@item.goodclass.updateAttributes data.productclass,ajax: false
-					Goodclass.trigger 'update',@item.goodclass
-				else
-					switch data.error
-						when "Access Denied"
-							window.location.reload()
-						when "Validate Code Error!"
-							alert "验证码错误，请重新填写。"
-							$(".validate").click()
-							$(@verifyEl).focus()
+		$.ajaxPut @item.goodclass.url(),param,(data)=>
+			if data.id > -1
+				alert "数据保存成功！"
+				@item.goodclass.updateAttributes data.productclass,ajax: false
+				Goodclass.trigger 'update',@item.goodclass
+			else
+				switch data.error
+					when "Access Denied"
+						window.location.reload()
+					when "Validate Code Error!"
+						alert "验证码错误，请重新填写。"
+						$(".validate").click()
+						$(@verifyEl).focus()
 
 
 module.exports = GoodclassEdits
