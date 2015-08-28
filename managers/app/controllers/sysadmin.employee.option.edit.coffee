@@ -79,33 +79,13 @@ class EmployeeEdits extends Spine.Controller
 		e.stopPropagation()
 		$(e.target).attr "src","admin/checkNum_session.php?"+Math.ceil(Math.random()*1000)	
 
-	uploadFile:(key,file,img,path)->
-		try
-			throw 'File Size > 4M' if file.size > 4*1024*1024
-			throw "Invalid File Type #{file.type}" unless file.type in ['image/jpg','image/jpeg','image/png','image/gif']
-			formdata = new FormData()
-			formdata.append(key, file)
-			options = 
-				type: 'POST'
-				url: '? cmd=Upload&token='+@token
-				data: formdata
-				success:(result) =>
-					img.attr 'src',path+result.image
-					alert(result.msg)
-				processData: false  # 告诉jQuery不要去处理发送的数据
-				contentType: false   # 告诉jQuery不要去设置Content-Type请求头
-				dataType:"json"
-			$.ajax(options)
-		catch error
-			alert error
-
 	uploadHeadshot:(e)->
 		e.stopPropagation()
-		@uploadFile 'userimg'+@item.employees.userid,@fileheadEl[0].files[0],$(@headshotimgEl),'images/user/'
+		$.fn.uploadFile 'userimg'+@item.employees.userid,@fileheadEl[0].files[0],$(@headshotimgEl),'images/user/'
 
 	uploadWatermask:(e)->
 		e.stopPropagation()
-		@uploadFile 'maskimg',@filemaskEl[0].files[0],$(@waterimgEl),'images/'
+		$.fn.uploadFile 'maskimg',@filemaskEl[0].files[0],$(@waterimgEl),'images/'
 
 	headshotClick:(e)->
 		e.preventDefault()
@@ -155,32 +135,21 @@ class EmployeeEdits extends Spine.Controller
 		item.token = @token
 
 		param = JSON.stringify(item)
-		@item.employees.scope = 'woo'
-		$.ajax
-			url: @item.employees.url() # 提交的页面
-			data: param
-			type: "PUT" # 设置请求类型为"POST"，默认为"GET"
-			dataType: "json"
-			beforeSend: -> # 设置表单提交前方法
-				# new screenClass().lock();
-			error: (request)->       # 设置表单提交出错
-				#new screenClass().unlock();
-				alert("表单提交出错，请稍候再试")
-			success: (data) =>
-				#obj = JSON.parse(data)
-				if data.id > -1
-					alert "数据保存成功！"
-					@item.persons.updateAttributes data.person[0],ajax: false if data.person?
-					@item.employees.updateAttributes data.employee[0],ajax: false
-					Employee.trigger 'update',@item.employees
-				else
-					switch data.error
-						when "Access Denied"
-							window.location.reload()
-						when "Validate Code Error!"
-							alert "验证码错误，请重新填写。"
-							$(".validate").click()
-							$(@verifyEl).focus()
+		#@item.employees.scope = 'woo'
+		$.fn.ajaxPut @item.employees.url(),param,(data)=>
+			if data.id > -1
+				alert "数据保存成功！"
+				@item.persons.updateAttributes data.person[0],ajax: false if data.person?
+				@item.employees.updateAttributes data.employee[0],ajax: false
+				Employee.trigger 'update',@item.employees
+			else
+				switch data.error
+					when "Access Denied"
+						window.location.reload()
+					when "Validate Code Error!"
+						alert "验证码错误，请重新填写。"
+						$(".validate").click()
+						$(@verifyEl).focus()
 
 
 module.exports = EmployeeEdits

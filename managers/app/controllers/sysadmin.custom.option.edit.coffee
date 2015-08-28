@@ -68,33 +68,13 @@ class CustomEdits extends Spine.Controller
 		e.stopPropagation()
 		$(e.target).attr "src","admin/checkNum_session.php?"+Math.ceil(Math.random()*1000)	
 
-	uploadFile:(key,file,img,path)->
-		try
-			throw 'File Size > 4M' if file.size > 4*1024*1024
-			throw "Invalid File Type #{file.type}" unless file.type in ['image/jpg','image/jpeg','image/png','image/gif']
-			formdata = new FormData()
-			formdata.append(key, file)
-			options = 
-				type: 'POST'
-				url: '? cmd=Upload&token='+@token
-				data: formdata
-				success:(result) =>
-					img.attr 'src',path+result.image
-					alert(result.msg)
-				processData: false  # 告诉jQuery不要去处理发送的数据
-				contentType: false   # 告诉jQuery不要去设置Content-Type请求头
-				dataType:"json"
-			$.ajax(options)
-		catch error
-			alert error
-
 	uploadHeadshot:(e)->
 		e.stopPropagation()
-		@uploadFile 'userimg'+@item.customs.userid,@fileheadEl[0].files[0],$(@headshotimgEl),'images/user/'
+		$.fn.uploadFile 'userimg'+@item.customs.userid,@fileheadEl[0].files[0],$(@headshotimgEl),'images/user/'
 
 	uploadWatermask:(e)->
 		e.stopPropagation()
-		@uploadFile 'maskimg',@filemaskEl[0].files[0],$(@waterimgEl),'images/'
+		$.fn.uploadFile 'maskimg',@filemaskEl[0].files[0],$(@waterimgEl),'images/'
 
 	headshotClick:(e)->
 		e.preventDefault()
