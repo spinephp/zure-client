@@ -223,22 +223,11 @@ class EmployeeAdds extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		opt = $(e.target)
-		key = $(@formEl).serializeArray()
-		item = {employee:{},person:{}}
-		for field in key
-			switch field.name[0..1]
-				when 'E_'
-					item.employee[field.name[2..]] = field.value
-				when 'P_'
-					item.person[field.name[2..]] = field.value
-				else
-					item[field.name] = field.value
+		item = $.fn.makeRequestParam e,@formEl,['employee','person'],['E_','P_']
 
 		img = $(@employeeimgEl).attr 'src'
 		name = img.replace 'images/user/',''
 		item.person['picture'] = name #if name isnt @item.department.picture
-		item.token = @token
 
 		param = JSON.stringify(item)
 		$.ajax

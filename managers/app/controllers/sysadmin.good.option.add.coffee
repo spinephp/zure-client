@@ -112,15 +112,7 @@ class GoodEdits extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		opt = $(e.target)
-		key = $(@formEl).serializeArray()
-		item = {product:{}}
-		for field in key
-			switch field.name[0..1]
-				when 'G_'
-					item.product[field.name[2..]] = field.value
-				else
-					item[field.name] = field.value
+		item = $.fn.makeRequestParam e,@formEl,['product'],['G_']
 
 		img = $(@goodimgEl).attr 'src'
 		name = img.replace 'images/good/',''
@@ -128,7 +120,7 @@ class GoodEdits extends Spine.Controller
 
 		param = JSON.stringify(item)
 		$.ajax
-			url: "? cmd=Product&token=#{@token}" # 提交的页面
+			url: "? cmd=Product" # 提交的页面
 			data: param
 			type: "POST" # 设置请求类型为"POST"，默认为"GET"
 			dataType: "json"

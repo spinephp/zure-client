@@ -120,25 +120,12 @@ class CustomEdits extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		opt = $(e.target)
-		key = $(@formEl).serializeArray()
-		item = {person:{},custom:{}}
-		for field in key
-			ckey = field.name[2..]
-			cval = $.trim(field.value)
-			if cval isnt ''
-				switch field.name[0..1]
-					when 'P_'
-						item.person[ckey] = cval if cval isnt @item.persons[ckey]
-					when 'C_'
-						item.custom[ckey] = cval if cval isnt @item.customs[ckey] or ckey is 'userid'
-					else
-						item[field.name] = cval
+		item = $.fn.makeRequestParam e,@formEl,['custom','person'],['C_','P_'],[ @item.customs,@item.persons]
+		item['custom']['userid'] = @item.persons.id
 
 		headshot = $(@headshotimgEl).attr 'src'
 		name = headshot.replace 'images/user/',''
 		item.person['picture'] = name if name isnt @person.picture
-		item.token = @token
 
 		param = JSON.stringify(item)
 		@item.customs.scope = 'woo'

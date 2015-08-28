@@ -134,7 +134,6 @@ class EmployeeEdits extends Spine.Controller
 		opt = $(e.target)
 		key = $(@formEl).serializeArray()
 		_myright = 0
-		@log @item.rights
 		item = {person:{},employee:{}}
 		for field in key
 			ckey = field.name[2..]
@@ -150,7 +149,6 @@ class EmployeeEdits extends Spine.Controller
 					else
 						item[field.name] = cval
 		item.employee.myright = _myright if _myright isnt 0
-		@log _myright
 		headshot = $(@headshotimgEl).attr 'src'
 		name = headshot.replace 'images/user/',''
 		item.person['picture'] = name if name isnt @person.picture

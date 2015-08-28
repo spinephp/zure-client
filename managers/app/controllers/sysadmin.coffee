@@ -24,7 +24,9 @@ class Sysadmins extends Spine.Controller
 		$.fn.makeRequestParam = (e,formEl,tables,heads,curtabs)->
 			opt = $(e.target)
 			key = $(formEl).serializeArray()
+			console.log key
 			item = {token:$.fn.cookie "PHPSESSID"}
+			item[table] = {} for table in tables
 			for field in key
 				head = field.name[0..1]
 				ckey = field.name[2..]
@@ -32,7 +34,7 @@ class Sysadmins extends Spine.Controller
 				if cval isnt ''
 					i = $.inArray head,heads
 					if i > -1
-						item[tables[i]][ckey] = cval unless curtabs?[i][ckey] is cval
+						item[tables[i]][ckey] = cval unless curtabs? or curtabs?[i][ckey] is cval
 					else
 						item[field.name] = cval
 			item

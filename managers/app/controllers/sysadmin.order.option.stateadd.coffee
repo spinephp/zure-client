@@ -43,16 +43,7 @@ class OrderstateAdds extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		opt = $(e.target)
-		key = $(@formEl).serializeArray()
-		item = {orderstate:{}}
-		for field in key
-			switch field.name[0..1]
-				when 'S_'
-					item.orderstate[field.name[2..]] = $.trim field.value
-				else
-					item[field.name] = $.trim field.value
-		item.token = @token
+		item = $.fn.makeRequestParam e,@formEl,['orderstate'],['S_']
 
 		param = JSON.stringify(item)
 		$.ajax

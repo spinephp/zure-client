@@ -111,21 +111,12 @@ class GoodclassAdds extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		opt = $(e.target)
-		key = $(@formEl).serializeArray()
-		item = {productclass:{}}
-		for field in key
-			switch field.name[0..1]
-				when 'G_'
-					item.productclass[field.name[2..]] = $.trim field.value
-				else
-					item[field.name] = $.trim field.value
+		item = $.fn.makeRequestParam e,@formEl,['productclass'],['G_']
 
 		img = $(@goodimgEl).attr 'src'
 		name = img.replace 'images/good/',''
 		name = 'noimg.png' if name is ''
 		item.productclass['picture'] = name #if name isnt @item.goodclass.picture
-		item.token = @token
 
 		param = JSON.stringify(item)
 		$.ajax
