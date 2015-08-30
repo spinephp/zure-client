@@ -1,3 +1,0 @@
-<% for anews in @news: %>
-<p><a href='?cmd=ShowNews&id=<%= anews.id %>'><%= @default.translates anews.titles %></a><span><%= anews.time %></span></p>
-<% end %>

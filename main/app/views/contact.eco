@@ -1,7 +1,0 @@
-<h4><%= @default.translate("Contact") %></h4>
-<p><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<%= @qiye.qq %>&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:<%= @qiye.qq %>:41" title="<%= @default.translate("Click here to send a message to me") %>"></a></p>
-<p><label><%= @default.translate("Tel") %>: </label><%= @qiye.tel %></p>
-<p><label><%= @default.translate("Fax") %>: </label><%= @qiye.fax %></p>
-<p><label><%= @default.translate("Email") %>: </label><a href="mailto:<%= @qiye.email %>"><%= @qiye.email %></a></p>
-<p><label><%= @default.translate("Url") %>: </label><%= @qiye.domain %></p>
-<p><%= @qiye.names[@default.languageid-1] %></p>

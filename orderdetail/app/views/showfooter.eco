@@ -1,5 +1,0 @@
-<p><%= @default.translate "Copyright" %> &copy; 2010 <%= @default.translates @qiye.names %> <%= @default.translate "All right reserved" %>!
-</p>
-<p><span>
-  <%= @default.translate "Address" %>: <%=  @default.translates @qiye.addresses %></span><span>
-    <%= @default.translate "Tel" %>: <%= @qiye.tel %></span> <%= @default.translate "ICP" %>: <%= @default.toPinyin @qiye.icp %></p>

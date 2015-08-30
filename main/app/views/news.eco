@@ -1,4 +1,0 @@
-<h4><%= @default.translate("News") %><span><a href="? cmd=ShowNews"><%= @default.translate("More") %></a></span></h4>
-<% for item in @news: %>
-	<p><a href="? cmd=ShowNews&id=<%= item.id %>"><%= item.titles[@default.languageid-1] %><a></p>
-<% end %>
