@@ -105,7 +105,7 @@ class draw
 		@ctxSee.lineTo x,0
 		@ctxSee.strokeStyle = "rgba(0,0,0,0.5)"
 		@ctxSee.stroke()
-		(x+@offsetX)*@unit # 返回当前平移和缩放参数下的 x 坐标(时间)
+		parseInt((x+@offsetX)*@unit*60/@xSpace) # 返回当前平移和缩放参数下的 x 坐标(时间)
 	
 	# 画查看线
 	removeSeeLine:(x)->
