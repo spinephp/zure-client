@@ -1,4 +1,0 @@
-<ul>
-<li>开始干燥时间：<span><%= @drymain.starttime %></span></li>
-<li>干燥曲线：<span><%= @drymain.lineno %></span></li>
-</ul>
