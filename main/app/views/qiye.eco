@@ -1,0 +1,4 @@
+<h4><%= @default.translate("Company profile") %></h4>
+<% for s in @default.translates(@qiye.introductions).split(';'): %>
+	<p style="margin:10px" ><%= s %></p>
+<% end %>

@@ -1,0 +1,9 @@
+<h4>
+  <%= @default.translates @news.titles %>
+</h4>
+<h5>
+  <%= @news.time %>
+</h5>
+<p>
+  <%= @default.translates @news.contents %>
+</p>

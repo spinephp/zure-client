@@ -1,0 +1,21 @@
+<dl>
+  <dt>
+    <b><%= @default.translate "Payment method" %></b>
+  </dt>
+  <dd>
+    <label><%= @default.translate("Payment method") %>:</label> <%= @default.translates @pays.names %><%= "，"+@default.translate('Full payment') if parseInt(@orders.downpayment)- parseInt(@orders.guarantee) is 100 %>
+    </dd>
+  <% if parseInt(@orders.downpayment) < 100: %>
+  <dd>
+    <label><%= @default.translate "Prepayment" %>:</label> <%= @orders.downpayment %>%
+  </dd>
+  <% end %>
+  <% if parseInt(@orders.guarantee) > 0: %>
+  <dd>
+    <label><%= @default.translate "Quality assurance" %>:</label> <%= @default.translate "The amount of the order goods" %> <%= @orders.guarantee %>%
+    </dd>
+    <dd>
+      <label><%= @default.translate "Puarantee period" %>:</label> <%= @orders.guaranteeperiod %> <%= @default.translate "Months" %>
+    </dd>
+    <% end %>
+</dl>

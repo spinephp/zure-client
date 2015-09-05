@@ -1,0 +1,11 @@
+<dl>
+  <dt>
+    <b>配送方式</b>
+    <span>[<a class="edit">
+      修改
+    </a>]</span>
+  </dt>
+  <dd>
+    <b><%= @name %></b><span><%= @note %></span>
+    </dd>
+</dl>

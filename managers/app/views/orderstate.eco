@@ -1,0 +1,33 @@
+<div>
+  <dl>
+    <dt>编码：</dt>
+    <dd>
+      <%= @orderstate.id %>
+    </dd>
+    <dt>中文名称：</dt>
+    <dd>
+      <%= @orderstate.name %>
+    </dd>
+    <dt>英文名称：</dt>
+    <dd>
+      <%= @orderstate.name_en %>
+    </dd>
+    <dt>操作方：</dt>
+    <dd>
+      <%= {'C':'客户','S':'系统'}[@orderstate.actor] %>
+      </dd>
+    <dt>客户端提示：</dt>
+    <dd>
+      <%= @orderstate.note %>
+    </dd>
+    <dt>系统端提示：</dt>
+    <dd>
+      <%= @orderstate.yrrnote %>
+    </dd>
+    <dt>状态：</dt>
+    <dd>
+      <%= @orderstate.state %>
+    </dd>
+  </dl>
+</div>
+<div></div>

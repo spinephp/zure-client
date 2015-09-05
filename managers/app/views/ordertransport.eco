@@ -1,0 +1,11 @@
+<dl>
+  <dt>
+    <b>配送方式</b>
+  </dt>
+  <dd>
+    <label>配送方式:</label> <%= @transports.name %>
+    </dd>
+    <dd>
+      <label>运费:</label> ¥<input type="text" name="carriagecharge" value="<%= (new Number(@orders.carriagecharge)).toFixed(2) %>" />
+      </dd>
+    </dl>

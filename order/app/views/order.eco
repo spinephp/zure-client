@@ -1,0 +1,56 @@
+<% money=(rmb)-> %>
+	<%= (new Number(rmb)).toFixed(2) %>
+<% end %>
+
+<div id="order">
+	<div id="carstate"></div>
+	<div id="orderstate">
+		<ol id="array-two">
+			<li><span class="current">1.<%= @default.translate 'My order' %></span></li>
+			<li><span>2.<%= @default.translate 'Fill in the check order information' %></span></li>
+			<li><span>3.<%= @default.translate 'Order submitted successfully' %></span></li>
+		</ol>
+	</div>
+	<div id="mycar">
+	<img src="images/buycar1.jpg" /><h2><%= @default.translate 'My order' %></h2>
+	</div>
+	<div id="my_order">
+    <table>
+		<% if @orders.count()>0: %>
+			<tr>
+			  <td class="no1"><input type="checkbox" name="selectall" id="selectall" /><%= @default.translate 'Select all' %></td>
+			  <td><%= @default.translate 'Goods' %></td>
+			  <td><%= @default.translate 'Price' %></td>
+			  <td><%= @default.translate 'Quantity' %></td>
+			  <td><%= @default.translate 'Operation' %></td>
+			</tr>
+			<% sum=0 %>
+			<% back=0 %>
+			<% for order in @orders.all(): %>	
+				<% goods=order.aRecordEx() %>
+				<% sum+=order.number*goods.price %>
+				<% back+=order.number*goods.returnnow %>
+				<tr>
+				  <td class="no1"><input type="checkbox" name="selector" value="<%= order.id %>" /></td>
+				  <td class="name1"><a href="? cmd=ShowProducts&prosid=<%= order.proid %>" ><img src="images/goods/<%= goods.image %>"/><span><%= @default.translates @klass.find(goods.classid).longNames() %></span><br /><%= goods.size %></a></td>
+				  <td class="price1"><%= @currency.symbol+money goods.price/@currency.exchangerate %></td>
+				  <td class="num1"><input name="pronum" id="pronum<%= order.proid %>" pro-id="<%= order.proid %>" size=10 value="<%= order.number %>" /></td>
+				  <td><a href="#" order-id="<%= order.id %>"><%= @default.translate 'Delete' %></a></td>
+				</tr>
+			<% end %>
+			<tr>
+				<td colspan="2"><a href="###"><%= @default.translate 'Delete the selected items' %></a></td><td colspan="2"><%= @default.translate 'A total of' %> <%= @orders.count() %> <%= @default.translate 'items' %>，<%= @default.translate 'A total of' %>:<br /><%= @default.translate 'Cash back' %>:</td><td><b><%= @currency.symbol+money sum/@currency.exchangerate %></b><br />-<%= @currency.symbol+money back/@currency.exchangerate %></td>
+			</tr>
+			<tr>
+				<td colspan="5"><%= @default.translate 'A total of' %>（<%= @default.translate 'Excluding freight costs' %>）：<b><%= @currency.symbol+money (sum-back)/@currency.exchangerate %></b></td>
+			</tr>
+		<% else: %>
+			<tr><td><p><%= @default.translate 'Order is empty, after login, will show the goods before you join' %><br /><%= @default.translate 'To select the goods like the front page' %></p></td></tr>
+		<% end %>
+	 </table>
+	<%- "<button id=continue >#{@default.translate 'Continue to choose goods'}</button> <button id=account>#{@default.translate 'To settle accounts'}</button>" if @orders.count()>0 %>
+	</div>
+	<div id="my_del_pro">
+	</div>
+</div>
+

@@ -1,0 +1,14 @@
+<dl>
+  <dt>
+    <b><%= @default.translate "Bill information" %></b>
+  </dt>
+  <dd>
+    <label><%= @default.translate "Bill type" %>:</label> <%= @default.translates @types.names %>
+  </dd>
+  <dd>
+    <label><%= @default.translate "Bill looked up" %>:</label> <%= @default.translates @bills.names %>
+  </dd>
+  <dd>
+    <label><%= @default.translate "Content of the bill" %>:</label> <%= @default.translates @contents.names %>
+  </dd>
+</dl>

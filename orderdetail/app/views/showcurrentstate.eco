@@ -1,0 +1,3 @@
+<P><%= @default.translate "Order NO" %>：<%= @order.code %> <span><%= @default.translate "Status" %>：<b><%= @default.translates @state.names %></b></span>
+</P>
+<p><%= @default.translates @state.notes %></p>

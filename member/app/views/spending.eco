@@ -1,0 +1,97 @@
+<% money=(rmb)-> %>
+	<%= (new Number(rmb)).toFixed(2) %>
+<% end %>
+
+  <div class="childheader">
+  <h5>
+    <%= @defaults.translate('My Transaction History') %></h5>
+  <p>
+    <% cost=if @orders.count()>0 then @orders.costYear() else 0 %>
+    <%= @defaults.translate('Last year actual spending') %>: <b><%= @currency.symbol+money cost/@currency.exchangerate %></b>
+      <a>
+        <%= @defaults.translate('View your membership level') %></a>
+  </p>
+</div>
+<% current = new Date() %>
+<% mooth3ago =new Date(current.getYear(),current.getMonth()-3,current.getDate()) %>
+<div class="tabs">
+  <ul>
+    <li>
+      <a href="#inthreemoothorder">
+        <%= @defaults.translate('Nearly three months of records') %></a>
+    </li>
+    <li>
+      <a href="#beforethreemoothorder">
+        <%= @defaults.translate('Three months ago of records') %></a>
+    </li>
+  </ul>
+  <div id="inthreemoothorder" class="spendingbox">
+    <table>
+      <thead>
+        <tr>
+          <% for item in["Time","Involve order","Consumption reduction","Increase in consumption","Note"]: %>
+          <th>
+            <%= @defaults.translate(item) %>
+          </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% for order in @orders.all() when @orders._dateToInt(order.time)<= mooth3ago and order.stateid is 13: %>
+          <tr>
+            <td>
+              <%= order.time %>
+            </td>
+            <td>
+              <%= order.encodeId() %>
+            </td>
+            <td>
+              <%= @currency.symbol+money order.cost()/@currency.exchangerate %>
+              </td>
+            <td>
+              <%= @currency.symbol+money order.cost()/@currency.exchangerate %>
+              </td>
+            <td>
+              <%= @defaults.translate('As order')+' '+order.encodeId()+' '+@defaults.translate('has been finished')+','+@defaults.translate('increased consumption') %>
+            </td>
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div id="beforethreemoothorder" class="spendingbox">
+    <table>
+      <thead>
+        <tr>
+          <% for item in["Time","Involve order","Consumption reduction","Increase in consumption","Note"]: %>
+          <th>
+            <%= @defaults.translate(item) %>
+          </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% for order in @orders.all() when  @orders._dateToInt(order.time)>mooth3ago and order.stateid is 13: %>
+        <tr>
+          <td>
+            <%= order.time %>
+          </td>
+          <td>
+            <%= order.encodeId() %>
+            </td>
+          <td>
+            <%= @currency.symbol+money order.cost()/@currency.exchangerate %>
+            </td>
+          <td>
+            <%= @currency.symbol+money order.cost()/@currency.exchangerate %>
+            </td>
+          <td>
+            <%= @defaults.translate('As order')+' '+order.encodeId()+' '+@defaults.translate('has been finished')+','+@defaults.translate('increased consumption') %>
+            </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>

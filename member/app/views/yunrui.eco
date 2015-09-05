@@ -1,0 +1,138 @@
+<% money=(rmb)-> %>
+	<%= (new Number(rmb)).toFixed(2) %>
+<% end %>
+
+<% star=(evals)-> %>
+	<% sum = 0 %>
+	<% sum+= eval.star for eval in evals %>
+	<% sum /= evals.length %>
+	<% for i in [1..5]: %><% m = if i <= sum then 1 else 0 %><img src="images/star<%= m %>.png" /><% end %>
+<% end %>
+
+<div class="home-photo">
+  <img src="images/user/<%= @person.picture %>" />
+  <p>
+    <strong>
+      <a><%= @defaults.toPinyin @person.username %></a>
+    </strong>
+    </p>
+  <p>
+    <span>
+      <%= @defaults.translate 'Welcome to YunRui' %>!
+    </span>
+    </p>
+  <p>
+	<img src="images/grade<%= @customgrade.gradeid %>.png" />
+        <a href="javascript:void(0)">
+          <%= @defaults.translates(@customgrade.names())+@defaults.translate('Member') %>
+          </a>
+  </p>
+  <p>
+    <%= @defaults.translate('Account Security') %>:
+      <% safe=@custom.accountsafe() %>
+  </p>
+</div>
+
+    <div class="home-intro-item-2">
+      <ul>
+        <li>
+          <%= @defaults.translate('Balance') %>:
+            <% balance=if @customaccount.length>0 then @customaccount[0].remainder() else 0 %>
+          </li>
+        <li>
+          <%= @defaults.translate('Integral') %>: <a data-action="integral"><%= @custom.integral %></a>
+        </li>
+        <li class="nobottom">
+          <%= @defaults.translate('Voucher') %>: <a data-action="promecode">0</a></li>
+        <li class="nobottom">
+            <%= @defaults.translate('Giffcard') %>: <a data-action="giffcard">0
+            </a>
+        </li>
+      </ul>
+    </div>
+
+<div class="home-intro">
+	 <p>
+	  <%= @defaults.translate('My Orders') %>：
+	  <a>
+		<%= @defaults.translate('Pending') %> <%= @orders.pending() %>
+		</a>
+	  <a>
+		<%= @defaults.translate('To evaluate') %> <%= @orders.waitEval() %>
+	  </a>
+	  <a>
+		<%= @defaults.translate('Feel') %> <%= @orders.waitFeel() %>
+	  </a>
+	  <a>
+		<%= @defaults.translate('View all orders') %>
+	  </a>
+	</p>
+</div>
+<div class="tabs">
+  <ul>
+    <li>
+      <a href="#home-menu-2">
+        <%= @defaults.translate('My concern goods') %></a>
+    </li>
+    <li>
+      <a href="#home-menu-3">
+        <%= @defaults.translate('Recently viewed goods') %></a>
+    </li>
+  </ul>
+<div id="home-menu-2" class="imagesets">
+	<p>
+		<a href="?word=mycarefly">
+            <%= @defaults.translate('Cutprice')%> <%= @products[0]?.downPrice() %>
+        </a>
+          <a href="?word=mycarefly">
+            <%= @defaults.translate('Promotion') %> <%= @products[0]?.salesPromotion() %>
+        </a>
+          <a href="?word=mycarefly">
+            <%= @defaults.translate('Spot Goods') %> <%= @products[0]?.newArrive() %>
+        </a>
+          <a href="?word=mycarefly"><%= @defaults.translate 'More' %></a>
+	</P>
+  <button class="prev">
+    <</button>
+  <div class="imgscroll">
+  <ul>
+    <% if @products.length>0: %>
+    <% for product in @products: %>
+        <% evals=@eval.findAllByAttribute 'proid',@products.proid %>
+    <li>
+      <a href="?cmd=ShowProducts&gid=<%= product.id %>">
+        <img src="images/goods/<%= product.picture %>" />
+      </a>
+      <a href="?cmd=ShowProducts&gid=<%= product.id %>" title="<%= @defaults.translates product.kindNames() %>-<%= @defaults.translates product.names() %>"><%= @defaults.translates product.kindNames() %><br /><%= @defaults.translates product.names() %><br /><%= product.size %>
+      </a>
+      <p>
+        <%= star evals %></p>
+      <p>
+        <a href="?cmd=ProductEval&gid=<%= product.id %>">(<%= @defaults.translate('have') %> <%= evals.length %> <%= @defaults.translate 'Evaluation' %>)
+        </a>
+      </p>
+        <p>
+         <%= @currency.symbol+ money product.price/@currency.exchangerate %>
+         </p>
+      </li>
+      <% if @products.length is 1: %>
+      <li></li>
+      <% end %>
+      <% end %>
+    <% else: %>
+    <li>
+      <%= @defaults.translate('None goods have concerned') %></li>
+    <li>
+      <%= @defaults.translate('None goods have concerned') %>
+      </li>
+      <% end %>
+  </ul>
+  </div>
+  <button class="next">
+    >
+  </button>
+  <div class="clear"></div>
+</div>
+<div id="home-menu-3">ccccccccccc
+</div>
+</div>

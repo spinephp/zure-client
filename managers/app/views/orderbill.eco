@@ -1,0 +1,14 @@
+<dl>
+  <dt>
+    <b>票据信息</b>
+  </dt>
+  <dd>
+    <label>票据类型:</label> <%= @types.name %>
+  </dd>
+  <dd>
+    <label>票据抬头:</label> <%= @bills.name %>
+  </dd>
+  <dd>
+    <label>票据内容:</label> <%= @contents.name %>
+  </dd>
+</dl>

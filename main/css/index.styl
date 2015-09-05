@@ -1,0 +1,193 @@
+@import './mixin'
+@import './header'
+
+body
+	color: #222
+
+h2
+	text-align: center
+	font-size: 22px
+
+p
+	text-align: center
+	font-size: 16px
+
+.stack
+	position: relative
+
+	> *:not(.active)
+		display: none
+.lefts
+	width: 24%
+	float: left
+	text-align: left
+	font-size: small
+	line-height: 20px
+	background: #fff
+	clear:both
+.customs,.newss,.yunruis
+	margin: 2px 0 3px 0px
+	padding-bottom: 5px
+	background: #f9f9ff
+	border: #00aaaa solid 1px
+	border-radius(5)
+	h4
+		margin:0
+		padding: 2px 8px 2px 8px
+		background: url(../images/newsbg.gif) repeat-x left top
+		border: #cccccc solid 1px
+		span
+			float: right
+			text-align: left
+			font-weight: bold
+			font-size: 90%
+			color: #000000
+			padding-left: 14px
+	h4::before 
+		content: url(../images/icon.gif) ' '
+.logins
+	padding: 0
+	margin: 0
+	form
+		padding: 5px 0 0 5px
+		margin: 0 0 5px 5px
+		input[name=username],input[name=pwd]
+			width:68%
+		input[name=code]
+			width:42%
+.logouts
+	padding: 0
+	margin: 0
+	img
+		width:100px
+		height:100px
+		padding: 5px 0 0 5px
+		margin: 0 0 0 5px
+		vertical-align: sub
+	ul
+		list-style:none
+		display: inline-block
+		padding: 0
+		margin: 0
+		li
+			margin: 10px
+.customs p,.newss p,.yunruis p
+	width:96%
+	margin: 3px 0 0 8px
+	font-size: 100%
+	line-height: 20px
+	text-align:left
+	label
+		width:60px
+		text-align:right
+		display:inline-block
+	a
+		overflow: hidden
+		text-overflow: ellipsis
+		white-space: nowrap
+.yunruis p label
+	width:40px
+	
+.rights
+	width:76%
+	float: right
+	text-align: left
+	font-size: 90%
+	line-height: 20px
+	background: #fff
+.introductions,.goods
+	margin: 2px
+	background: #f9f9ff
+	border: #00aaaa solid 1px
+	border-radius(5)
+	h4
+		margin:0
+		padding: 2px 8px 2px 8px
+		background: url(../images/newsbg.gif) repeat-x left top
+		border: #cccccc solid 1px
+		span
+			float: right
+			text-align: left
+			font-weight: bold
+			font-size: 90%
+			color: #000000
+			padding-left: 14px
+			background: url(../images/icon.gif) no-repeat 0 50%
+	h4::before 
+		content: url(../images/icon.gif) ' '
+	div
+		width:100%
+.goods div p
+	clear:both
+.introductions p
+	margin: 3px 0 0 8px
+	font-size: 100%
+	line-height: 20px
+	text-align:left
+.goods dl
+	float: left
+	width: 168px
+	height: 210px
+	margin: 8px 11px
+	padding-bottom: 8px
+	border: 1px solid #c8ddff
+	font-size: 100%
+	text-align: center
+	background: #e0efff
+	border-radius(5)
+	box-shadow(5px 5px 5px #999999)
+	dt
+		width: 110px
+		margin: 4px 0 5px 4px
+		padding: 0
+		img
+			width:150px
+			height:90px
+			margin: 4px
+			padding: 0px
+			border: 1px solid #d9e0e6
+			border-bottom-color: #c8cdd2
+			border-right-color: #c8cdd2
+			background: #fff
+	dd
+		margin: 0
+		padding: 0
+		border: 0
+.links
+	width: 100%
+	height:28px
+	border: 1px solid red
+	margin: 4px 0px
+	background: #f9f9ff
+	clear: both
+	dl
+		margin:0
+		padding:0
+	dl dt
+		float: left
+		text-align: left
+		font-weight: bold
+		margin: 0px
+		background: red
+		color: white
+		padding: 5px 8px
+	dl dd
+		float: left
+		margin: 0px
+		padding: 5px 20px
+		text-align: left
+		a
+			margin: 0 5px
+			padding: 0px
+			text-align: left
+			
+.footers
+	padding: 5px
+	background: #66aaff
+	clear: both
+	p
+		font-size:small
+		text-align: center;
+		line-height: 5px
+		color: #666666;
+		padding: 0

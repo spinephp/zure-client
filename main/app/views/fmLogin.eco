@@ -1,0 +1,7 @@
+<h4><%= @default.translate("Login") %></h4>
+<form id="login" name="login" method="post" onsubmit="return false;">
+  <p><label><%= @default.translate("Name") %>：</label><input type=text name='username' required placeholder='如:abc123' value="" ></p>
+  <p><label><%= @default.translate("PWD") %>：</label><input type=password name='pwd' required='required' placeholder='如:abc#123@*XY' value="" ></p>
+  <p><label><%= @default.translate("PIN") %>：</label><input type="text" name="code" required='required' value=""  placeholder='右图中的字符' /> <img src="admin/checkNum_session.php" align='absmiddle' style="border:#CCCCCC 1px solid; cursor:pointer;" alt='点击重新获取验证码' width="50" height="20" /></p>
+  <p><span class="STYLE1" style="position:relative;left:48"><input type="hidden" name="action" value="custom_login" /><input type="hidden" name="token" value="user_token" /> <input type="submit" name="login" value=" <%= @default.translate("Login") %> " /> <input type="button" name="userRegister" value=" <%= @default.translate("Sign up") %> " /> <a href='fogot_form.php'> <%= @default.translate("Forget Password") %>?</a></span></p>
+</form>

@@ -1,0 +1,10 @@
+<dl>
+  <dt>
+    <b>收货人信息</b>
+  </dt>
+  <% for key,value of @receipt: %>
+  <dd>
+    <label><%= key %>:</label> <%= value %>
+  </dd>
+  <% end %>
+</dl>

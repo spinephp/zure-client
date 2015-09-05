@@ -1,0 +1,37 @@
+<p class="productlist"><b>产品清单</b></p>
+<table>
+  <thead>
+    <tr>
+      <th>商品编号</th>
+      <th>商品图片</th>
+      <th>商品名称</th>
+      <th>数量</th>
+      <th>完成数量</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for rec in @orders.products: %>
+    <% pro=item for item in @products when parseInt(item.id,10) is parseInt(rec.proid,10) %>
+    <tr data-goodid="<%= pro.id %>">
+      <td>
+        <%= pro.formatId() %>
+      </td>
+      <td>
+        <a class="showproduct"><img src="images/good/<%= pro.picture %>" /></a>
+      </td>
+      <td><a class="showproduct"><%= pro.longname %><br /><%= pro.size %>
+      </a>
+      </td>
+      <td>
+        <%= rec.number %>
+      </td>
+      <td>
+        <input type="number" name="mold" />
+    </td>
+    </tr>
+    <% end %>
+    </tbody>
+  </table>
+<div>
+  <button>进入下道工序</button>
+</div>

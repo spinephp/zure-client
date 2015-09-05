@@ -1,0 +1,7 @@
+<P>订单号：<%= @order.code %> <span>状态：<b><%= @state.name %></b></span><span>
+  <button>客户已收货</button>
+  <button>查看合同</button>
+  
+</span>
+</P>
+<p><%= @state.yrrnote %></p>

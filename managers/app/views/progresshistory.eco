@@ -1,0 +1,26 @@
+<% image="" %>
+<% name="" %>
+<% time="" %>
+<% for item,index in @states: %>
+  <% cur = null %>
+  <% cur = rec for rec in @status when parseInt(rec.stateid,10) is parseInt(item.id,10) %>
+  <% if cur?: %>
+    <% image+="<img src='images/cg2.png' />" unless index is 0 %>
+    <% image+="<img src='images/cg1.png' />" %>
+    <% name+="<span class='pass'>"+item.name+"</span>" %>
+    <% time+="<span class='pass'>"+cur.time+"</span>" %>
+  <% else: %>
+	  <% image+="<img src='images/cgr2.png' />" unless index is 0 %>
+    <% image+="<img src='images/cgr1.png' />" %>
+    <% name+="<span class='nopass'>"+item.name+"</span>" %>
+  <% end %>
+<% end %>
+<p>
+  <%- image %>
+</p>
+<p>
+  <%- name %>
+</p>
+<p>
+  <%- time %>
+</p>

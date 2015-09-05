@@ -1,0 +1,10 @@
+<h4>
+  <%= @default.translate 'News' %>
+</h4>
+<ul>
+  <% for news in @news: %>
+  <li>
+    <a href="?cmd=ShowNews&id=<%= news.id %>"><%= @default.translates news.titles %></a>
+  </li>
+  <% end %>
+</ul>

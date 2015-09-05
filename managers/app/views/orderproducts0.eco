@@ -1,0 +1,112 @@
+<% money=(rmb)-> %>
+	<%= (new Number(rmb)).toFixed(2) %>
+<% end %>
+  
+<p class="productlist"><b>商品清单</b></p>
+<table>
+  <thead>
+    <tr>
+      <th>商品编号</th>
+      <th>商品图片</th>
+      <th>商品名称</th>
+      <th>数量</th>
+      <th>云瑞价</th>
+        <th>返现</th>
+      <th>模具费</th>
+      <th>供货时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for rec in @orders.products: %>
+    <% pro= @products.find rec.proid %>
+    <tr>
+      <td>
+        <%= pro.formatId() %>
+      </td>
+      <td>
+        <a class="showproduct" data-product="<%= pro.id %>"><img src="images/good/<%= pro.picture %>" /></a>
+      </td>
+      <td><a class="showproduct" data-product="<%= pro.id %>"><%= pro.longname %><br /><%= pro.size %>
+      </a>
+      </td>
+      <td>
+        <%= rec.number %>
+      </td>
+      <td>
+          ¥<%= money rec.price %>
+        </td>
+      <td>
+        - ¥<%= money rec.returnnow %>
+        </td>
+      <td>
+        + ¥<%= money rec.modlcharge %>
+        </td>
+        <td class="shipdate">
+          <%= @orders.shipdate %>天
+          </td>
+      <td></td>
+    </tr>
+    <% end %>
+    </tbody>
+  </table>
+<ul>
+  <li>
+
+    <label>
+      <%= @orders.sumNumber() %>件商品，总商品金额：
+    </label>
+    <span>
+      <b>
+        ¥
+        <%= money @orders.sumPrice() %>
+        </b>
+    </span>
+  </li>
+  <li>
+
+    <label>返现：</label>
+    <span>
+      <b>- ¥<%= money @orders.sumReturnnow() %>
+      </b>
+    </span>
+  </li>
+  <li>
+
+    <label>模具费：</label>
+    <span>
+      <b>
+        + ¥<%= money @orders.sumModlcharge() %>
+        </b>
+    </span>
+  </li>
+  <li>
+
+    <label>运费：</label>
+    <span>
+      <b>
+        + ¥<%= money @orders.carriagecharge %>
+        </b>
+    </span>
+  </li>
+  <li>
+
+    <label>应付总额：</label>
+    <span>
+      <b>
+        ¥
+        <%= money @orders.total() %>
+        </b>
+      </span>
+    </li>
+    <li>
+
+      <label>
+      </label>
+      <span>
+        <b>
+          <button>返回</button>
+        </b>
+      </span>
+    </li>
+  </ul>

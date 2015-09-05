@@ -1,0 +1,72 @@
+<% money=(rmb)-> %>
+	<%= (new Number(rmb)).toFixed(2) %>
+<% end %>
+<% moneyTo=(rmb,currency)-> %>
+	<%- '<b>'+currency.symbol+'</b>'+(new Number(rmb)/currency.exchangerate).toFixed(2) %>
+<% end %>
+<p class="productlist"><b><%= @default.translate 'Goods list' %></b><span class="repair">[<a><%= @default.translate 'Return and edit order' %>]</a>
+  </span></p>
+<table>
+  <thead>
+    <tr>
+        <th><%= @default.translate 'Item' %></th>
+        <th><%= @default.translate 'Price' %></th>
+        <th><%= @default.translate 'Return now' %></th>
+        <th><%= @default.translate 'Quantity' %></th>
+        <th><%= @default.translate 'Shipping date' %></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% for rec in @orders.all(): %>
+    <% goods=@goods.find rec.proid %>
+  
+    <tr>
+        <td>
+          <a class="showproduct" data-product="
+            <%= rec.proid %>"><img src="images/goods/<%= goods.picture %>" /><%= @default.translates goods.longnames %><br /><%= goods.size %>
+          </a><br /><%= @default.translate 'Goods code' %>：<%= rec.proid %>
+      </td>
+        <td>
+          <span><%= moneyTo goods.price,@currency %></span>
+        </td>
+        <td>
+          <span></span>
+        </td>
+        <td>
+          <p><%= rec.number %></p>
+        </td>
+        <td class="shipdate">
+          <p><%= @default.translate if goods.amount >= rec.number then  "In stock" else "45 days" %></p>
+      </td>
+    </tr>
+    <% end %>
+    <tr>
+        <td colSpan=5 class="sumproduct">
+          <span><%= @default.translate('A total of')+' '+@orders.sumNumber()+' '+@default.translate('PCS')+', '+@default.translate('Amount')+':' %><%= moneyTo @orders.sumPrice(),@currency %>
+      </span>
+      </td>
+    </tr>
+    <tr>
+        <td colspan="5">
+          <span><%= @default.translate 'Return now' %>：<%= moneyTo 0,@currency %></span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">
+          <span><%= @default.translate 'Freight' %>：<%= moneyTo @carriagechargese,@currency %>
+        </span>
+      </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="5">
+          <span><%= @default.translate 'Amount payable' %>：<%= moneyTo @orders.total(),@currency %></span>
+      </td>
+        <td></td>
+    </tr>
+    </tbody>
+  </table>
+  <footer>
+        <%= @default.translate 'Amount payable' %>：<%= moneyTo @orders.total(),@currency %>
+            <button type="button" class="sumbitorder"><%= @default.translate 'Submit' %></button>
+    </footer>

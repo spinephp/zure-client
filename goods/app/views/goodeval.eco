@@ -1,0 +1,129 @@
+<% types={} %>
+
+<% star=(sum)-> %>
+	<% for i in [1..5]: %><% m = if i <= sum then 1 else 0 %><img src="images/star<%= m %>.png" /><% end %>
+<% end %>
+
+<% result=[] %>
+<% label=(labels)-> %>
+	<% result=[] %>
+	<% n=i=1 %>
+	<% while n < 1024: %>
+		<% result.push(i) if (n & labels) isnt 0 %>
+		<% n <<= 1 %>
+		<% i++ %>
+	<% end %>
+<% end %>
+
+<% number=(rmb,diff)-> %>
+	<%= (new Number(rmb)).toFixed(diff) %>
+<% end %>
+
+<div class="goodsevals">
+    <h3><%= @default.translate 'Evaluation' %></h3>
+	<div class="goodratio">
+		<p><%= if @evalsum[0] > 0 then $.trim(number(@evalsum[1]/@evalsum[0]*100,0)) else 0 %>%</p>
+		<h4><%= @default.translate 'Good rate' %></h4>
+	</div>
+	<div class="evalratio">
+		<% u=150 %>
+		<dl><% for type,i in ['Good','Medium','Poor']: %>
+				<% num1=if @evalsum[0] > 0 then @evalsum[i+1]/@evalsum[0]*u else 0 %>
+				<% num2=u-num1 %>
+				<% num3=if @evalsum[0] > 0 then number(@evalsum[i+1]/@evalsum[0]*100,0) else 0 %>
+			<dt><%= @default.translate type %>: </dt>
+			<dd>
+				<svg width="100" height="10">
+					<rect x="0" y="0" width="<%= num1 %>" height="10" fill="red" stroke="red" stroke-width="1px" />
+					<rect x="<%= num1 %>" y="0" width="<%= num2 %>" height="10" fill="lightgray" stroke="lightgray" stroke-width="1px" />
+				</svg>
+			</dd> 
+			<dd> <%= $.trim num3 %>%</dd>
+		<% end %>
+		</dl>
+	</div>
+				
+	<dl>
+		<dt><%= @default.translate 'Buyers impression' %>： </dt>
+		<dd><% for item in @labels.all(): %>
+			<span><%= @default.translates item.names %>(<%= @labelkinds[item.id] %>)</span>
+		<% end %></dd>
+	</dl>
+			
+	<div>
+		<p><%= @default.translate 'For purchased goods' %></p>
+		<button> <%= @default.translate 'Evaluation and integral' %> </button>
+		<p><a href="###"><%= @default.translate 'Integral rules' %></a></p>
+	</div>
+	<p></p>
+</div>
+
+<div class="tabsbox-eval">
+	<ul>
+	<% for kind,i in @evalkinds: %>
+		<li><a href="#tabs-<%= kind.replace(' ','') %>eval" ><%= @default.translate kind %>(<%= @evalsum[i] %>)</a></li>
+	<% end %>
+	</ul>
+	<% for kind,i in @evalkinds: %>
+		<div id="tabs-<%= kind.replace(' ','') %>eval" class="oneeval">
+		<% if @evalsum[i] > 0: %>
+			<% evaltypes=(rec for rec in @evals when rec.star in @evalstars[i]) %>
+			<% pos0=@evalpages.current[i]*@evalpages.records %>
+			<% pos1=pos0+@evalpages.records %>
+			<% pos1=@evalsum[i] if pos1 > @evalsum[i] %>
+			<% for eval in evaltypes[pos0...pos1]: %>
+				<% grade=eval.getGrade() %>
+				<ul class="evalperson">
+					<li><img src="images/<%= grade.image %>" width="60" height="60" /></li>
+					<li><%= @default.toPinyin eval.getCustomName() %></li>
+					<li><%= @default.translates grade.names %><%= @default.translate 'Number' %></li>
+					<li><img src="images/country/<%= eval.getCountryCode3() %>.png" /> <%= @default.translates eval.getCountryNames() %></li>
+				</ul>
+				<article data-id='<%= eval.id %>'>
+					<p><%- star eval.star %> <span><%= eval.date %></span></p>
+					<p><label><%= @default.translate 'Label' %>:</label>
+						<% label parseInt eval.label %>
+						<%- "<b>"+@default.translates(@labels.find(id).names)+"</b>" for id in result %>
+					</p>
+					<p><label><%= @default.translate 'Notes' %>:</label><%= eval.useideas %></p>
+					<% unless eval.feelid is 0: %>
+						<% single=@feel.find eval.feelid %>
+						<p data-id='<%= single.id %>'><label><%= @default.translate 'Single' %>:</label>
+						<a href='#'><%- "<img src='images/good/feel/g#{single.id}/#{image}' />" for image,ii in single.images when ii < 3 %></a>
+							<%= @default.translate('A total of')+' '+single.images.length+' '+@default.translate 'pictures' %>
+							<a href='#'><%= @default.translate 'View the single' %> ></a></p>
+					<% end %>
+					<p><label><%= @default.translate 'Buy date' %>:</label><%= eval.date %></p>
+					<% replys=@evalreplys.findAllByAttribute('evalid', parseInt eval.id) %>
+					<p><span><button name='useful'><%= @default.translate 'Useful' %>(<%= eval.useful %>)</button> <button name='reply'><%= @default.translate 'Reply' %>(<%= replys.length %>)</button></span></p>
+					<% if replys.length > 0: %>
+						<ul>
+							<% for reply,j in replys.reverse() when j < 5: %>
+								<li data-id="<%= reply.id %>"><strong><%= replys.length - j %></strong>
+									<a href='#'><%= @default.toPinyin @evalreplys.getPersonName reply.id %></a>
+									<%- @default.translate('Reply')+" <a href='#'>"+@default.toPinyin(@evalreplys.getPersonName(reply.parentid))+'</a>' if reply.parentid isnt 0 %>
+									: <%= reply.content %><p><%= reply.time %></p>
+								</li>
+							<% end %>
+							<%- '<li><span>'+@default.translate('See the reply all')+' >></span></li>' if replys.length > 5 %>
+						</ul>
+					<% end %>
+				</article>
+			<% end %>
+			<div class="paging" data-kind="<%= i %>">
+				<a data-page='first'><%= @default.translate 'First' %></a>
+				<a data-page='prev'><%= @default.translate 'Prev' %></a>
+				<% for pageno in [1..Math.ceil(@evalsum[i]/@evalpages.records)]: %>
+					<a data-page='<%= pageno %>'><%= pageno %></a>
+				<% end %>
+				<a data-page='next'><%= @default.translate 'Next' %></a>
+				<a data-page='last'><%= @default.translate 'Last' %></a>
+			</div>
+		<% else: %>
+		    <p><%= @default.translate 'No evaluation' %></p>
+		<% end %>
+	    </div>
+	<% end %>
+    <ol id="evalpagectrl"></ol>
+	<p></p>
+</div>

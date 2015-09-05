@@ -1,0 +1,55 @@
+<% types={} %>
+
+<% star=(sum)-> %>
+	<% for i in [1..5]: %><% m = if i <= sum then 1 else 0 %><img src="images/star<%= m %>.png" /><% end %>
+<% end %>
+
+<% result=[] %>
+<% label=(labels)-> %>
+	<% result=[] %>
+	<% n=i=1 %>
+	<% while n < 1024: %>
+		<% result.push(i) if (n & labels) isnt 0 %>
+		<% n <<= 1 %>
+		<% i++ %>
+	<% end %>
+<% end %>
+
+<% number=(rmb,diff)-> %>
+	<%= (new Number(rmb)).toFixed(diff) %>
+<% end %>
+
+<div class="evals">
+	<h4><%= @default.translate 'Review details' %></h4>
+	<div class="oneeval">
+		<ul class="evalperson" data-id='<%= @person.id %>'>
+			<li><img src="images/<%= @grade.image %>" width="60" height="60" /></li>
+			<li><a href="###"><%= @default.toPinyin @person.nick or @person.username %></a></li>
+			<li><%= @default.translates @grade.names %><%= @default.translate 'Member' %></li>
+			<li><img src="images/country/<%= @country.code3 %>.png" /> <%= @default.translates @country.names %></li>
+		</ul>
+		<article data-id='<%= @eval.id %>'>
+			<p><%- star @eval.star %> <span><%= @eval.date %></span></p>
+			<p><label><%= @default.translate 'Label' %>:</label>
+				<% label parseInt @eval.label %>
+				<%- "<b>"+@default.translates(@labels.find(id).names)+"</b>" for id in result %>
+			</p>
+			<p><label><%= @default.translate 'Notes' %>:</label><%= @eval.useideas %></p>
+			<p><label><%= @default.translate 'Buy date' %>:</label><%= @eval.buydate[0..9] %></p>
+			<% replys=@evalreplys.findAllByAttribute('evalid', parseInt @eval.id) %>
+			<p><span><button name='useful'><%= @default.translate 'Useful' %>(<%= @eval.useful %>)</button> <button name='reply'><%= @default.translate 'Reply' %>(<%= replys.length %>)</button></span></p>
+			<% if replys.length > 0: %>
+				<ul>
+					<% for reply,j in replys.reverse() when j < 5: %>
+						<li data-id="<%= reply.id %>"><strong><%= replys.length - j %></strong>
+							<a href='#' data-id='<%= reply.userid %>'><%= @default.toPinyin @evalreplys.getPersonName reply.id %></a>
+							<%- @default.translate('Reply')+" <a href='#' data-id='"+@evalreplys.find(reply.parentid).userid+"'>"+@default.toPinyin(@evalreplys.getPersonName(reply.parentid))+'</a>' if reply.parentid isnt 0 %>
+							: <%= reply.content %><p><%= reply.time %></p>
+						</li>
+					<% end %>
+					<%- '<li><span>'+@default.translate('See the reply all')+' >></span></li>' if replys.length > 5 %>
+				</ul>
+			<% end %>
+		</article>
+	</div>
+</div>

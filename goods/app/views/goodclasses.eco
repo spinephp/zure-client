@@ -1,0 +1,29 @@
+<h4><%= @default.translates @goodclass.names %></h4>
+
+<img src="images/good/<%= @goodclass.picture %>" />
+<p><%= @default.translates @goodclass.introductions %></p>
+
+<div>
+  <%= @default.translate 'Recommended to you based on your concerns' %>
+</div>
+<div class="imagesets">
+  <button class="prev">
+    <</button>
+  <div class="imgscroll">
+    <ul>
+      <% for proclass in @childs: %>
+      <li data-classid="<%= proclass.id %>">
+        <a href="?cmd=ShowProducts&cid=<%= proclass.id %>">
+          <img src="images/good/<%= proclass.picture %>" />
+        </a>
+        <a href="?cmd=ShowProducts&cid=<%= proclass.id %>" title="<%= @default.translates proclass.longNames() %>"><%= @default.translates proclass.kindNames() %><br /><%= @default.translates proclass.names %>
+        </a>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+  <button class="next">
+    >
+  </button>
+  <div class="clear"></div>
+</div>

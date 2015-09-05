@@ -1,0 +1,34 @@
+<ul>
+	<li>
+		<a href='#traillist' >
+			<%= @default.translate "Order tracking" %>
+		</a>
+	</li>
+	<li>
+		<a href='#paylist' >
+			<%= @default.translate "Payment information" %>
+		</a>
+	</li>
+</ul>
+
+<div id="traillist">
+<table>
+	<tr><th><%= @default.translate "Processing time" %></th><th><%= @default.translate "Processing information" %></th><th><%= @default.translate "Operating personnel" %></th></tr>
+  <% for item in @state: %>
+	<% thestate=@thisstate.findByAttribute "stateid",parseInt item.id %>
+	<% if thestate: %>
+	  <tr><td><%= thestate.time %></td><td><%= @default.translates item.notes %></td><td><%= @default.translate if item.actor is 'C' then 'Custom' else 'System' %></td></tr>
+	<% end %>
+  <% end %>
+</table>
+</div>
+<div id="paylist">
+<table>
+	<tr><th><%= @default.translate "Processing time" %></th><th><%= @default.translate "Processing information" %></th><th><%= @default.translate "Operating personnel" %></th></tr>
+  <% for item in @state when item.id in [3,9,12]: %>
+	<% thestate=@thisstate.findByAttribute "stateid",parseInt item.id %>
+	<% if thestate: %>
+	  <tr><td><%= thestate.time %></td><td><%= @default.translates item.notes %></td><td><%= @default.translate if item.actor is 'C' then 'Custom' else 'System' %></td></tr>
+  <% end %>
+</table>
+</div>

@@ -1,0 +1,25 @@
+<div>出口管理->选择订单<div>
+	<table>
+		<thead>
+		<tr>
+		<% for item in ["编号","订货单位","订货时间","产品信息","金额"]: %>
+		<th><%= item %></th>
+		<% end %>
+		</tr>
+		</thead>
+		<tbody>
+		<% for item in @orders: %>
+		<tr data-id="<%= item.id %>">
+		<td><%= item.code %></td>
+		<td><%= item.companyName() %></td>
+		<td><%= item.time %></td>
+		<td>
+		<% for pro in @orders.products: %>
+			<img sref="admin/uploadimg/<%= pro.image() %>" title="<%= pro.longname()+'\n'+pro.size()+'\n'+pro.price %>" width=40 height=24 />
+		<% end %>
+		</td>
+		<td><%= item.total() %></td>
+		</tr>
+		<% end %>
+		</tbody>
+	</table>
