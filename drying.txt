@@ -1,0 +1,37 @@
+干燥系统有两个数据表 Drymain 和 Drydata
+
+Drymain 有 4 个字段  id,starttime,lineno,state
+    id - 整数，唯一性标识符
+    starttime - 日期时间(yyyy-mm-dd HH:MM:SS)，指定干燥开始时间
+    lineno - 整数，指定干燥曲线编号，默认为 0
+    state - 整数，指定干燥状态，0 = 正在干燥
+    
+Drydata 有 6 个字段 id,mainid,time,settingtemperature,temperature,mode
+    id - 整数，唯一性标识符
+    mainid - 整数，对应 Drymain 中的 id
+    time - 整数，指定干燥当前点时间，单位 10 秒
+    settingtemperature - 整数，指定干燥当前点设定温度，单位 度x16
+    temperature - 整数，指定干燥当前点实际温度，单位 度x16
+    mode - 整数，指定干燥当前点线段号
+    
+如果干燥正在进行，取正在干燥的 Drymain 表记录用 jQuery 代码为：
+		url = "http://www.yrr8.com/woo/index.php? cmd=DryMain"
+		fields = ["id","starttime","lineno","state"]  // 要查询的字段数组
+		condition = [{field:"state",value:0,operator:"eq"}] // 查询条件数组 state = 0
+		jQuery.getJSON(url,{ cond:condition,filter: fields},function(result) {
+			if result.length
+				// result 为查询到的记录数组，如：[{id:1,starttime:'2015-08-01 10:20:10",lineno:0,state:0}]
+			else
+				// 干燥未开始
+		});
+    
+如果干燥正在进行，取正在干燥的 Drydata 表新记录用 jQuery 代码为：
+		url = "http://www.yrr8.com/woo/index.php? cmd=DryData"
+		fields = ["id","mainid","time","settingtemperature","temperature","mode"] // 要查询的字段数组
+		condition = [{field:"mainid",value:mainid,operator:"eq"},{field:"id",value:Drydata.last()?.id or 0,operator:"gt"}] // 查询条件 mainid = Drymain 记录的 id 并且 id > Drydata 最后记录的 id
+		jQuery.getJSON(url,{ cond:condition,filter: fields },function(result){
+			if result.length
+				// result 为查询到的记录数组，如：[{id:10,mainid:1,time:5,settingtemperature:483,temperature:485,mode:1},{id:11,mainid:1,time:6,settingtemperature:484,temperature:486,mode:1}]
+			else
+				// 没有新数据
+		});
