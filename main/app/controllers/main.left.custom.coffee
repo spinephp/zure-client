@@ -3,7 +3,8 @@ User = require('models/user')
 Default = require('models/default')
 $       = Spine.$
 Manager = require('spine/lib/manager')
-
+registerDialog = require('controllers/registerDialog')
+ 
 class Logins extends Spine.Controller
 	className: 'logins'
 	# 填充内部元素属性
@@ -72,7 +73,7 @@ class Logins extends Spine.Controller
 						@resetValidate()
 	
 	# 用户注册
-	userRegister:()-> registerDialog().open()
+	userRegister:()-> registerDialog().open(defaults:Default.first())
 	
 	# 重置校验码
 	resetValidate: ()->

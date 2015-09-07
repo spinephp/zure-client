@@ -194,3 +194,4 @@ registerDialog = ->
 			width = score + '%';
 			password_label.html("<span style='width:" + width + ";display:block;overflow:hidden;height:20px;line-height:20px;background:" + color + ";'>" + text + "</span>")
 
+module.exports = registerDialog

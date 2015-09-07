@@ -21,6 +21,7 @@ class Dryings extends Spine.Controller
 		
 		Drymain.bind 'refresh',=>
 			if Drymain.count()
+				# 因干燥数据巨大，每次只从远程取一次干燥数据
 				item = Drymain.first()
 				condition = [{field:"mainid",value:item.id,operator:"eq"}]
 				token =  $.fn.cookie 'PHPSESSID'
