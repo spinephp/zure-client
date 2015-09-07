@@ -105,9 +105,9 @@ class draw
 		@ctxSee.lineTo x,0
 		@ctxSee.strokeStyle = "rgba(0,0,0,0.5)"
 		@ctxSee.stroke()
-		(x+@offsetX)*@unit # 返回当前平移和缩放参数下的 x 坐标(时间)
+		parseInt((x+@offsetX)*@unit*60/@xSpace) # 返回当前平移和缩放参数下的 x 坐标(时间)
 	
-	# 画查看线
+	# 擦查看线
 	removeSeeLine:(x)->
 		@ctxSee.clearRect x-1,0,x+1,@canvas[1].height
 	
@@ -116,9 +116,9 @@ class draw
 		@ctx.lineWidth = 1
 		@ctx.beginPath()
 		rote = @unit*60/@xSpace
-		for rec,i in recs when rec.time > @offsetX*@unit
+		for rec,i in recs when rec.time > @offsetX*rote
 			t = rec.temperature >> 4
-			x = (rec.time-@offsetX*@unit)/rote+@ruleTemperatureWidth
+			x = rec.time/rote-@offsetX+@ruleTemperatureWidth
 			y = @ruleTemperatureHeight-(t+50)*@space/10
 			if i
 				@ctx.lineTo x,y
@@ -128,9 +128,9 @@ class draw
 		@ctx.stroke()
 		
 		@ctx.beginPath()
-		for rec,i in recs when rec.time > @offsetX*@unit
+		for rec,i in recs when rec.time > @offsetX*rote
 			t = rec.settingtemperature >> 4
-			x = (rec.time-@offsetX*@unit)/rote+@ruleTemperatureWidth
+			x = rec.time/rote-@offsetX+@ruleTemperatureWidth
 			y1 = @ruleTemperatureHeight-(t+50)*@space/10
 			if i
 				@ctx.lineTo x,y1
