@@ -50,6 +50,22 @@ class Default extends Spine.Model
 			"SetHomepage":["设为首页"]
 			'Home':["首页"]
 
+			# 注册对话框
+			'Custom register':["用户注册"]
+			'Strength':["密码强度"]
+			'RE-PWD':["重输密码"]
+			'Enter char in box':['输入右框中的字符']
+			'Click get another pin':['点击重新获取验证码']
+			'e.g.':['如']
+			'Ditto':['同上']
+			'Close':['关闭']
+			'Pass':['通过']
+			'Password format error':['密码格式错误']
+			'Email format error':['邮箱格式错误']
+			'Invalid phone number':['无效的手机号码']
+			'Invalid telephone number':['无效的电话号码']
+			'Invalid user name':['无效的用户名']
+			
 			# 页脚
 			'Address':["地址"]
 			"ICP":["备案号"]
@@ -70,6 +86,7 @@ class Default extends Spine.Model
 			'Contact':["联系方式"]
 			'Tel':["电话"]
 			'Fax':["传真"]
+			'Mobile':["手机"]
 			'Email':["邮箱"]
 			'Url':["网址"]
 			'Click here to send a message to me':["点击这里给我发消息"]

@@ -8,17 +8,21 @@ registerDialog = ->
 			return
 
 		char = options.defaults.translate 'Char'
+		pin = options.defaults.translate 'Enter char in box'
+		ckPin = options.defaults.translate 'Click get another pin'
+		exp = options.defaults.translate 'e.g.'
+		ditto = options.defaults.translate 'Ditto'
 		html = "<div id='registDialog'>"
 		html += "<form id='fmUserRegister'>"
 		html += "<dl>"
-		html += "<dt><label for='UserName'>#{options.defaults.translate 'Usr name'}:</label></dt><dd><input name='UserName' type='text' required placeholder='6~18 #{char}(a-zA-Z0-9.-_@)' /><span>*</span> <span id='username_rule'><button id='verifyUserName'>#{options.defaults.translate 'Verify'}</button> </span><span id='username_err_info'></span></dd>"
-		html += "<dt><label for='Password'>#{options.defaults.translate 'Password'}:</label></dt><dd><input name='Password' type='password' required placeholder='6-16 #{char}(a-zA-Z0-9.!@#$%^&*?_~)'/></dd><dd><span>*</span><span id='password_err_info'></span></dd>"
-		html += "<dt><label >密码强度:</label></dt><dd id='password_label' style='width:245px;border:1px solid #ccc;margin-top:3px;'><span style='width:150px;height:20px;display:block;border:1px solid #F0F0F0'> </span></dd>"
-		html += "<dt><label for='PasswordAgain'>再次键入密码:</label></dt><dd><input name='PasswordAgain' type='password' required placeholder='同上'/></dd><dd><span>*</span><span id='passwordagain_err_info'></span></dd>"
-		html += "<dt><label for='Email'>电子邮箱:</label></dt><dd><input name='Email' type='email' required placeholder='如:abc@example.com'/></dd><dd><span>*</span><span id='email_err_info'></span></dd>"
-		html += "<dt><label for='Mobile'>手机:</label></dt><dd><input name='Mobile' type='text' placeholder='如:18961376627' /></dd><dd><span>*</span><span id='mobile_err_info'></span></dd>"
-		html += "<dt><label for='Tel'>固定电话:</label></dt><dd><input name='Tel' type='tel' required placeholder='如:+86 518 82340137'/></dd><dd><span>*</span><span id='tel_err_info'></span></dd>"
-		html += "<dt><label for='Validate'>验证码:</label></dt><dd><input name='code' type='text' required placeholder='输入右侧图片中的字符'/></dd><dd><span>* </span><img id='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' alt='点击重新获取验证码' width=50 height=20 /></dd>"
+		html += "<dt><label for='UserName'>#{options.defaults.translate 'Name'}:</label></dt><dd><input name='UserName' type='text' required placeholder='6~18 #{char}(a-zA-Z0-9.-_@)' /></dd><dd><span>*</span> <span id='username_rule'><button id='verifyUserName'>#{options.defaults.translate 'Verify'}</button> </span><span id='username_err_info'></span></dd>"
+		html += "<dt><label for='Password'>#{options.defaults.translate 'PWD'}:</label></dt><dd><input name='Password' type='password' required placeholder='6-16 #{char}(a-zA-Z0-9.!@#$%^&*?_~)'/></dd><dd><span>*</span><span id='password_err_info'></span></dd>"
+		html += "<dt><label >#{options.defaults.translate 'Strength'}:</label></dt><dd id='password_label' style='width:245px;border:1px solid #ccc;margin-top:3px;'><span style='width:150px;height:20px;display:block;border:1px solid #F0F0F0'> </span></dd>"
+		html += "<dt><label for='PasswordAgain'>#{options.defaults.translate 'RE-PWD'}:</label></dt><dd><input name='PasswordAgain' type='password' required placeholder='#{ditto}'/></dd><dd><span>*</span><span id='passwordagain_err_info'></span></dd>"
+		html += "<dt><label for='Email'>#{options.defaults.translate 'Email'}:</label></dt><dd><input name='Email' type='email' required placeholder='#{exp}:abc@example.com'/></dd><dd><span>*</span><span id='email_err_info'></span></dd>"
+		html += "<dt><label for='Mobile'>#{options.defaults.translate 'Mobile'}:</label></dt><dd><input name='Mobile' type='text' placeholder='#{exp}:18961376627' /></dd><dd><span>*</span><span id='mobile_err_info'></span></dd>"
+		html += "<dt><label for='Tel'>#{options.defaults.translate 'Tel'}:</label></dt><dd><input name='Tel' type='tel' required placeholder='#{exp}:+86 518 82340137'/></dd><dd><span>*</span><span id='tel_err_info'></span></dd>"
+		html += "<dt><label for='Validate'>#{options.defaults.translate 'PID'}:</label></dt><dd><input name='code' type='text' required placeholder='#{pin}' /></dd><dd><span>* </span><img id='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' alt='#{ckPin}' width=50 height=20 /></dd>"
 		html += "</dl>"
 		html += "<input type='hidden' name='action' value='custom_register' />"
 		html += "<input type='hidden' name='LastTime' value='' />"
@@ -29,17 +33,17 @@ registerDialog = ->
 
 		$(html).appendTo("body")
 		
-		$("#validate").attr('title', '点击重新获取验证码')
+		$("#validate").attr('title', "#{options.defaults.translate 'Click get another pin'}")
 
 		$("#fmUserRegister input[name=Password]").keyup ()->
-			checkpass($(this).val(), $("#fmUserRegister input[name=UserName]").val())
+			registerDialog().checkpass($(this).val(), $("#fmUserRegister input[name=UserName]").val())
 
 		# 用户名检测按键处理程序
-		$("#verifyUserName").click ()->
+		$("#verifyUserName").click ()=>
 			value = $("#fmUserRegister input[name=UserName]").val()
-			ret = validateUserName(value)
+			ret = registerDialog().validateUserName(value)
 			if ret is 1
-				checkUserName(value)
+				registerDialog().checkUserName(value)
 		
 		# 用户注册表输入框获得焦点时处理程序
 		$("#fmUserRegister dl").delegate "dd input","focus",()->
@@ -63,36 +67,38 @@ registerDialog = ->
 			ret
 			info
 			errinfo.show() if errinfo 
+			pass = options.defaults.translate 'Pass'
 			switch basename
 				when "username"
-					ret = validateUserName(value)
+					ret = registerDialog().validateUserName(value)
 					if ret is 1 # AJAX 查询用户名是否存在
-						checkUserName(value)
+						registerDialog().checkUserName(value)
 						return true
 					else # 显示用户名输入框错误信息
-						info = "无效的用户名！"
+						info = "Invalid user name"
 				when "password","passwordagain"
-					info = if /^[\w\-\!\@\#\$\%\^\&\*]{6,16}$/.test(value) then "通过" else "密码格式错误"
+					info = if /^[\w\-\!\@\#\$\%\^\&\*]{6,16}$/.test(value) then "Pass" else "Password format error"
 				when "email"
-					info = if /^\w+((-\w+)|(\.\w+))*\@\w+((\.|-)\w+)*\.\w+$/.test(value) then "通过" else "邮箱格式错误"
+					info = if /^\w+((-\w+)|(\.\w+))*\@\w+((\.|-)\w+)*\.\w+$/.test(value) then "Pass" else "Email format error"
 				when "mobile"
-					info = if /^1[3|4|5|8]\d{9}$/.test(value) then "通过" else "无效的手机号码"
+					info = if /^1[3|4|5|8]\d{9}$/.test(value) then "Pass" else "Invalid phone number"
 				when "tel"
-					info = if /^((\+\d{2,3}[ |-]?)|0)\d{2,3}[ |-]?\d{7,9}$/.test(value) then "通过" else "无效的电话号码"
-			errinfo.css("color",(if info is "通过" then "green" else "red"))
+					info = if /^((\+\d{2,3}[ |-]?)|0)\d{2,3}[ |-]?\d{7,9}$/.test(value) then "Pass" else "Invalid telephone number"
+			info = options.defaults.translate info
+			errinfo.css("color",(if info is pass then "green" else "red"))
 			errinfo.html(info)
-			if info isnt "通过"
+			if info isnt pass
 				$(this).focus()
 				return false
 
 		$("#registDialog").dialog
-			autoOpen: false,
-			closeOnEscape: true,
-			width: '600px',
-			modal: true,
-			title: "用户注册",
+			autoOpen: false
+			closeOnEscape: true
+			width: '600px'
+			modal: true
+			title: options.defaults.translate 'Custom register'
 			buttons: 
-				"注册": () ->
+				"Sign up": () ->
 					__refactor__ = true
 					pwd1 = $("#fmUserRegister input[name=Password]")
 					pwd2 = $("#fmUserRegister input[name=PasswordAgain]")
@@ -104,7 +110,7 @@ registerDialog = ->
 						return false
 					
 					jQuery.ajax
-						url: "? cmd=UserRegister&token="+sessionStorage.token   # 提交的页面
+						url: "? cmd=UserRegister&token="+$.fn.cookie "PHPSESSID"   # 提交的页面
 						data: $('#fmUserRegister').serialize() # 从表单中获取数据
 						type: "POST"                   # 设置请求类型为"POST"，默认为"GET"
 						beforeSend: ()->         # 设置表单提交前方法
@@ -117,8 +123,13 @@ registerDialog = ->
 							#new screenClass().unlock(); # 设置表单提交完成使用方法
 							$("#registDialog").dialog("close")
 							alert("恭喜您，"+obj.register+"\n\n"+obj.email)
-				"取消": () ->
+				"Close": () ->
 					$("#registDialog").dialog("close")
+			open:->
+				# 翻译按钮文本
+				btns =  $(@).next().find('button span')
+				$(btn).text options.defaults.translate $(btn).text() for btn in btns
+				
 		$("#registDialog").dialog("open");
 		__refactor__ = false;
 
@@ -134,7 +145,7 @@ registerDialog = ->
 	# @param string value - 包含用户名的字符串
 	#
 	checkUserName:(value)->
-		param = $.param({filter:["username"], cond: [{ field:"username",value:value,operator:"eq" }], token: sessionStorage.token })
+		param = $.param({filter:["id","username"], cond: [{ field:"username",value:value,operator:"eq" }], token: sessionStorage.token })
 		url = "? cmd=Person&" + param
 		$.getJSON url, null, (result)->
 			clTxt = "red"
@@ -154,7 +165,7 @@ registerDialog = ->
 		return -4 if password.length < 4 
 		return -2 if typeof (username) isnt 'undefined' and password.toLowerCase() is username.toLowerCase() 
 		score += password.length * 4
-		score += (repeat(i, password).length - password.length) * 1 for i in [1..4]
+		score += (registerDialog().repeat(i, password).length - password.length) * 1 for i in [1..4]
 		score += 5 if password.match /(.*[0-9].*[0-9].*[0-9])/
 		score += 5 if password.match /(.*[!,@,#,$,%,^,&,*,?,_,~].*[!,@,#,$,%,^,&,*,?,_,~])/
 		score += 10 if password.match /([a-z].*[A-Z])|([A-Z].*[a-z])/
@@ -182,7 +193,7 @@ registerDialog = ->
 
 	checkpass:(pass,username)->
 		user = username or "usrname"
-		score = testpass pass, user
+		score = registerDialog().testpass pass, user
 		password_label = $('#password_label')
 		if score is -4
 			password_label.html("<span style='height:20px;line-height:20px;display:block;'>太短</span>")
