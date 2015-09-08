@@ -15,19 +15,19 @@ registerDialog = ->
 		html = "<div id='registDialog'>"
 		html += "<form id='fmUserRegister'>"
 		html += "<dl>"
-		html += "<dt><label for='UserName'>#{options.defaults.translate 'Name'}:</label></dt><dd><input name='UserName' type='text' required placeholder='6~18 #{char}(a-zA-Z0-9.-_@)' /></dd><dd><span>*</span> <span id='username_rule'><button id='verifyUserName'>#{options.defaults.translate 'Verify'}</button> </span><span id='username_err_info'></span></dd>"
-		html += "<dt><label for='Password'>#{options.defaults.translate 'PWD'}:</label></dt><dd><input name='Password' type='password' required placeholder='6-16 #{char}(a-zA-Z0-9.!@#$%^&*?_~)'/></dd><dd><span>*</span><span id='password_err_info'></span></dd>"
+		html += "<dt><label for='UserName'>#{options.defaults.translate 'Name'}:</label></dt><dd><input name='P_username' type='text' required placeholder='6~18 #{char}(a-zA-Z0-9.-_@)' /></dd><dd><span>*</span> <span id='username_rule'><button id='verifyUserName'>#{options.defaults.translate 'Verify'}</button> </span><span id='username_err_info'></span></dd>"
+		html += "<dt><label for='Password'>#{options.defaults.translate 'PWD'}:</label></dt><dd><input name='P_pwd' type='password' required placeholder='6-16 #{char}(a-zA-Z0-9.!@#$%^&*?_~)'/></dd><dd><span>*</span><span id='password_err_info'></span></dd>"
 		html += "<dt><label >#{options.defaults.translate 'Strength'}:</label></dt><dd id='password_label' style='width:245px;border:1px solid #ccc;margin-top:3px;'><span style='width:150px;height:20px;display:block;border:1px solid #F0F0F0'> </span></dd>"
 		html += "<dt><label for='PasswordAgain'>#{options.defaults.translate 'RE-PWD'}:</label></dt><dd><input name='PasswordAgain' type='password' required placeholder='#{ditto}'/></dd><dd><span>*</span><span id='passwordagain_err_info'></span></dd>"
-		html += "<dt><label for='Email'>#{options.defaults.translate 'Email'}:</label></dt><dd><input name='Email' type='email' required placeholder='#{exp}:abc@example.com'/></dd><dd><span>*</span><span id='email_err_info'></span></dd>"
-		html += "<dt><label for='Mobile'>#{options.defaults.translate 'Mobile'}:</label></dt><dd><input name='Mobile' type='text' placeholder='#{exp}:18961376627' /></dd><dd><span>*</span><span id='mobile_err_info'></span></dd>"
-		html += "<dt><label for='Tel'>#{options.defaults.translate 'Tel'}:</label></dt><dd><input name='Tel' type='tel' required placeholder='#{exp}:+86 518 82340137'/></dd><dd><span>*</span><span id='tel_err_info'></span></dd>"
+		html += "<dt><label for='Email'>#{options.defaults.translate 'Email'}:</label></dt><dd><input name='P_email' type='email' required placeholder='#{exp}:abc@example.com'/></dd><dd><span>*</span><span id='email_err_info'></span></dd>"
+		html += "<dt><label for='Mobile'>#{options.defaults.translate 'Mobile'}:</label></dt><dd><input name='P_mobile' type='text' placeholder='#{exp}:18961376627' /></dd><dd><span>*</span><span id='mobile_err_info'></span></dd>"
+		html += "<dt><label for='Tel'>#{options.defaults.translate 'Tel'}:</label></dt><dd><input name='P_tel' type='tel' required placeholder='#{exp}:+86 518 82340137'/></dd><dd><span>*</span><span id='tel_err_info'></span></dd>"
 		html += "<dt><label for='Validate'>#{options.defaults.translate 'PID'}:</label></dt><dd><input name='code' type='text' required placeholder='#{pin}' /></dd><dd><span>* </span><img id='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' alt='#{ckPin}' width=50 height=20 /></dd>"
 		html += "</dl>"
-		html += "<input type='hidden' name='action' value='custom_register' />"
-		html += "<input type='hidden' name='LastTime' value='' />"
-		html += "<input type='hidden' name='Times' value='0' />"
-		html += "<input type='hidden' name='token' value=" + sessionStorage.token + " />"
+		html += "<input type='hidden' name='action' value='custom_create' />"
+		html += "<input type='hidden' name='P_lasttime' value='' />"
+		html += "<input type='hidden' name='P_times' value='0' />"
+		html += "<input type='hidden' name='token' value=" + $.fn.cookie('PHPSESSIS') + " />"
 		html += "</form>"
 		html += "</div>"
 
@@ -35,12 +35,12 @@ registerDialog = ->
 		
 		$("#validate").attr('title', "#{options.defaults.translate 'Click get another pin'}")
 
-		$("#fmUserRegister input[name=Password]").keyup ()->
-			registerDialog().checkpass($(this).val(), $("#fmUserRegister input[name=UserName]").val())
+		$("#fmUserRegister input[name=P_pwd]").keyup ()->
+			registerDialog().checkpass($(this).val(), $("#fmUserRegister input[name=P_username]").val())
 
 		# 用户名检测按键处理程序
 		$("#verifyUserName").click ()=>
-			value = $("#fmUserRegister input[name=UserName]").val()
+			value = $("#fmUserRegister input[name=P_username]").val()
 			ret = registerDialog().validateUserName(value)
 			if ret is 1
 				registerDialog().checkUserName(value)
@@ -69,20 +69,20 @@ registerDialog = ->
 			errinfo.show() if errinfo 
 			pass = options.defaults.translate 'Pass'
 			switch basename
-				when "username"
+				when "p_username"
 					ret = registerDialog().validateUserName(value)
 					if ret is 1 # AJAX 查询用户名是否存在
 						registerDialog().checkUserName(value)
 						return true
 					else # 显示用户名输入框错误信息
 						info = "Invalid user name"
-				when "password","passwordagain"
+				when "p_pwd","passwordagain"
 					info = if /^[\w\-\!\@\#\$\%\^\&\*]{6,16}$/.test(value) then "Pass" else "Password format error"
-				when "email"
+				when "p_email"
 					info = if /^\w+((-\w+)|(\.\w+))*\@\w+((\.|-)\w+)*\.\w+$/.test(value) then "Pass" else "Email format error"
-				when "mobile"
+				when "p_mobile"
 					info = if /^1[3|4|5|8]\d{9}$/.test(value) then "Pass" else "Invalid phone number"
-				when "tel"
+				when "p_tel"
 					info = if /^((\+\d{2,3}[ |-]?)|0)\d{2,3}[ |-]?\d{7,9}$/.test(value) then "Pass" else "Invalid telephone number"
 			info = options.defaults.translate info
 			errinfo.css("color",(if info is pass then "green" else "red"))
@@ -100,7 +100,7 @@ registerDialog = ->
 			buttons: 
 				"Sign up": () ->
 					__refactor__ = true
-					pwd1 = $("#fmUserRegister input[name=Password]")
+					pwd1 = $("#fmUserRegister input[name=P_pwd]")
 					pwd2 = $("#fmUserRegister input[name=PasswordAgain]")
 					if pwd1.val() isnt pwd2.val()
 						alert("分别键入的两个密码不一致!\n请重新输入。")
@@ -108,21 +108,39 @@ registerDialog = ->
 						pwd2.val("")
 						pwd1.focus()
 						return false
-					
+						
+					item = $.fn.makeRequestParam $("#fmUserRegister"),['custom','person'],['C_','P_']
+					param = JSON.stringify(item)
 					jQuery.ajax
-						url: "? cmd=UserRegister&token="+$.fn.cookie "PHPSESSID"   # 提交的页面
-						data: $('#fmUserRegister').serialize() # 从表单中获取数据
+						url: "? cmd=Custom&token="+$.fn.cookie "PHPSESSID"   # 提交的页面
+						data: param # 从表单中获取数据
 						type: "POST"                   # 设置请求类型为"POST"，默认为"GET"
+						dataType: "json"
 						beforeSend: ()->         # 设置表单提交前方法
 						   # new screenClass().lock();
 						error: (request)->      # 设置表单提交出错
 							#new screenClass().unlock()
 							alert("表单提交出错，请稍候再试")
 						success: (data)->
-							obj = JSON.parse(data)
-							#new screenClass().unlock(); # 设置表单提交完成使用方法
-							$("#registDialog").dialog("close")
-							alert("恭喜您，"+obj.register+"\n\n"+obj.email)
+							if data.id > -1
+								person = {}
+								custom = {}
+								person[item]=data.person[item] for item in options.Person.attributes
+								custom[item]=data.custom[item] for item in options.Custom.attributes
+								options.Person.refresh person,clear:false
+								options.Custom.refresh custom,clear:false
+								#@item.persons.updateAttributes person,ajax: false
+								#@item.customs.updateAttributes custom,ajax: false
+								$("#registDialog").dialog("close")
+								alert "恭喜您，"+data.register+'\n'+data.email
+							else
+								switch data.error
+									when "Access Denied"
+										window.location.reload()
+									when "Validate Code Error!"
+										alert "验证码错误，请重新填写。"
+										$("#validate").click()
+										$("input[name=code]").focus()
 				"Close": () ->
 					$("#registDialog").dialog("close")
 			open:->
@@ -145,7 +163,7 @@ registerDialog = ->
 	# @param string value - 包含用户名的字符串
 	#
 	checkUserName:(value)->
-		param = $.param({filter:["id","username"], cond: [{ field:"username",value:value,operator:"eq" }], token: sessionStorage.token })
+		param = $.param({filter:["id","username"], cond: [{ field:"username",value:value,operator:"eq" }], token: $.fn.cookie 'PHPSESSID' })
 		url = "? cmd=Person&" + param
 		$.getJSON url, null, (result)->
 			clTxt = "red"

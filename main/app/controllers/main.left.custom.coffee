@@ -1,6 +1,8 @@
 Spine   = require('spine')
 User = require('models/user')
 Default = require('models/default')
+Custom = require('models/custom')
+Person = require('models/person')
 $       = Spine.$
 Manager = require('spine/lib/manager')
 registerDialog = require('controllers/registerDialog')
@@ -73,7 +75,7 @@ class Logins extends Spine.Controller
 						@resetValidate()
 	
 	# 用户注册
-	userRegister:()-> registerDialog().open(defaults:Default.first())
+	userRegister:()-> registerDialog().open defaults:Default.first(),Person:Person,Custom:Custom
 	
 	# 重置校验码
 	resetValidate: ()->

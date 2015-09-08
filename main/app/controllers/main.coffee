@@ -42,6 +42,23 @@ class main extends Spine.Controller
 					c_end=document.cookie.length if c_end is -1 
 					return unescape(document.cookie.substring(c_start,c_end))
 			return ""
+			
+		$.fn.makeRequestParam = (formEl,tables,heads,curtabs)->
+			#opt = $(e.target)
+			key = $(formEl).serializeArray()
+			item = {token:$.fn.cookie "PHPSESSID"}
+			item[table] = {} for table in tables
+			for field in key
+				head = field.name[0..1]
+				ckey = field.name[2..]
+				cval = $.trim field.value
+				if cval isnt ''
+					i = $.inArray head,heads
+					if i > -1
+						item[tables[i]][ckey] = cval unless curtabs? or curtabs?[i][ckey] is cval
+					else
+						item[field.name] = cval
+			item
 	
 		@headers = new Headers
 		@footers = new Footers

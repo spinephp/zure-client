@@ -21,8 +21,8 @@ class Sysadmins extends Spine.Controller
 					return unescape(document.cookie.substring(c_start,c_end))
 			return ""
 			
-		$.fn.makeRequestParam = (e,formEl,tables,heads,curtabs)->
-			opt = $(e.target)
+		$.fn.makeRequestParam = (formEl,tables,heads,curtabs)->
+			#opt = $(e.target)
 			key = $(formEl).serializeArray()
 			item = {token:$.fn.cookie "PHPSESSID"}
 			item[table] = {} for table in tables
