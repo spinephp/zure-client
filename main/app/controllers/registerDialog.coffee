@@ -27,7 +27,8 @@ registerDialog = ->
 		html += "<input type='hidden' name='action' value='custom_create' />"
 		html += "<input type='hidden' name='P_lasttime' value='' />"
 		html += "<input type='hidden' name='P_times' value='0' />"
-		html += "<input type='hidden' name='token' value=" + $.fn.cookie('PHPSESSIS') + " />"
+		html += "<input type='hidden' name='C_type' value='P' />"
+		#html += "<input type='hidden' name='token' value=" + $.fn.cookie('PHPSESSIS') + " />"
 		html += "</form>"
 		html += "</div>"
 

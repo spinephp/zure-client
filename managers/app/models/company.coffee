@@ -1,6 +1,5 @@
 Spine = require('spine')
 require('spine/lib/ajax')
-Company = require('models/company')
 
 # 创建企业模型
 class Company extends Spine.Model
