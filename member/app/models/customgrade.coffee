@@ -6,7 +6,7 @@ require('spine/lib/ajax')
 class Customgrade extends Spine.Model
 	@configure 'Customgrade', 'id',"gradeid","date"
 	@extend Spine.Model.Ajax
-	@url: '? cmd=CustomGrade'
+	@url: 'woo/index.php? cmd=CustomGrade'
 
 	@fetch: (params) ->
 		fields = @attributes

@@ -6,7 +6,7 @@ require('spine/lib/relation')
 class Grade extends Spine.Model
 	@configure 'Grade', 'id',"names","cost","image","rights"
 	@extend Spine.Model.Ajax
-	@url: '? cmd=Grade'
+	@url: 'woo/index.php? cmd=Grade'
 
 	@fetch: (params) ->
 		fields = @attributes

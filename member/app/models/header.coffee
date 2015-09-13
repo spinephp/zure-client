@@ -5,6 +5,6 @@ class Header extends Spine.Model
 	@configure 'Header','name','data'
   
 	@extend Spine.Model.Ajax
-	@url:'? cmd=ContactHomeToJSON'
+	@url:'woo/index.php? cmd=ContactHomeToJSON'
 
 module.exports = Header

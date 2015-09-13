@@ -45,7 +45,7 @@ class myOrders extends Spine.Controller
 				@item.default = Default.first()
 				@render()
 
-		Order.fetch()
+		#Order.fetch()
 
 	render: ->
 		@html require("views/orders")(@item)

@@ -8,7 +8,7 @@ class Province extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Province'
+	@url: 'woo/index.php? cmd=Province'
 
 	@fetch: (params) ->
 		fields = @attributes

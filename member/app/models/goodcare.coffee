@@ -6,7 +6,7 @@ Good = require('models/good')
 class Goodcare extends Spine.Model
 	@configure 'Goodcare', 'id',"proid","price","currencyid","exchangerate","date","label"
 	@extend Spine.Model.Ajax
-	@url: '? cmd=ProductCare'
+	@url: 'woo/index.php? cmd=ProductCare'
 
 	@fetch: (params) ->
 		fields = @attributes

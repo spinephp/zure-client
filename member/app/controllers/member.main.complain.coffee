@@ -54,7 +54,7 @@ class myComplains extends Spine.Controller
 
 		Complain.fetch()
 		Ordercomplain.fetch()
-		Order.fetch()
+		#Order.fetch()
 		Goodclass.fetch() if Goodclass.count() is 0
 
 		Ordercomplain.bind "beforeUpdate beforeDestroy", ->

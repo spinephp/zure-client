@@ -7,7 +7,7 @@ class Goodeval extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=ProductEval'
+	@url: 'woo/index.php? cmd=ProductEval'
 
 	@fetch: (params) ->
 		params or= 

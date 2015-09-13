@@ -7,7 +7,7 @@ class Productlabel extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=ProductLabel'
+	@url: 'woo/index.php? cmd=ProductLabel'
 
 	@fetch: (params) ->
 		fields = @attributes

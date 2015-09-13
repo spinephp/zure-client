@@ -7,7 +7,7 @@ class Person extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Person'
+	@url: 'woo/index.php? cmd=Person'
 
 	@fetch: (params) ->
 		fields = @attributes

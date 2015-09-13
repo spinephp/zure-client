@@ -5,7 +5,7 @@ require('spine/lib/ajax')
 class Customaccount extends Spine.Model
 	@configure 'Customaccount', 'id',"in","out","lock","note"
 	@extend Spine.Model.Ajax
-	@url: '? cmd=CustomAccount'
+	@url: 'woo/index.php? cmd=CustomAccount'
 
 	@fetch: (params) ->
 		condition = [{field:"userid",value:'?userid',operator:"eq"}]

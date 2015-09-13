@@ -5,7 +5,7 @@ require('spine/lib/ajax')
 class Orderproduct extends Spine.Model
 	@configure 'Orderproduct', 'id',"classid","size","picture"
 	@extend Spine.Model.Ajax
-	@url: '? cmd=Product'
+	@url: 'index.php? cmd=Product'
 
 	@append:(ids)->
 		fields = @attributes

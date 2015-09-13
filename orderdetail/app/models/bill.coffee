@@ -7,7 +7,7 @@ class Bill extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Bill'
+	@url: 'woo/index.php? cmd=Bill'
 
 	@fetch: (params) ->
 		token = $.fn.cookie 'PHPSESSID'

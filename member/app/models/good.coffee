@@ -6,7 +6,7 @@ Goodeval = require('models/goodeval')
 class Good extends Spine.Model
 	@configure 'Good', 'id',"classid","size","picture","price","amount","status"
 	@extend Spine.Model.Ajax
-	@url: '? cmd=Product'
+	@url: 'index.php? cmd=Product'
 
 	@append:(ids)->
 		fields = @attributes

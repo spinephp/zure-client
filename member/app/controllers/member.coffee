@@ -49,7 +49,7 @@ class Members extends Spine.Controller
 				if result.status is false
 					switch result.error
 						when "Not logged!"
-							loginDialog().open(default:Default.first(),user:User,sucess:->location.replace @urlroute.substring 0,n-1)
+							loginDialog().open(default:Default.first(),user:User,sucess:->location.reload()) #replace @urlroute.substring 0,n-1)
 						when "Access Denied"
 							alert result.error
 							window.history.back(-1)

@@ -8,7 +8,7 @@ class Custom extends Spine.Model
 	@configure 'Custom', 'id',"type","emailstate","mobilestate","accountstate","integral"
 	@extend Spine.Model.Ajax
 	#@hasMany 'persons', 'models/Person'
-	@url: '? cmd=Custom'
+	@url: 'woo/index.php? cmd=Custom'
 
 	@fetch: (params) ->
 		fields = @attributes

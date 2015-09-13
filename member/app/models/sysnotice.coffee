@@ -5,7 +5,7 @@ require('spine/lib/ajax')
 class Sysnotice extends Spine.Model
 	@configure 'Sysnotice', 'id',"type","content","time","readstate"
 	@extend Spine.Model.Ajax
-	@url: '? cmd=SystemNotice'
+	@url: 'woo/index.php? cmd=SystemNotice'
 
 	@fetch: (params) ->
 		fields = @attributes

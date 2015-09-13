@@ -7,7 +7,7 @@ class Payment extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Payment'
+	@url: 'woo/index.php? cmd=Payment'
 
 	@fetch: (params) ->
 		fields = @attributes

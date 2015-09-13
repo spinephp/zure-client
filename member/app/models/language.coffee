@@ -7,7 +7,7 @@ class Language extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Language'
+	@url: 'woo/index.php? cmd=Language'
 
 	@fetch: (params) ->
 		fields = @attributes

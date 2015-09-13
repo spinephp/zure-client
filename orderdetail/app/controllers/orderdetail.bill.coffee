@@ -42,8 +42,7 @@ class Bills extends Spine.Controller
 				order = Order.find $.getUrlParam "orderid"
 				bill = Bill.find order.billtypeid
 				content = Billcontent.find order.billcontentid
-				curbill = if bill.id is '1' then Billfree else Billsale
-				billcur = curbill.find order.billid
+				billcur = if parseInt(bill.id) is 1 then Billfree.find order.billid else Billsale.find order.billid
 				@item = 
 					default:default1
 					types:bill

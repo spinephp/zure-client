@@ -8,7 +8,7 @@ class Company extends Spine.Model
 	@configure 'Company', 'id',"name","address","bank","account","email","www","tel","fax","postcard","duty"
 	@extend Spine.Model.Ajax
 	#@hasMany 'persons', 'models/Person'
-	@url: '? cmd=Company'
+	@url: 'index.php? cmd=Company'
 
 	@append:(ids)->
 		fields = @attributes

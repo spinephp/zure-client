@@ -6,7 +6,7 @@ class Consignee extends Spine.Model
 	@configure 'Consignee','id','name','province','city','zone','address','email','mobile','tel','postcard'
   
 	@extend Spine.Model.Ajax
-	@url:'index.php? cmd=Consignee'
+	@url:'woo/index.php? cmd=Consignee'
 
 	@fetch: (params) ->
 		fields = @attributes

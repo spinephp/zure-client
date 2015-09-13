@@ -5,7 +5,7 @@ class Mainmenu extends Spine.Model
 	@configure 'Mainmenu','names','command'
   
 	@extend Spine.Model.Ajax
-	@url:'? cmd=Navigation'
+	@url:'woo/index.php? cmd=Navigation'
 
 	@fetch: (params) ->
 		fields = @attributes

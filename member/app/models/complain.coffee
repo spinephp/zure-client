@@ -7,7 +7,7 @@ class Complain extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Complain'
+	@url: 'woo/index.php? cmd=Complain'
 
 	@fetch: (params) ->
 		fields = @attributes
