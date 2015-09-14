@@ -43,7 +43,7 @@
             <th>
               <select name="ordertime" id="ordertime">
                 <% for ctime,index in ['All time','3 months','This year']: %>
-                  <option value='index' >
+                  <option value='<%=index %>' >
                   <%= @defaults.translate ctime %>
                 </option>
                 <% end %>
@@ -61,7 +61,7 @@
             <th>
               <select name="orderstate" id="orderstate">
                 <% for state,index in ['All state','Contract','Waiting for payment','Picking','Confirmt','Finished','Cancel']: %>
-                <option value='index' >
+                <option value='<%=index %>' <%= 'selected' if @options[0] is index %>>
                   <%= @defaults.translate state %>
                 </option>
                 <% end %>
@@ -72,7 +72,7 @@
           </thead>
         <tbody>
           <% if @orders.count()>0: %>
-          <% for order in @orders.all(): %>
+          <% for order in @ordermap: %>
           <tr>
             <td>
               <a href="? cmd=ShowOrderDetail&orderid="
