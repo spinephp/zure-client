@@ -120,10 +120,8 @@ class Default extends Spine.Model
 			'Finished':['已完成']
 			'Cancel':['已取消']
 			'Operation':['操作']
-			'View':['查看']
+			'Order detail':['订单详情']
 			'Del':['删除']
-			'Eval':['评价']
-			'Show':['晒单']
 			'Buy next':['还要买']
 			'Now you have no order':['你目前还没有订单']
 			
@@ -146,7 +144,7 @@ class Default extends Spine.Model
 			# 产品
 			'Code':['产品编号']
 			'Price':['产品价格']
-			'Evaluation':['产品评价']
+			'Evaluation':['评价']
 			'Purchase quantity':['购买数量']
 			'people to participate in the evaluation':['个人已参与评价']
 			'Add to cart':['加入订单']

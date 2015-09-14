@@ -96,13 +96,14 @@
               <%= order.time %>
             </td>
             <td>
-              <%= @defaults.translates order.stateNames() %>
+              <span><%= @defaults.translates order.stateNames() %></span>
+              <a href="? cmd=ShowOrderDetail&orderid=<%= order.id %>"><br /><%= @defaults.translate 'Order detail' %></a>
             </td>
             <td>
-              <a href="? cmd=ShowOrderDetail&orderid=<%= order.id %>"><%= @defaults.translate 'View' %></a> |
               <a data-action="delete/<%= order.id %>"><%= @defaults.translate 'Del' %></a>
-              <a data-action="eval/<%= order.id %>"><%= @defaults.translate 'Eval' %></a> |
-              <a data-action="eval/<%= order.id %>"><%= @defaults.translate 'Show' %></a>
+			  <% if order.stateid is 13: %>
+              <a data-action="eval/<%= order.id %>"><%= @defaults.translate 'Evaluation' %></a> 
+			  <% end %>
               <button data-id="<%= order.id %>"><%= @defaults.translate 'Buy next' %></button>
             </td>
           </tr>
