@@ -47,9 +47,9 @@
                 <% end %>
                 <% cyear=new Date().getFullYear() %>
                 <% for n in [1..5]: %>
-                <option value='<%= n+2 %>' <%= 'selected' if @options[0] is n+2 %>><%= cyear-n %></option>
+                <option value='<%= n+2 %>' <%= 'selected' if @options[1] is n+2 %>><%= cyear-n %></option>
                 <% end %>
-                <option value='9' <%= 'selected' if @options[0] is 9 %>>
+                <option value='8' <%= 'selected' if @options[1] is 8 %>>
                   <%= cyear-5 %><%= @defaults.translate 'ago' %>
                   </option>
               </select>

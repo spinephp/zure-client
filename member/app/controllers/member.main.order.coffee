@@ -101,45 +101,58 @@ class myOrders extends Spine.Controller
 	strtotime:(str)->
 		_arr = str.split(' ')
 		_day = _arr[0].split('-')
-		_arr[1] = (_arr[1] == null) ? '0:0:0' :_arr[1]
+		_arr[1] or= '0:0:0'
 		_time = _arr[1].split(':')
 		for i in [_day.length - 1..0] by -1
-			_day[i] = isNaN(parseInt(_day[i])) ? 0 :parseInt(_day[i])
+			_day[i] = if isNaN(parseInt(_day[i])) then 0 else parseInt(_day[i])
 		for i in [_time.length - 1..0] by -1 
-			_time[i] = isNaN(parseInt(_time[i])) ? 0 :parseInt(_time[i])
+			_time[i] = if isNaN(parseInt(_time[i])) then 0 else parseInt(_time[i])
 		_temp = new Date(_day[0],_day[1]-1,_day[2],_time[0],_time[1],_time[2])
 		return _temp.getTime() / 1000
 		
-	timeChange:(e)->
-		@item.options[1] = parseInt $(e.target).val()
-		switch @item.options[1]
+	_timeChange:(table,timeindex)->
+		mydate = new Date()
+		order = switch timeindex
 			when 0#'All time'
-				@item.ordermap = Order.all()
+				table
 			when 1#'3 months'
-				@item.ordermap = Order.select (item)->@strtotime(item.time) > @strtotime("-90 days")
-			when 2,3,4,5,6,7
-				@item.ordermap = Order.select (item)->!!~item.time.indexOf((date("Y")-@item.options[1]+2).toString())
+				mydate.setMonth(mydate.getMonth()-3)
+				(item for item in table when @strtotime(item.time) > mydate.getTime()/1000)
+			when 2,3,4,5,6
+				(item for item in table when !!~item.time.indexOf((mydate.getFullYear()-timeindex+2).toString()))
 			when 8#'Cancel'
-				@item.ordermap = Order.select (item)->@strtotime(item.time) < date("Y")-5
+				(item for item in table when @strtotime(item.time) < mydate.getFullYear()-5)
+		order
+				
+	_stateChange:(table,stateindex)->
+		order = switch stateindex
+			when 0#'All state'
+				table
+			when 1#'Contract'
+				(item for item in table when item.stateid is 2)
+			when 2#'Waiting for payment'
+				(item for item in table when item.stateid in [3,9,12])
+			when 3#'Picking'
+				(item for item in table when item.stateid in [3,9,12])
+			when 4#'Confirmt'
+				(item for item in table when item.stateid in [3,9,12])
+			when 5#'Finished'
+				(item for item in table when item.stateid is 13)
+			when 6#'Cancel'
+				(item for item in table when item.stateid is 14)
+		order
+				
+	_orderChange:->
+		order = @_timeChange Order.all(),@item.options[1]
+		@item.ordermap = @_stateChange order,@item.options[0]
 		@render()
+		
+	timeChange:(e)=>
+		@item.options[1] = parseInt $(e.target).val()
+		@_orderChange()
 		
 	stateChange:(e)->
 		@item.options[0] = parseInt $(e.target).val()
-		switch @item.options[0]
-			when 0#'All state'
-				@item.ordermap = Order.all()
-			when 1#'Contract'
-				@item.ordermap = Order.select (item)->item.stateid is 2
-			when 2#'Waiting for payment'
-				@item.ordermap = Order.select (item)->item.stateid in [3,9,12]
-			when 3#'Picking'
-				@item.ordermap = Order.select (item)->item.stateid in [3,9,12]
-			when 4#'Confirmt'
-				@item.ordermap = Order.select (item)->item.stateid in [3,9,12]
-			when 5#'Finished'
-				@item.ordermap = Order.select (item)->item.stateid is 13
-			when 6#'Cancel'
-				@item.ordermap = Order.select (item)->item.stateid is 14
-		@render()
+		@_orderChange()
 		
 module.exports = myOrders
