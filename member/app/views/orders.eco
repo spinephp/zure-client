@@ -43,17 +43,13 @@
             <th>
               <select name="ordertime" id="ordertime">
                 <% for ctime,index in ['All time','3 months','This year']: %>
-                  <option value='<%=index %>' >
-                  <%= @defaults.translate ctime %>
-                </option>
+                  <option value='<%=index %>' <%= 'selected' if @options[1] is index %>><%= @defaults.translate ctime %></option>
                 <% end %>
                 <% cyear=new Date().getFullYear() %>
                 <% for n in [1..5]: %>
-                <option value=''
-                  <%= n+2 %> ><%= cyear-n %>
-                  </option>
+                <option value='<%= n+2 %>' <%= 'selected' if @options[0] is n+2 %>><%= cyear-n %></option>
                 <% end %>
-                <option value='9' >
+                <option value='9' <%= 'selected' if @options[0] is 9 %>>
                   <%= cyear-5 %><%= @defaults.translate 'ago' %>
                   </option>
               </select>

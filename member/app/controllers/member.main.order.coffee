@@ -98,23 +98,29 @@ class myOrders extends Spine.Controller
 	edit: ->
 		@navigate('/members', @item.id, 'edit')
 		
+	strtotime:(str)->
+		_arr = str.split(' ')
+		_day = _arr[0].split('-')
+		_arr[1] = (_arr[1] == null) ? '0:0:0' :_arr[1]
+		_time = _arr[1].split(':')
+		for i in [_day.length - 1..0] by -1
+			_day[i] = isNaN(parseInt(_day[i])) ? 0 :parseInt(_day[i])
+		for i in [_time.length - 1..0] by -1 
+			_time[i] = isNaN(parseInt(_time[i])) ? 0 :parseInt(_time[i])
+		_temp = new Date(_day[0],_day[1]-1,_day[2],_time[0],_time[1],_time[2])
+		return _temp.getTime() / 1000
+		
 	timeChange:(e)->
 		@item.options[1] = parseInt $(e.target).val()
 		switch @item.options[1]
 			when 0#'All time'
 				@item.ordermap = Order.all()
 			when 1#'3 months'
-				@item.ordermap = Order.select (item)->item.time < strtotime("-90 days")
-			when 2#'This year'
-				@item.ordermap = Order.select (item)->item.time in [3,9,12]
-			when 3#'Picking'
-				@item.ordermap = Order.select (item)->item.time in [3,9,12]
-			when 4#'Confirmt'
-				@item.ordermap = Order.select (item)->item.time in [3,9,12]
-			when 5#'Finished'
-				@item.ordermap = Order.select (item)->item.time is 13
-			when 6#'Cancel'
-				@item.ordermap = Order.select (item)->item.time is 14
+				@item.ordermap = Order.select (item)->@strtotime(item.time) > @strtotime("-90 days")
+			when 2,3,4,5,6,7
+				@item.ordermap = Order.select (item)->!!~item.time.indexOf((date("Y")-@item.options[1]+2).toString())
+			when 8#'Cancel'
+				@item.ordermap = Order.select (item)->@strtotime(item.time) < date("Y")-5
 		@render()
 		
 	stateChange:(e)->
