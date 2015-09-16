@@ -15,7 +15,7 @@
     </li>
     <li class="complain">
       <a href="#mycomplains">
-        <%= @defaults.translate('Complain Recode') %>
+        <%= @defaults.translate('Complain Record') %>
         </a>
     </li>
     <li class="hide">
@@ -28,7 +28,7 @@
       <table>
         <thead>
           <tr>
-            <% for item in ['Order NO','Good Name','Order time','Operation']: %>
+            <% for item in ['Order NO','Product Name','Buy time','Operation']: %>
             <th>
               <%= @defaults.translate(item) %>
             </th>

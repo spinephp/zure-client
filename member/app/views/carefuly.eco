@@ -32,8 +32,8 @@
       <div class="care-item-show">
         <p>
           <%= @defaults.translate 'Category filter' %>: 
-          <% for item,index in ['Unrestricted','Silicon-Nitride Bonded','Silica Bonded','Castable']: %>
-            <span><input type="radio" name="filterclass" value="<%= index %>" <%=  'checked' if @filterclass is index %> /><%= @defaults.translates item %></span>
+          <% for item,index in ['Unrestricted','Silicon Nitride Bonded','Silica Bonded','Castable']: %>
+            <span><input type="radio" name="filterclass" value="<%= index %>" <%=  'checked' if @filterclass is index %> /><%= @defaults.translate item %></span>
           <% end %>
         </p>
         <p>
@@ -45,7 +45,7 @@
           <%= @defaults.translate 'Only show' %>:
             <% for item,index in ['Cutprice','Spot Goods','Promotion']: %>
             <span>
-            <input type="checkbox" name="careshow<%= index %>" value="<%= index %>" <%=  'checked' if @careshowchecked[index] %> /><%= @defaults.translates item %>
+            <input type="checkbox" name="careshow<%= index %>" value="<%= index %>" <%=  'checked' if @careshowchecked[index] %> /><%= @defaults.translate item %>
           </span>
               <% end %>
           <span>
@@ -73,7 +73,7 @@
           <thead>
             <tr>
               <th></th>
-              <% for name in ['Image','Product Name','Price','Store','Option']: %>
+              <% for name in ['Image','Product Name','Price','Store','Operation']: %>
               <th>
                 <%= @defaults.translate name %>
               </th>

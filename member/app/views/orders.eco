@@ -96,11 +96,10 @@
               <a href="? cmd=ShowOrderDetail&orderid=<%= order.id %>"><br /><%= @defaults.translate 'Order detail' %></a>
             </td>
             <td>
-              <a data-action="delete/<%= order.id %>"><%= @defaults.translate 'Del' %></a>
 			  <% if order.stateid is 13: %>
-              <a data-action="eval/<%= order.id %>"><%= @defaults.translate 'Evaluation' %></a> 
+              <a data-action="eval/<%= order.id %>"><%= @defaults.translate 'Evaluation' %></a><br />
 			  <% end %>
-              <button data-id="<%= order.id %>"><%= @defaults.translate 'Buy next' %></button>
+              <button data-id="<%= order.id %>"><%= @defaults.translate 'Purchase' %></button>
             </td>
           </tr>
           <% end %>

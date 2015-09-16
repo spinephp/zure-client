@@ -1,6 +1,6 @@
 <div class="childheader">
   <h5>
-    <%= @defaults.translate('Goods review/single') %></h5>
+    <%= @defaults.translate('Goods review/bask in') %></h5>
   <p>
     <%= @defaults.translate('Your comments will be other netizens important purchase reference, and affect commodity grade.') %></p>
   <p><a>
@@ -10,7 +10,7 @@
   <ul>
     <li>
       <a href="#producteval">
-        <%= @defaults.translate('Product evaluation/single') %>
+        <%= @defaults.translate('Product evaluation/bask in') %>
         </a>
     </li>
     <li>
@@ -22,7 +22,7 @@
     <table>
       <thead>
         <tr>
-          <% for item in ['Commodity information','Buy time','Evaluation','Single']: %>
+          <% for item in ['Commodity information','Buy time','Evaluation','Bask in']: %>
           <th>
             <%= @defaults.translate(item) %>
           </th>
@@ -50,7 +50,7 @@
               </a>
                 </li>
                 <li>
-                  <% obj=[{op:'Sun single',title:'Sun single and integral'},{op:'The sun-single',title:'View the evaluation details'}][if product.feelid is 0 then 0 else 1] %>
+                  <% obj=[{op:'Bask in',title:'Bask in and integral'},{op:'The bask in',title:'View the evaluation details'}][if product.feelid is 0 then 0 else 1] %>
               <a title='<%= @defaults.translate obj.title %>' data-feelid='<%= product.feelid %>'><%= @defaults.translate obj.op %>
                 </li>
           </ul>

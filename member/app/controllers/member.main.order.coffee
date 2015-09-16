@@ -133,9 +133,9 @@ class myOrders extends Spine.Controller
 			when 2#'Waiting for payment'
 				(item for item in table when item.stateid in [3,9,12])
 			when 3#'Picking'
-				(item for item in table when item.stateid in [3,9,12])
+				(item for item in table when item.stateid in [10] and item.transportid is 1)
 			when 4#'Confirmt'
-				(item for item in table when item.stateid in [3,9,12])
+				(item for item in table when item.stateid in [11])
 			when 5#'Finished'
 				(item for item in table when item.stateid is 13)
 			when 6#'Cancel'
