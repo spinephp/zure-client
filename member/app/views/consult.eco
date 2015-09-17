@@ -1,17 +1,17 @@
 <div class="childheader">
   <h5>
-    <%= $.fn.currentLanguage('Buying consult') %></h5>
+    <%= @defaults.translate('Buying consult') %></h5>
 </div>
   <div id="buyconsult">
     <table>
       <thead>
         <tr>
           <th>
-            <%= $.fn.currentLanguage('Consultation goods') %></th>
+            <%= @defaults.translate('Consultation goods') %></th>
           <th>
-            <%= $.fn.currentLanguage('Product name') %></th>
+            <%= @defaults.translate('Product name') %></th>
           <th>
-            <%= $.fn.currentLanguage('Consulting/reply') %></th>
+            <%= @defaults.translate('Consulting/reply') %></th>
         </tr>
       </thead>
       <tbody>
@@ -25,11 +25,11 @@
             </td>
             <td>
               <p>
-                <%= $.fn.currentLanguage('My advice') %>: <%= consult.content %> <%= consult.time %>
+                <%= @defaults.translate('My advice') %>: <%= consult.content %> <%= consult.time %>
               </p>
               <p>
                 <b>
-                  <%= $.fn.currentLanguage('YunRui reply') %>: </b><%= consult.reply %> <%= consult.replytime %>
+                  <%= @defaults.translate('YunRui reply') %>: </b><%= consult.reply %> <%= consult.replytime %>
               </p>
             </td>
           </tr>

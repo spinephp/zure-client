@@ -105,7 +105,7 @@
         <ul>
           <% for key,value of {"name":"Company name","address":"Company address","email":"Company email","www":"Company domain","tel":"Company tel","fax":"Company fax","postcard":"Company postcard","duty":"Company duty paragraph","bank":"Company bank name","account":"Company accounts"}: %>
 			      <li>
-              <label for='unit<%= key %>'><%= value %>：</label>
+              <label for='unit<%= key %>'><%= @defaults.translate value %>：</label>
                 <input type='text' name=<%= key %> value='<%= @company?[key] %>' />
               </li>
           <% end %>

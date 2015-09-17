@@ -2,6 +2,7 @@ Spine   = require('spine')
 
 Goodconsult = require('models/goodconsult')
 Orderproduct = require('models/orderproduct')
+Default = require('models/default')
 $       = Spine.$
 
 class myConsult extends Spine.Controller
@@ -17,25 +18,30 @@ class myConsult extends Spine.Controller
 	constructor: ->
 		super
 		@active @change
+		@product = $.Deferred()
+
+		Orderproduct.bind "ajaxError",(record,xhr,settings,error) ->
+			console.log record+xhr.responseText
+
+		Goodconsult.bind "refresh",@seekProduct
+		Orderproduct.bind "refresh",=> @product.resolve()
+		Default.bind "change",=>
+			if @item?
+				@item.defaults = Default.first()
+				@render()
+
+		Goodconsult.fetch()
 
 	render: ->
 		@html require("views/consult")(@item)
 	
 	change: (params) =>
 		try
-			@product = $.Deferred()
-
-			Orderproduct.bind "ajaxError",(record,xhr,settings,error) ->
-				console.log record+xhr.responseText
-
-			Goodconsult.bind "refresh",@seekProduct
-			Orderproduct.bind "refresh",=> @product.resolve()
-
-			Goodconsult.fetch()
-
 			$.when(@product).done( =>
+				defaults = Default.first()
 				@item = 
 					consults:Goodconsult.all()
+					defaults:defaults
 				@render()
 			)
 		catch err

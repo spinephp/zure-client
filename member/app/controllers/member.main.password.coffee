@@ -69,9 +69,8 @@ class myPassword extends Spine.Controller
 
 	checkmodeChange:(e)->
 		@checkmode = parseInt $(e.target).attr 'data-mode'
-		@item = 
-			members:Custom.first()
-			mode:@checkmode
+		@item.members = Custom.first()
+		@item.mode = @checkmode
 		@render()
 
 	selectallChange:(e) ->
