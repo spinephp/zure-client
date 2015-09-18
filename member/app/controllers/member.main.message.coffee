@@ -1,6 +1,7 @@
 Spine   = require('spine')
 
 Sysnotice = require('models/sysnotice')
+Default = require('models/default')
 $       = Spine.$
 
 class myMessage extends Spine.Controller
@@ -25,26 +26,33 @@ class myMessage extends Spine.Controller
 		Sysnotice.bind "beforeUpdate beforeDestroy", ->
 			Sysnotice.url = "woo/index.php"+Sysnotice.url if Sysnotice.url.indexOf("woo/index.php") is -1
 			Sysnotice.url += "&token="+sessionStorage.token unless Sysnotice.url.match /token/
+			
+		@sysnotice = $.Deferred()
 
+		Sysnotice.bind "ajaxError",(record,xhr,settings,error) ->
+			console.log record+xhr.responseText
+
+		Sysnotice.bind "refresh",=> @sysnotice.resolve()
+
+		Sysnotice.fetch()
+
+		Default.bind "change",=>
+			if @item?
+				@item.defaults = Default.first()
+				@render()
+				
 	render: ->
 		@html require("views/message")(@item)
 		$(@tabsEl).tabs()
 	
 	change: (params) =>
 		try
-			@sysnotice = $.Deferred()
-
-			Sysnotice.bind "ajaxError",(record,xhr,settings,error) ->
-				console.log record+xhr.responseText
-
-			Sysnotice.bind "refresh",=> @sysnotice.resolve()
-
-			Sysnotice.fetch()
 
 			$.when(@sysnotice).done( =>
 				@item = 
 					messagees:Sysnotice.all()
 					shownoread:off
+					defaults:Default.first()
 				@render()
 			)
 		catch err

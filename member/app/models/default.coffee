@@ -274,12 +274,19 @@ class Default extends Spine.Model
 			'Consultation goods':['咨询产品']
 			'Product name':['品名']
 			'Consulting/reply':['咨询/回复']
-			'My advice':['我的建议']
+			'My advice':['我的咨询']
 			'YunRui reply':['云瑞回复']
-			'As order':['订单']
-			'As order':['订单']
-			'As order':['订单']
-			'As order':['订单']
+			
+			# 消息精灵
+			'Messages':['消息精灵']
+			'Content':['内容']
+			'All':['全部']
+			'System':['系统']
+			'Community':['社区']
+			'Display only unread':['只显示未读']
+			'Marked read':['标为已读']
+			'Set':['设置']
+			'System':['系统']
 			
 			# 产品类
 			'Recommended to you based on your concerns':['根据您的关注为您推荐']

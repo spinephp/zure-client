@@ -1,6 +1,6 @@
 <div class="childheader">
   <h5>
-    <%= $.fn.currentLanguage('Messages') %></h5>
+    <%= @defaults.translate('Messages') %></h5>
 </div>
 <% table = (types) => %>
     <table>
@@ -9,7 +9,7 @@
           <th></th>
           <% for item in ['Status','Time','Content']: %>
           <th>
-            <%= $.fn.currentLanguage(item) %>
+            <%= @defaults.translate(item) %>
           </th>
           <% end %>
         </tr>
@@ -38,24 +38,24 @@
   <ul>
     <li>
       <a href="#allmessage">
-        <%= $.fn.currentLanguage('All') %></a>
+        <%= @defaults.translate('All') %></a>
     </li>
     <li>
       <a href="#systemmessage">
-        <%= $.fn.currentLanguage('System') %></a>
+        <%= @defaults.translate('System') %></a>
     </li>
     <li>
       <a href="#communityremind">
-        <%= $.fn.currentLanguage('Community') %></a>
+        <%= @defaults.translate('Community') %></a>
     </li>
     <li>
       <a href="#yunruiannouncement">
-        <%= $.fn.currentLanguage('YunRui') %></a>
+        <%= @defaults.translate('YunRui') %></a>
     </li>
     <li>
       <div class="message-option">
-        <label><input type="checkbox" name="shownoread" <%= 'checked' if @shownoread  %> /><%= $.fn.currentLanguage('Display only unread') %></label> <a>
-          <%= $.fn.currentLanguage('Set') %></a></div>
+        <label><input type="checkbox" name="shownoread" <%= 'checked' if @shownoread  %> /><%= @defaults.translate('Display only unread') %></label> <a>
+          <%= @defaults.translate('Set') %></a></div>
     </li>
   </ul>
   <div id="allmessage" class="messagebox">
@@ -70,8 +70,8 @@
   <div id="yunruiannouncement" class="messagebox">
     <%= table ['E'] %>
   </div>
-  <div class="message-action"><input type="checkbox" name="selectall" /><%= $.fn.currentLanguage('Select all') %><button>
-    <%= $.fn.currentLanguage('Marked read') %></button><button>
-      <%= $.fn.currentLanguage('Delete') %></button>
+  <div class="message-action"><input type="checkbox" name="selectall" /><%= @defaults.translate('Select all') %><button>
+    <%= @defaults.translate('Marked read') %></button><button>
+      <%= @defaults.translate('Delete') %></button>
 </div>
 </div>

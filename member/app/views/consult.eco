@@ -17,13 +17,13 @@
       <tbody>
         <% for consult in @consults: %>
 	<% goods=@goods.find consult.proid %>
-	<% goodclass=@Goodclass.find goods.classid %>
+	<% goodclass=@goodclass.find goods.classid %>
           <tr>
             <td>
-              <img src="admin/uploadimg/<%= consult.productImg() %>" />
+              <img src="admin/uploadimg/<%= goods.picture %>" />
             </td>
             <td>
-              <%= @defaults.translate goodclass.kindNames() %><br /><%= @defaults.translate goodclass.names() %><br /><%= goods.size %>
+              <%= @defaults.translates goodclass.kindNames() %><br /><%= @defaults.translates goodclass.names %><br /><%= goods.size %>
             </td>
             <td>
               <p>

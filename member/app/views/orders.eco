@@ -97,7 +97,7 @@
             </td>
             <td>
 			  <% if order.stateid is 13: %>
-              <a data-action="eval/<%= order.id %>"><%= @defaults.translate 'Evaluation' %></a><br />
+              <a href="? cmd=GoodsEval&eid=<%= good.id %>" data-action="eval/<%= order.id %>"><%= @defaults.translate 'Evaluation' %></a><br />
 			  <% end %>
               <button data-id="<%= order.id %>"><%= @defaults.translate 'Purchase' %></button>
             </td>
