@@ -85,6 +85,7 @@ class Goodtitle extends Spine.Controller
 						eval:Goodeval.findAllByAttribute 'proid':good.id
 						default:default1
 						currency:Currency.find default1.currencyid
+						sharp:Goodsharp.find good.sharp
 					@render()
 		catch err
 			@log "file: good.option.one.coffee\nclass: Goodtitle\nerror: #{err.message}"

@@ -63,10 +63,12 @@ class Goodevals extends Spine.Controller
 			Person.append ids if ids.length>0
 
 		Person.bind "refresh",=>
-			ids = (rec.country for rec in Person.all())
+			ids = []
+			i = 0
+			ids[i++] = rec.country for rec in Person.all() when rec.userid not in ids
 			condition = [{ field: "id", value: ids, operator: "in" }]
 			params =
-				data:{cond: condition,filter: Country.attributes,token:$.fn.cookie 'PHPSESID'}
+				data:{cond: condition,filter: Country.attributes,token:$.fn.cookie 'PHPSESSID'}
 				processData: true
 			Country.fetch params
 		Goodeval.bind "refresh",=>

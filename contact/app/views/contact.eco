@@ -1,0 +1,24 @@
+<div id="leftlianxi">	
+      <ul id="daohang">
+	<li style="margin:5px;font-weight:bold;">单位名称：<?php echo $row['name']?></li>
+	<li style="margin:5px;">单位地址：<?php echo $row['address']?></li>
+	<li style="margin:5px;">邮　　箱：<a href=<?php echo "mailto:".$row['email']?>><?php echo $row['email']?></a></li>
+	<li style="margin:5px;">电　　话：<?php echo $row['tel']?></li>
+	<li style="margin:5px;">传　　真：<?php echo $row['chuanzhen']?></li>
+	<li style="margin:5px;">　　　QQ：<?php echo $row['qq']?></li>
+        <li></li>
+        <li style="margin:5px;">业务部</li>
+        <li style="margin:5px;">联系人：<?php echo $row['yewuname']?></li>
+        <li style="margin:5px;">邮　件：<a href="mailto:yrrtls@hotmail.com">yrrtls@hotmail.com</a></li>
+        <li style="margin:5px;">电　话：<?php echo $row['jishutel']?></li>
+        <li></li>
+        <li style="margin:5px;">技术部</li>
+        <li style="margin:5px;">联系人：<?php echo $row['jishuname']?></li>
+        <li style="margin:5px;">邮　件：<a href="mailto:yrrtls@hotmail.com">yrrtls@hotmail.com</a></li>
+        <li style="margin:5px;">电　话：<?php echo $row['jishutel']?></li>
+       </ul>
+   </div>
+   <div id="rightlianxi">
+       <iframe src="http://settings.messenger.live.com/Conversation/IMMe.aspx?invitee=53914b3846f78e0c@apps.messenger.live.com&mkt=zh-CN" width="300" height="300" style="border: solid 1px black; width: 300px; height: 300px;" frameborder="0" scrolling="no"></iframe>
+   </div>
+   </div>
