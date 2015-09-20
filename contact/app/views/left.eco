@@ -1,0 +1,23 @@
+<div id="leftlianxi">	
+      <ul id="daohang">
+        <li style="margin:5px;">YunRi</li>
+	<li style="margin:5px;font-weight:bold;"><% @defaults.translate "Company" %>：<% @defaults.translates @qiye.names %></li>
+	<li style="margin:5px;"><% @defaults.translate "Address" %>：<% @defaults.translates @qiye.addresses %></li>
+	<li style="margin:5px;"><% @defaults.translate "Email" %>：<a href="mailto:#{@qiye.email}"><%= @qiye.email %></a></li>
+	<li style="margin:5px;"><% @defaults.translate "Tel" %>：<%= @qiye.tel %></li>
+	<li style="margin:5px;"><% @defaults.translate "Fax" %>：<%= @qiye.fax %></li>
+	<li style="margin:5px;">　　　QQ：<%= @qiye.qq %></li>
+        <li></li>
+	<% man=@person.find @qiye.busid %>
+        <li style="margin:5px;"><% @defaults.translate 'Business Department' %></li>
+        <li style="margin:5px;"><% @defaults.translate 'Contact person' %>：<%= @man.name %></li>
+        <li style="margin:5px;"><% @defaults.translate 'Email' %>：<a href="mailto:<%= @man.email %>"><%= @man.email %></a></li>
+        <li style="margin:5px;"><% @defaults.translate 'Tel' %>：<%= @man.tel %></li>
+        <li></li>
+	<% man=@person.find @qiye.techid %>
+        <li style="margin:5px;"><% @defaults.translate 'Technology Department' %></li>
+       <li style="margin:5px;"><% @defaults.translate 'Contact person' %>：<%= @man.name %></li>
+        <li style="margin:5px;"><% @defaults.translate 'Email' %>：<a href="mailto:<%= @man.email %>"><%= @man.email %></a></li>
+        <li style="margin:5px;"><% @defaults.translate 'Tel' %>：<%= @man.tel %></li>
+        </ul>
+   </div>
