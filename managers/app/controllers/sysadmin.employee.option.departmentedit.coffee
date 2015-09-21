@@ -44,19 +44,8 @@ class DepartmentEdits extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		opt = $(e.target)
-		key = $(@formEl).serializeArray()
 		item = {department:{}}
-		for field in key
-			ckey = field.name[2..]
-			cval = $.trim(field.value)
-			if cval isnt ''
-				switch field.name[0..1]
-					when 'D_'
-						item.department[ckey] = cval if cval isnt @item.department[ckey]
-					else
-						item[field.name] = cval
-		item.token = @token
+		$.fn.makeRequestParam @formEl,item,['D_'],[ @item.department]
 
 		param = JSON.stringify(item)
 

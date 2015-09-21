@@ -43,7 +43,8 @@ class OrderstateEdits extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		item = $.fn.makeRequestParam e,@formEl,['orderstate'],['S_'],[@item.orderstate]
+		item = {orderstate:{}}
+		$.fn.makeRequestParam @formEl,item,['S_'],[@item.orderstate]
 
 		param = JSON.stringify(item)
 

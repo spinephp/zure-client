@@ -10,7 +10,8 @@ class Employee extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: 'woo/index.php? cmd=Employee'
+	@url: 'index.php? cmd=Employee'
+	@scope:'woo'
 
 	@fetch: (params) ->
 		fields = @attributes

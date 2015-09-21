@@ -15,7 +15,7 @@ class EmployeeAdds extends Spine.Controller
 		'form':'formEl'
 		'tr td input[type=checkbox]':'selectedEl'
 		'form div:first p:eq(5) select':"addressEl"
-		'form >div:eq(-1) >img':"employeeimgEl"
+		'form div.uploadimage >img':"employeeimgEl"
 		'.watermode img':"waterimgEl"
 		'input[name=upload_employee]':'fileemployeeEl'
 		'input[name=upload_mask]':'filemaskEl'
@@ -201,8 +201,9 @@ class EmployeeAdds extends Spine.Controller
 			.css 'display','block'
 
 	option: (e)->
-		e.preventDefault()
-		item = $.fn.makeRequestParam e,@formEl,['employee','person'],['E_','P_']
+		e?.preventDefault()
+		item = {employee:{},person:{}}
+		$.fn.makeRequestParam @formEl,item,['E_','P_']
 
 		img = $(@employeeimgEl).attr 'src'
 		name = img.replace 'images/user/',''

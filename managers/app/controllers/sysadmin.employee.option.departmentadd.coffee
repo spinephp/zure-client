@@ -45,7 +45,8 @@ class DepartmentAdds extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		item = $.fn.makeRequestParam e,@formEl,['department'],['D_']
+		item = {department:{}}
+		$.fn.makeRequestParam @formEl,item,['D_']
 		item['action'] = 'department_create'
 		
 		param = JSON.stringify(item)

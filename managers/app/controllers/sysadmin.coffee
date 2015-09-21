@@ -21,11 +21,11 @@ class Sysadmins extends Spine.Controller
 					return unescape(document.cookie.substring(c_start,c_end))
 			return ""
 			
-		$.fn.makeRequestParam = (formEl,tables,heads,curtabs)->
+		$.fn.makeRequestParam = (formEl,item,heads,curtabs)->
 			#opt = $(e.target)
+			objKeys = Object.keys item
 			key = $(formEl).serializeArray()
-			item = {token:$.fn.cookie "PHPSESSID"}
-			item[table] = {} for table in tables
+			item.token = $.fn.cookie "PHPSESSID"
 			for field in key
 				head = field.name[0..1]
 				ckey = field.name[2..]
@@ -33,10 +33,9 @@ class Sysadmins extends Spine.Controller
 				if cval isnt ''
 					i = $.inArray head,heads
 					if i > -1
-						item[tables[i]][ckey] = cval unless curtabs? or curtabs?[i][ckey] is cval
+						item[objKeys[i]][ckey] = cval unless curtabs? or curtabs?[i][ckey] is cval
 					else
 						item[field.name] = cval
-			item
 		
 		$.fn.ajaxPut = (url,data,success)->
 			$.ajax

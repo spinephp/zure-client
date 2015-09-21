@@ -93,7 +93,8 @@ class GoodclassEdits extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		item = $.fn.makeRequestParam e,@formEl,['productclass'],['G_'],[@item.goodclass]
+		item = {productclass:{}}
+		$.fn.makeRequestParam @formEl,item,['G_'],[@item.goodclass]
 
 		img = $(@goodimgEl).attr 'src'
 		name = img.replace 'images/good/',''

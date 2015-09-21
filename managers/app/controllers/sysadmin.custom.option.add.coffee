@@ -210,7 +210,8 @@ class CustomAdds extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		item = $.fn.makeRequestParam @formEl,['custom','person'],['C_','P_']
+		item = {custom:{},person:{}}
+		i$.fn.makeRequestParam @formEl,item,['C_','P_']
 
 		img = $(@customimgEl).attr 'src'
 		name = img.replace 'images/user/',''

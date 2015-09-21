@@ -43,7 +43,8 @@ class OrderEdits extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		item = $.fn.makeRequestParam e,@formEl,['product'],['G_']
+		item = {product:{}}
+		$.fn.makeRequestParam @formEl,item,['G_']
 
 		param = JSON.stringify(item)
 		$.ajax

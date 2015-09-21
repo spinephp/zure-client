@@ -100,7 +100,8 @@ class CustomEdits extends Spine.Controller
 
 	option: (e)->
 		e.preventDefault()
-		item = $.fn.makeRequestParam e,@formEl,['custom','person'],['C_','P_'],[ @item.customs,@item.persons]
+		item = {custom:{},person:{}}
+		$.fn.makeRequestParam @formEl,item,['C_','P_'],[ @item.customs,@item.persons]
 		item['custom']['userid'] = @item.persons.id
 
 		headshot = $(@headshotimgEl).attr 'src'
