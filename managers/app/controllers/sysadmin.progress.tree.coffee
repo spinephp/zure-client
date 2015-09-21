@@ -41,7 +41,7 @@ class ProgressTrees extends Spine.Controller
 		@html require("views/progresstrees")()
 		$.fn.zTree.init($(@ztreeEl), @setting, @nodes)
 		@zTree = $.fn.zTree.getZTreeObj("progressTree") #获取ztree对象
-		@node = @zTree.getNodeByParam?('id', @item.nodeid or 4) #获取id为1的点
+		@node = @zTree.getNodeByParam?('id', @item.nodeid or 4,null) #获取id为1的点
 		@zTree.selectNode(@node) #选择点
 		#zTree.setting.callback.onClick(null, zTree.setting.treeId, node,1) #调用事件
 		$(@buttonEl).button().click (event)=>
@@ -80,7 +80,7 @@ class ProgressTrees extends Spine.Controller
 	#             1 - 普通选中
 	#             >1 - 追加选中
 	onTreeClick:(event, treeId, treeNode, clickFlag)=>
-		event.stopPropagation() if event?
+		event?.stopPropagation()
 		if clickFlag is 1
 			$(@buttonEl).button  "option", "disabled", false
 			@node = treeNode
