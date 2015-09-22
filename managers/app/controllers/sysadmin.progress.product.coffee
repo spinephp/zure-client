@@ -93,7 +93,7 @@ class ProgressProducts extends Spine.Controller
 					if @item.orders.stateid < 8
 						@item.orders.stateid++
 						# 更新表 ordersstate 
-						Ordersstate.fetch()
+						#Ordersstate.fetch()
 					else
 						if 100 - @item.orders.guarantee - @item.orders.downpayment > 0 # 支付货款
 							@item.orders.stateid++
