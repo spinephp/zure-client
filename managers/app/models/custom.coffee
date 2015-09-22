@@ -22,7 +22,7 @@ class Custom extends Spine.Model
 		result = ""
 		if Person.exists @userid
 			item = Person.find @userid
-			result = item.name
+			result = item.name or item.username
 		result
 
 module.exports = Custom

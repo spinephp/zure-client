@@ -66,7 +66,8 @@ class DepartmentAdds extends Spine.Controller
 				if data.id > -1
 					alert "数据保存成功！"
 					@item.department.updateAttributes data.department,ajax: false
-					Department.trigger "create",@item.department
+					#Department.trigger "create",@item.department
+					@navigate('/department/',data.id,'show') 
 				else
 					switch data.error
 						when "Access Denied"

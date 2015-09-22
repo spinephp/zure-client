@@ -99,8 +99,9 @@ class ProgressProducts extends Spine.Controller
 							@item.orders.stateid++
 						else # 准备发货
 							@item.orders.stateid += 2
+					@item.orders.one "save",=>
+						@navigate '/progress' ,@item.orders.id,'show'
 					@item.orders.save()
-					@navigate '/progress' #,@item.orders.id,'show'
 				catch err
 					@log err
 				finally

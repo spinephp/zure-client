@@ -22,9 +22,9 @@ class Employee extends Spine.Model
 
 	getName:->
 		result = ""
-		if Person.exists @userid
+		if Person.exists parseInt @userid
 			item = Person.find @userid
-			result = item.name
+			result = item.name or item.username
 		result
 
 	getDepartment:->
