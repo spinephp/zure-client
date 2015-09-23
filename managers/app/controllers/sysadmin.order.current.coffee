@@ -204,10 +204,10 @@ class orderShip extends manageOrder
 			i = $('button',@el).index e.target
 			if i is 0 # 点击了 [已发货] 按键
 				@params.order.stateid = 11 # 等待客户收货
+				@params.order.save()
+				@navigate('/orders',@params.order.id,'show')
 			else if i is 1 # 查看合同
 				window.open("?cmd=Contract&orderid=#{@params.order.id}&token=#{@token}")
-			@params.order.save()
-			@navigate('/orders',@params.order.id,'show')
 
 		catch err
 			@log err
