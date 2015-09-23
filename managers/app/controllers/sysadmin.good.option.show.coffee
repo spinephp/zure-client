@@ -1,5 +1,6 @@
 Spine	= require('spine')
 Good = require('models/good')
+Goodsharp = require('models/goodsharp')
 
 $		= Spine.$
 
@@ -18,8 +19,10 @@ class GoodShows extends Spine.Controller
 	change: (params) =>
 		try
 			if Good.exists params.id
+				goods = Good.find params.id
 				@item = 
-					good:Good.find params.id
+					good:goods
+					sharp:Goodsharp.find parseInt goods.sharp
 				@render()
 		catch err
 			@log "file: sysadmin.main.good.option.classshow.coffee\nclass: GoodclassShows\nerror: #{err.message}"

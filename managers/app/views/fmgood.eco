@@ -26,8 +26,8 @@
     </p>
     <p><label>形状：</label>
       <select name="G_sharp">
-        <% for rec,index in ['矩形','圆','半圆','环']: %>
-        <option value="<%= index %>" <%= "selected" if @good.sharp is index+1 %>><%= rec %></option>
+        <% for rec in @goodsharps: %>
+        <option value="<%= rec.id %>" <%= "selected" if rec.id is 1 %>><%= rec.name %></option>
         <% end %>
       </select>
     </p>

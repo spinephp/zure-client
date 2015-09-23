@@ -97,6 +97,7 @@ class orderPrint extends manageOrder
 					@params.order.stateid = 3 # 预付款
 			else if i is 1 # 查看合同
 				window.open("?cmd=Contract&orderid=#{@params.order.id}&token=#{@token}")
+				return
 			else # 取消订单
 				@params.order.stateid = 14 # 取消订单
 			@params.order.save()
@@ -138,6 +139,7 @@ class orderAdvance extends manageOrder
 				@params.order.stateid = 4 #准备生产
 			else if i is 1 # 查看合同
 				window.open("?cmd=Contract&orderid=#{@params.order.id}&token=#{@token}")
+				return 
 			else # 取消订单
 				@params.order.stateid = 14 # 取消订单
 			@params.order.save()
@@ -172,6 +174,7 @@ class orderPayment extends manageOrder
 				@params.order.stateid = 10 # 准备发货
 			else if i is 1 # 查看合同
 				window.open("?cmd=Contract&orderid=#{@params.order.id}&token=#{@token}")
+				return
 			else # 取消订单
 				@params.order.stateid = 14 # 取消订单
 			@params.order.save()
@@ -236,10 +239,10 @@ class orderReceive extends manageOrder
 			i = $('button',@el).index e.target
 			if i is 0 # 点击了 [已收货] 按键
 				@params.order.stateid = if @params.order.guarantee > 0 then 12 else 13
+				@params.order.save()
+				@navigate('/orders',@params.order.id,'show')
 			else if i is 1 # 查看合同
 				window.open("?cmd=Contract&orderid=#{@params.order.id}&token=#{@token}")
-			@params.order.save()
-			@navigate('/orders',@params.order.id,'show')
 
 		catch err
 			@log err
@@ -268,10 +271,10 @@ class orderQA extends manageOrder
 			i = $('button',@el).index e.target
 			if i is 0 # 点击了 [已支付] 按键
 				@params.order.stateid = 13 # 完成
+				@params.order.save()
+				@navigate('/orders',@params.order.id,'show')
 			else if i is 1 # 查看合同
 				window.open("?cmd=Contract&orderid=#{@params.order.id}&token=#{@token}")
-			@params.order.save()
-			@navigate('/orders',@params.order.id,'show')
 
 		catch err
 			@log err

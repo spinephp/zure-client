@@ -2,6 +2,7 @@ Spine   = require('spine')
 Manager = require('spine/lib/manager')
 $       = Spine.$
 Goodclass = require('models/goodclass')
+Goodsharp = require('models/goodsharp')
 Good = require('models/good')
 
 Option    = require('controllers/sysadmin.good.option')
@@ -18,6 +19,7 @@ class Goods extends Spine.Controller
 
 		Spine.bind "userlogined",(user)->
 			Goodclass.fetch()
+			Goodsharp.fetch()
 			Good.fetch()
 			
 		@routes

@@ -1,5 +1,6 @@
 Spine	= require('spine')
 Goodclass = require('models/goodclass')
+Goodsharp = require('models/goodsharp')
 Good = require('models/good')
 
 $		= Spine.$
@@ -36,7 +37,14 @@ class GoodEdits extends Spine.Controller
 		super
 		@token = $.fn.cookie('PHPSESSID')
 		@active @change
-		#Goodclass.bind "refresh",=>@change
+		
+		@goods = $.Deferred()
+		@goodclass = $.Deferred()
+		@goodsharp = $.Deferred()
+
+		Good.bind "refresh",=>@goods.resolve()
+		Goodclass.bind "refresh",=>@goodclass.resolve()
+		Goodsharp.bind "refresh",=>@goodsharp.resolve()
   
 	render: ->
 		@html require("views/fmgood")(@item)
@@ -44,11 +52,13 @@ class GoodEdits extends Spine.Controller
 	
 	change: (params) =>
 		try
-			if Good.exists params.id
-				@item = 
-					good:Good.find params.id
-					goodclasses:Goodclass.all()
-				@render()
+			$.when( @goods,@goodclass,@goodsharp).done =>
+				if Good.exists params.id
+					@item = 
+						good:Good.find params.id
+						goodclasses:Goodclass.all()
+						goodsharps:Goodsharp.all()
+					@render()
 		catch err
 			@log "file: sysadmin.main.good.option.edit.coffee\nclass: GoodEdit\nerror: #{err.message}"
 

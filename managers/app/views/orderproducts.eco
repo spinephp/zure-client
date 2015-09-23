@@ -31,7 +31,7 @@
       </a>
       </td>
       <td>
-        <%= rec.number %>
+        <%= rec.number %><span class="form_hint">成型: <%= rec.moldingnumber %></span>
       </td>
       <td>
           ¥<%= rec.price %>
