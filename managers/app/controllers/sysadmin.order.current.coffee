@@ -60,6 +60,7 @@ class orderCheck extends manageOrder
 						@params.order.stateid = 3 # 预付款
 			else
 				@_cancelOrder() #取消订单
+				return false unless @params.order.stateid is 14
 			@params.order.save()
 			@navigate('/orders',@params.order.id,'show')
 		catch err
@@ -105,6 +106,7 @@ class orderPrint extends manageOrder
 				return
 			else # 取消订单
 				@_cancelOrder() #取消订单
+				return false unless @params.order.stateid is 14
 			@params.order.save()
 			@navigate('/orders',@params.order.id,'show')
 		catch err
@@ -148,6 +150,7 @@ class orderAdvance extends manageOrder
 				return 
 			else # 取消订单
 				@_cancelOrder() #取消订单
+				return false unless @params.order.stateid is 14
 			@params.order.save()
 			@navigate('/orders',@params.order.id,'show')
 
@@ -184,6 +187,7 @@ class orderPayment extends manageOrder
 				return
 			else # 取消订单
 				@_cancelOrder() #取消订单
+				return false unless @params.order.stateid is 14
 			@params.order.save()
 			@navigate('/orders',@params.order.id,'show')
 

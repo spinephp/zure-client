@@ -63,11 +63,19 @@ class MoldProducts extends manageProduct
 			if parseInt(item.proid,10) is goodid
 				goodamount = item.number 
 				item[process] = parseInt conditionEl.val(),10
+				#@params.order.products[process+"number"] = item[process]
 		check = check and parseInt($(item).val(),10) >= goodamount for item in $("input[type=number]",@el)
 		$("button",@el).button disabled:not check
 
 class ProgressProducts extends Spine.Controller
 	className: 'progressproducts'
+
+	elements:
+		"span.form_hint":"numberEl"
+
+	events:
+		"mouseover tbody tr td:nth-child(4)":"shownumbers"
+		"mouseout tbody tr td:nth-child(4)":"hidenumbers"
   
 	constructor: ->
 		super
@@ -106,6 +114,14 @@ class ProgressProducts extends Spine.Controller
 					@log err
 				finally
 					Order.url = oldUrl
+		
+	shownumbers:(e)->
+		$(@numberEl).css "display","block"
+		false
+		
+	hidenumbers:(e)->
+		$(@numberEl).css "display","none"
+		false
 	
 	change: (params) =>
 		try

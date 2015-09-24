@@ -6,7 +6,7 @@
     <label>票据类型:</label> <%= @types.name %>
   </dd>
   <dd>
-    <label>票据抬头:</label> <%= @bills.name %>
+    <label>票据抬头:</label> <%= @bills?.name or "person" %>
   </dd>
   <dd>
     <label>票据内容:</label> <%= @contents.name %>

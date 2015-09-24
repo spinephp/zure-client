@@ -23,7 +23,7 @@
       </a>
       </td>
       <td>
-        <%= rec.number %>
+        <%= rec.number %> <span class="form_hint"><%- "#{v}: #{rec[k]}<br />" for k,v of {"moldingnumber":"成型","drynumber":"干燥","firingnumber":"烧成","packagenumber":"包装"} when rec[k] isnt 0 %></span>
       </td>
       <td>
         <input type="number" name="mold" />

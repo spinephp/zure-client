@@ -8,12 +8,14 @@ class OrderProducts extends Spine.Controller
 
 	elements:
 		"button":"buttons"
+		"span.form_hint":"numberEl"
 
 	events:
 		"change input[name=returnnow]":"returnnow"
 		"change input[name=modlcharge]":"modlcharge"
 		"change input[name=shipdate]":"shipdate"
 		"click button":"pass"
+		"click tbody tr td:nth-child(4)":"shownumbers"
   
 	constructor: ->
 		super
@@ -65,7 +67,14 @@ class OrderProducts extends Spine.Controller
 
 	shipdate: (e) => # 绑定交货期改变处理程序
 		@item.orders.shipdate = $(e.target).val()
-
+		
+	shownumbers:(e)->
+		if $(@numberEl).css("display") is "block"
+			$(@numberEl).css "display","none"
+		else
+			$(@numberEl).css "display","block"
+		false
+		
 	pass: (e) => # 绑定 “审核通过”或 “取消订单” 处理程序
 		oldUrl = Order.url
 		try

@@ -74,7 +74,7 @@ class DryingShows extends Spine.Controller
 		
 		# 窗口尺寸改变事件处理，调整画布大小并重绘页面
 		$(window).resize => 
-			@render()
+			@render() if $(@).hasClass "active"
 		
 	scaleEdited:(e)->
 		e.stopPropagation()
