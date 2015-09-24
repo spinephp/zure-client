@@ -1,5 +1,6 @@
 Spine	= require('spine')
 Good = require('models/good')
+Goodsharp = require('models/goodsharp')
 
 $		= Spine.$
 
@@ -17,8 +18,10 @@ class GoodDeletes extends Spine.Controller
 		super
 		@active @change
 		@good = $.Deferred()
+		@goodsharp = $.Deferred()
 		@url = Good.url
 		Good.bind "refresh",=>@good.resolve()
+		Goodsharp.bind "refresh",=>@goodsharp.resolve()
   
 	render: ->
 		@html require("views/gooddelete")(@item)
@@ -26,10 +29,12 @@ class GoodDeletes extends Spine.Controller
 	
 	change: (params) =>
 		try
-			$.when( @good).done =>
+			$.when( @good,@goodsharp).done =>
 				if Good.exists params.id
+					goods = Good.find params.id
 					@item = 
-						good:Good.find params.id
+						good:goods
+						sharp:Goodsharp.find parseInt goods.sharp
 					@render()
 		catch err
 			@log "file: sysadmin.main.good.option.classdelete.coffee\nclass: GoodDeletes\nerror: #{err.message}"

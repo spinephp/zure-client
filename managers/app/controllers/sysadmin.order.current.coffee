@@ -17,8 +17,11 @@ class manageOrder  extends Spine.Controller
 	
 	eco:->
 		'show'
+		
+	_cancelOrder:->
+		@params.order.stateid = 14 if confirm('ç¡®å®žè¦å–æ¶ˆå½“å‰è®¢å•å—?') #å–æ¶ˆè®¢å•
 
-# ¶©µ¥ÉóºË
+# è®¢å•å®¡æ ¸
 class orderCheck extends manageOrder
 
 	elements:
@@ -34,28 +37,29 @@ class orderCheck extends manageOrder
 	eco: ->
 		'check'
 
-	pass: (e) => # °ó¶¨ ¡°ÉóºËÍ¨¹ý¡±»ò ¡°È¡Ïû¶©µ¥¡± ´¦Àí³ÌÐò
+	pass: (e) => # ç»‘å®š â€œå®¡æ ¸é€šè¿‡â€æˆ– â€œå–æ¶ˆè®¢å•â€ å¤„ç†ç¨‹åº
 		e.stopPropagation()
 		oldUrl = Order.url
 		try
-			threw "Ô¤¸¶šLÓëÖÊ±£½ðÖ®ºÍ´óÓÚ 100£¡" if @params.order.downpayment + @params.order.guarantee > 100
+			threw "é¢„ä»˜æ­€ä¸Žè´¨ä¿é‡‘ä¹‹å’Œå¤§äºŽ 100ï¼" if @params.order.downpayment + @params.order.guarantee > 100
 			i = $('button',@el).index e.target
 			if i is 0
+				return false if not confirm('ç¡®è®¤å½“å‰è®¢å•å—?')
 				if $(@constractEl).is(":checked")
-					@params.order.stateid = 2 # Ç©ÊðºÏÍ¬
+					@params.order.stateid = 2 # ç­¾ç½²åˆåŒ
 				else
 					if @params.order.downpayment is 0
 						if @params.order.shipdate is 0
 							if @params.order.guarantee isnt 100
-								@params.order.stateid = 9 # Ö§¸¶»õ¿î
+								@params.order.stateid = 9 # æ”¯ä»˜è´§æ¬¾
 							else
-								@params.order.stateid = 10 # ×¼±¸·¢»õ
+								@params.order.stateid = 10 # å‡†å¤‡å‘è´§
 						else
-							@params.order.stateid = 4 # ×¼±¸Éú²ú
+							@params.order.stateid = 4 # å‡†å¤‡ç”Ÿäº§
 					else
-						@params.order.stateid = 3 # Ô¤¸¶¿î
+						@params.order.stateid = 3 # é¢„ä»˜æ¬¾
 			else
-				@params.order.stateid = 14 #È¡Ïû¶©µ¥
+				@_cancelOrder() #å–æ¶ˆè®¢å•
 			@params.order.save()
 			@navigate('/orders',@params.order.id,'show')
 		catch err
@@ -63,7 +67,7 @@ class orderCheck extends manageOrder
 		finally
 			Order.url = oldUrl
 
-# Ç©ÊðºÏÍ¬
+# ç­¾ç½²åˆåŒ
 class orderPrint extends manageOrder
 
 	elements:
@@ -78,28 +82,29 @@ class orderPrint extends manageOrder
 	eco: ->
 		'print'
 
-	printed: (e) => # °ó¶¨ ¡°ÉóºËÍ¨¹ý¡±»ò ¡°È¡Ïû¶©µ¥¡± ´¦Àí³ÌÐò
+	printed: (e) => # ç»‘å®š â€œå®¡æ ¸é€šè¿‡â€æˆ– â€œå–æ¶ˆè®¢å•â€ å¤„ç†ç¨‹åº
 		e.preventDefault();
 		e.stopPropagation();
 		oldUrl = Order.url
 		try
 			i = $('button',@el).index e.target
-			if i is 0 # È·ÈÏºÏÍ¬
+			if i is 0 # ç¡®è®¤åˆåŒ
+				return false if not confirm('ç¡®è®¤å½“å‰åˆåŒå—?')
 				if @params.order.downpayment is 0
 					if @params.order.shipdate is 0
 						if @params.order.guarantee isnt 100
-							@params.order.stateid = 9 # Ö§¸¶»õ¿î
+							@params.order.stateid = 9 # æ”¯ä»˜è´§æ¬¾
 						else
-							@params.order.stateid = 10 # ×¼±¸·¢»õ
+							@params.order.stateid = 10 # å‡†å¤‡å‘è´§
 					else
-						@params.order.stateid = 4 # ×¼±¸Éú²ú
+						@params.order.stateid = 4 # å‡†å¤‡ç”Ÿäº§
 				else
-					@params.order.stateid = 3 # Ô¤¸¶¿î
-			else if i is 1 # ²é¿´ºÏÍ¬
+					@params.order.stateid = 3 # é¢„ä»˜æ¬¾
+			else if i is 1 # æŸ¥çœ‹åˆåŒ
 				window.open("?cmd=Contract&orderid=#{@params.order.id}&token=#{@token}")
 				return
-			else # È¡Ïû¶©µ¥
-				@params.order.stateid = 14 # È¡Ïû¶©µ¥
+			else # å–æ¶ˆè®¢å•
+				@_cancelOrder() #å–æ¶ˆè®¢å•
 			@params.order.save()
 			@navigate('/orders',@params.order.id,'show')
 		catch err
@@ -115,7 +120,7 @@ class orderReturned extends manageOrder
 	eco: ->
 		'returned'
 
-# Ô¤¸¶¿î
+# é¢„ä»˜æ¬¾
 class orderAdvance extends manageOrder
 
 	elements:
@@ -130,18 +135,19 @@ class orderAdvance extends manageOrder
 	eco: ->
 		'advance'
 
-	prepaid: (e) => # °ó¶¨ ¡°ÉóºËÍ¨¹ý¡±»ò ¡°È¡Ïû¶©µ¥¡± ´¦Àí³ÌÐò
+	prepaid: (e) => # ç»‘å®š â€œå®¡æ ¸é€šè¿‡â€æˆ– â€œå–æ¶ˆè®¢å•â€ å¤„ç†ç¨‹åº
 		e.stopPropagation()
 		oldUrl = Order.url
 		try
 			i = $('button',@el).index e.target
-			if i is 0 # µã»÷ÁË [ÒÑÔ¤¸¶] °´¼ü
-				@params.order.stateid = 4 #×¼±¸Éú²ú
-			else if i is 1 # ²é¿´ºÏÍ¬
+			if i is 0 # ç‚¹å‡»äº† [å·²é¢„ä»˜] æŒ‰é”®
+				return false if not confirm('ç¡®è®¤å·²æ”¶åˆ°é¢„ä»˜æ¬¾äº†å—?')
+				@params.order.stateid = 4 #å‡†å¤‡ç”Ÿäº§
+			else if i is 1 # æŸ¥çœ‹åˆåŒ
 				window.open("?cmd=Contract&orderid=#{@params.order.id}&token=#{@token}")
 				return 
-			else # È¡Ïû¶©µ¥
-				@params.order.stateid = 14 # È¡Ïû¶©µ¥
+			else # å–æ¶ˆè®¢å•
+				@_cancelOrder() #å–æ¶ˆè®¢å•
 			@params.order.save()
 			@navigate('/orders',@params.order.id,'show')
 
@@ -150,7 +156,7 @@ class orderAdvance extends manageOrder
 		finally
 			Order.url = oldUrl
 
-# Ö§¸¶»õ¿î
+# æ”¯ä»˜è´§æ¬¾
 class orderPayment extends manageOrder
 
 	elements:
@@ -165,18 +171,19 @@ class orderPayment extends manageOrder
 	eco: ->
 		'payment'
 
-	payment: (e) => # °ó¶¨ ¡°ÉóºËÍ¨¹ý¡±»ò ¡°È¡Ïû¶©µ¥¡± ´¦Àí³ÌÐò
+	payment: (e) => # ç»‘å®š â€œå®¡æ ¸é€šè¿‡â€æˆ– â€œå–æ¶ˆè®¢å•â€ å¤„ç†ç¨‹åº
 		e.stopPropagation()
 		oldUrl = Order.url
 		try
 			i = $('button',@el).index e.target
-			if i is 0 # µã»÷ÁË [ÒÑÖ§¸¶] °´¼ü
-				@params.order.stateid = 10 # ×¼±¸·¢»õ
-			else if i is 1 # ²é¿´ºÏÍ¬
+			if i is 0 # ç‚¹å‡»äº† [å·²æ”¯ä»˜] æŒ‰é”®
+				return false if not confirm('ç¡®è®¤å·²æ”¶åˆ°è´§æ¬¾äº†å—?')
+				@params.order.stateid = 10 # å‡†å¤‡å‘è´§
+			else if i is 1 # æŸ¥çœ‹åˆåŒ
 				window.open("?cmd=Contract&orderid=#{@params.order.id}&token=#{@token}")
 				return
-			else # È¡Ïû¶©µ¥
-				@params.order.stateid = 14 # È¡Ïû¶©µ¥
+			else # å–æ¶ˆè®¢å•
+				@_cancelOrder() #å–æ¶ˆè®¢å•
 			@params.order.save()
 			@navigate('/orders',@params.order.id,'show')
 
@@ -185,7 +192,7 @@ class orderPayment extends manageOrder
 		finally
 			Order.url = oldUrl
 
-# ×¼±¸·¢»õ
+# å‡†å¤‡å‘è´§
 class orderShip extends manageOrder
 
 	elements:
@@ -200,16 +207,17 @@ class orderShip extends manageOrder
 	eco: ->
 		'ship'
 
-	ship: (e) => # °ó¶¨ ¡°ÉóºËÍ¨¹ý¡±»ò ¡°È¡Ïû¶©µ¥¡± ´¦Àí³ÌÐò
+	ship: (e) => # ç»‘å®š â€œå®¡æ ¸é€šè¿‡â€æˆ– â€œå–æ¶ˆè®¢å•â€ å¤„ç†ç¨‹åº
 		e.stopPropagation()
 		oldUrl = Order.url
 		try
 			i = $('button',@el).index e.target
-			if i is 0 # µã»÷ÁË [ÒÑ·¢»õ] °´¼ü
-				@params.order.stateid = 11 # µÈ´ý¿Í»§ÊÕ»õ
+			if i is 0 # ç‚¹å‡»äº† [å·²å‘è´§] æŒ‰é”®
+				return false if not confirm('ç¡®è®¤è¦å‘è´§å—?')
+				@params.order.stateid = 11 # ç­‰å¾…å®¢æˆ·æ”¶è´§
 				@params.order.save()
 				@navigate('/orders',@params.order.id,'show')
-			else if i is 1 # ²é¿´ºÏÍ¬
+			else if i is 1 # æŸ¥çœ‹åˆåŒ
 				window.open("?cmd=Contract&orderid=#{@params.order.id}&token=#{@token}")
 
 		catch err
@@ -217,7 +225,7 @@ class orderShip extends manageOrder
 		finally
 			Order.url = oldUrl
 
-# µÈ´ý¿Í»§ÊÕ»õ
+# ç­‰å¾…å®¢æˆ·æ”¶è´§
 class orderReceive extends manageOrder
 
 	elements:
@@ -232,16 +240,17 @@ class orderReceive extends manageOrder
 	eco: ->
 		'receive'
 
-	receive: (e) => # °ó¶¨ ¡°ÉóºËÍ¨¹ý¡±»ò ¡°È¡Ïû¶©µ¥¡± ´¦Àí³ÌÐò
+	receive: (e) => # ç»‘å®š â€œå®¡æ ¸é€šè¿‡â€æˆ– â€œå–æ¶ˆè®¢å•â€ å¤„ç†ç¨‹åº
 		e.stopPropagation()
 		oldUrl = Order.url
 		try
 			i = $('button',@el).index e.target
-			if i is 0 # µã»÷ÁË [ÒÑÊÕ»õ] °´¼ü
+			if i is 0 # ç‚¹å‡»äº† [å·²æ”¶è´§] æŒ‰é”®
+				return false if not confirm('ç¡®è®¤å®¢æˆ·å·²æ”¶è´§äº†å—?')
 				@params.order.stateid = if @params.order.guarantee > 0 then 12 else 13
 				@params.order.save()
 				@navigate('/orders',@params.order.id,'show')
-			else if i is 1 # ²é¿´ºÏÍ¬
+			else if i is 1 # æŸ¥çœ‹åˆåŒ
 				window.open("?cmd=Contract&orderid=#{@params.order.id}&token=#{@token}")
 
 		catch err
@@ -249,7 +258,7 @@ class orderReceive extends manageOrder
 		finally
 			Order.url = oldUrl
 
-# µÈ´ý¿Í»§Ö§¸¶ÖÊ±£½ð
+# ç­‰å¾…å®¢æˆ·æ”¯ä»˜è´¨ä¿é‡‘
 class orderQA extends manageOrder
 
 	elements:
@@ -264,16 +273,17 @@ class orderQA extends manageOrder
 	eco: ->
 		'qa'
 
-	qa: (e) => # °ó¶¨ ¡°ÉóºËÍ¨¹ý¡±»ò ¡°È¡Ïû¶©µ¥¡± ´¦Àí³ÌÐò
+	qa: (e) => # ç»‘å®š â€œå®¡æ ¸é€šè¿‡â€æˆ– â€œå–æ¶ˆè®¢å•â€ å¤„ç†ç¨‹åº
 		e.stopPropagation()
 		oldUrl = Order.url
 		try
 			i = $('button',@el).index e.target
-			if i is 0 # µã»÷ÁË [ÒÑÖ§¸¶] °´¼ü
-				@params.order.stateid = 13 # Íê³É
+			if i is 0 # ç‚¹å‡»äº† [å·²æ”¯ä»˜] æŒ‰é”®
+				return false if not confirm('ç¡®è®¤å®¢æˆ·å·²æ”¯ä»˜è´¨ä¿é‡‘äº†å—?')
+				@params.order.stateid = 13 # å®Œæˆ
 				@params.order.save()
 				@navigate('/orders',@params.order.id,'show')
-			else if i is 1 # ²é¿´ºÏÍ¬
+			else if i is 1 # æŸ¥çœ‹åˆåŒ
 				window.open("?cmd=Contract&orderid=#{@params.order.id}&token=#{@token}")
 
 		catch err
@@ -298,7 +308,7 @@ class CurrentState extends Spine.Controller
 		Spine.bind "transportchange",(carriagecharge) =>
 			@item.order.carriagecharge = parseFloat carriagecharge
 
-		Spine.bind "paymentchange",(ainput)=>  # °ó¶¨¶¨½ð¡¢ÖÊ±£½ð¡¢ÖÊ±£ÆÚ¸Ä±ä´¦Àí³ÌÐò
+		Spine.bind "paymentchange",(ainput)=>  # ç»‘å®šå®šé‡‘ã€è´¨ä¿é‡‘ã€è´¨ä¿æœŸæ”¹å˜å¤„ç†ç¨‹åº
 			@item.order[ainput.attr("name")] = parseInt ainput.val()
   
 	render: =>
