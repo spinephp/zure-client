@@ -116,11 +116,11 @@ class ProgressProducts extends Spine.Controller
 					Order.url = oldUrl
 		
 	shownumbers:(e)->
-		$(@numberEl).css "display","block"
+		$(e.target).find("span").css "display","block"
 		false
 		
 	hidenumbers:(e)->
-		$(@numberEl).css "display","none"
+		$(e.target).find("span").css "display","none"
 		false
 	
 	change: (params) =>

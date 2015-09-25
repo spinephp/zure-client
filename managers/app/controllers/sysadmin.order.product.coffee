@@ -69,10 +69,11 @@ class OrderProducts extends Spine.Controller
 		@item.orders.shipdate = $(e.target).val()
 		
 	shownumbers:(e)->
-		if $(@numberEl).css("display") is "block"
-			$(@numberEl).css "display","none"
-		else
-			$(@numberEl).css "display","block"
+		span = $(e.target).find("span")
+		dis = span.css("display")
+		$(@numberEl).css "display","none"
+		if dis is "none"
+			span.css "display","block"
 		false
 		
 	pass: (e) => # 绑定 “审核通过”或 “取消订单” 处理程序
