@@ -8,6 +8,7 @@ class Gooduse extends Spine.Model
 	@extend Spine.Model.Ajax
 
 	@url: 'index.php? cmd=ProductUse'
+	@scope:'woo/'
 
 	@fetch: (params) ->
 		fields = @attributes

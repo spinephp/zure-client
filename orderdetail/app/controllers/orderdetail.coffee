@@ -63,7 +63,7 @@ class OrderDetail extends Spine.Controller
 		data = token:$.fn.cookie 'PHPSESSID'
 		$.getJSON "? cmd=IsLogin", data,(result)=>
 			if result.login
-				Order.fetch()
+				#Order.fetch()
 				@append @headers,@currents,@process,@trail,@receiver,@payments,@transports,@bills,@orders,@footers
 				@navigate '!/orderdetail'
 			else

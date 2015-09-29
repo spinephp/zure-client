@@ -9,11 +9,12 @@ class Good extends Spine.Model
 	@url: 'index.php? cmd=Product'
 
 	@append:(ids)->
-		fields = @attributes
-		condition = [{field:"id",value:ids,operator:"in"}]
-		indices = { cond:condition,filter: fields, token: $.fn.cookie 'PHPSESSID' } 
-		$.getJSON @url,indices,(data)=>
-			@refresh data,clear:false if data.length > 0
+		if ids.length > 0
+			fields = @attributes
+			condition = [{field:"id",value:ids,operator:"in"}]
+			indices = { cond:condition,filter: fields, token: $.fn.cookie 'PHPSESSID' } 
+			$.getJSON @url,indices,(data)=>
+				@refresh data,clear:false if data.length > 0
 	
 	names:->
 		item = Goodclass.find @classid

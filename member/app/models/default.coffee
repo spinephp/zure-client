@@ -269,6 +269,10 @@ class Default extends Spine.Model
 			'Customer service will contact you as soon as possible.':['客务将尽快与您联系。']
 			'verification code':['验证码']
 			
+			# 评价晒单
+			'Grade':['星级']
+			'Feelings':['使用心得']
+			
 			# 购买咨询
 			'Buying consult':['购买咨询']
 			'Consultation goods':['咨询产品']

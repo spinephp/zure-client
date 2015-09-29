@@ -10,7 +10,7 @@ class Customaccount extends Spine.Model
 	@fetch: (params) ->
 		condition = [{field:"userid",value:'?userid',operator:"eq"}]
 		params or= 
-			data:{ cond:condition,filter: @attributes, token: sessionStorage.token } 
+			data:{ cond:condition,filter: @attributes, token: $.fn.cookie 'PHPSESSID'} 
 			processData: true
 		super(params)
 

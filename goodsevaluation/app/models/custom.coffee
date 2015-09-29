@@ -8,7 +8,8 @@ class Custom extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Custom'
+	@url: 'index.php? cmd=Custom'
+	@scope:'woo/'
 
 	@fetch: (params) ->
 		fields = @attributes

@@ -128,7 +128,7 @@ class myYunrui extends Spine.Controller
 			values[i++] = rec.proid for rec in Goodcare.all() when rec.proid not in values
 			condition = [{field:"proid",value:values,operator:"in"}]
 			params1 = 
-				data:{ cond:condition,filter:Goodeval.attributes, token: sessionStorage.token } 
+				data:{ cond:condition,filter:Goodeval.attributes,token: $.fn.cookie 'PHPSESSID' } 
 				processData: true
 			Goodeval.fetch params1
 		else

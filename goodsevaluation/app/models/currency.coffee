@@ -7,8 +7,8 @@ class Currency extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Currency'
-
+	@url: 'index.php? cmd=Currency'
+	@scope:'woo/'
 	@fetch: (params) ->
 		fields = @attributes
 		params or= 

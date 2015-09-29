@@ -7,7 +7,8 @@ class Navigation extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Navigation'
+	@url: 'index.php? cmd=Navigation'
+	@scope:'woo/'
 
 	@fetch: (params) ->
 		fields = @attributes

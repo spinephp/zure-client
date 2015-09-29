@@ -7,14 +7,15 @@ class Order extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Order'
+	@url: 'index.php? cmd=Order'
+	@scope:'woo/'
 
 	@fetch: (params) ->
 		fields = @attributes
 		condition = [{field:"userid",value:"?userid",operator:"eq"}]
 		goodparams = ['id','orderid','proid','number','price','returnnow','modlcharge',"moldingnumber","drynumber","firingnumber","packagenumber","evalid","feelid"]
 		params or= 
-			data:{ cond:condition,filter: fields, params:{products:goodparams},token: sessionStorage.token } 
+			data:{ cond:condition,filter: fields, params:{products:goodparams},token: $.fn.cookie 'PHPSESSID' } 
 			processData: true
 		super(params)
 

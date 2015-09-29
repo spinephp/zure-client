@@ -51,6 +51,7 @@ class Headers extends Spine.Controller
 
 		Cart.bind 'change', @render
 		User.fetch()
+		Goodclass.fetch()
 
 		Spine.bind 'logout',->
 			data = 

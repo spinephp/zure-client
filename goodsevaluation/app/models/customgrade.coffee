@@ -8,7 +8,8 @@ class Customgrade extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=CustomGrade'
+	@url: 'index.php? cmd=CustomGrade'
+	@scope:'woo/'
 
 	@fetch: (params) ->
 		fields = @attributes

@@ -7,7 +7,8 @@ class Qiye extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Qiye'
+	@url: 'index.php? cmd=Qiye'
+	@scope:'woo/'
 
 	@fetch: (params) ->
 		fields = @attributes

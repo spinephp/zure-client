@@ -5,7 +5,7 @@ class Cart extends Spine.Model
 	@configure 'Cart', 'id',"proid","number","price","returnnow"
 
 	@extend Spine.Model.Local
-	@url:"? cmd=Product"
+	@url:"index.php? cmd=Product"
 	
 	# 向服务器查寻一条数据
 	@getOrder:(data)->

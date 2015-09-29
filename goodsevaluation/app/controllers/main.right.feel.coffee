@@ -52,7 +52,7 @@ class Goodfeels extends Spine.Controller
 			ids = (rec.country for rec in Person.all())
 			condition = [{ field: "id", value: ids, operator: "in" }]
 			params =
-				data:{cond: condition,filter: Country.attributes,token:$.fn.cookie 'PHPSESID'}
+				data:{cond: condition,filter: Country.attributes,token:$.fn.cookie 'PHPSESSID'}
 				processData: true
 			Country.fetch params
 		Thefeel.bind "refresh",=>

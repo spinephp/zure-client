@@ -33,7 +33,7 @@ class Order extends Spine.Model
 		fields = @attributes
 		condition = [{field:"userid",value:"?userid",operator:"eq"}]
 		params or= 
-			data:{ cond:condition,filter: fields, params:{products:['id','proid','number','price','returnnow','evalid','feelid']},token: sessionStorage.token } 
+			data:{ cond:condition,filter: fields, params:{products:['id','proid','number','price','returnnow','evalid','feelid']},token: $.fn.cookie 'PHPSESSID'} 
 			processData: true
 		super(params)
 

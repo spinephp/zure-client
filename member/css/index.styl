@@ -208,7 +208,7 @@ a:active {color:#000066;}	/* 正在被点击的链接 */
 	clear:both
 
 #home-menu-2
-	width:659px
+	width:100%
 	padding:10px 0px
 	float:left
 	>p
@@ -221,11 +221,21 @@ a:active {color:#000066;}	/* 正在被点击的链接 */
 		a:last-child
 			color:#000
 			float:right
+		
+.imagesets
+	width: 100%
+	padding: 0px 0
+	margin-bottom: 20px
+	border: 1px solid #ccc
+	border-top: 0
+	float: left
 	button
 		float:left
 		padding:101px 3px
-.imgscroll
-	float:left
+	button.next
+		float:right
+	.imgscroll
+		float:left
 
 	ul
 		list-style:none
@@ -244,16 +254,14 @@ a:active {color:#000066;}	/* 正在被点击的链接 */
 		a
 			font-size:x-small
 			margin:0
+			display:block
 		p
 			font-size:small
 			margin:0
-			text-align:center
 		p:last-child
 			color:red
 			font-weight:bold
-		p img
-			width:16px
-			height:16px
+			
 .childheader
 	border:1px solid #999
 	padding:5px 0px
@@ -461,10 +469,7 @@ a:active {color:#000066;}	/* 正在被点击的链接 */
 		a:last-child
 			color:#000
 			float:right
-	button
-		width:20px
-		float:left
-		padding:101px 3px
+
 #care-item-2-title
 	width:98%
 	font-size:small
@@ -748,6 +753,10 @@ a:active {color:#000066;}	/* 正在被点击的链接 */
 			font-size: x-small
 			text-align:right
 			margin:0
+	dl dd:nth-child(4)
+		img
+			width:100px
+			height:100px
 	>p
 		clear:both
 #satisfactioneval

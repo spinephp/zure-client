@@ -7,8 +7,9 @@ class Country extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Country'
-
+	@url: 'index.php? cmd=Country'
+	@scope:"woo/"
+	
 	@fetch: (params) ->
 		fields = @attributes
 		params or= 

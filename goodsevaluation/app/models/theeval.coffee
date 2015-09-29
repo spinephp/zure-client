@@ -7,7 +7,8 @@ class Theeval extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=ProductEval'
+	@url: 'index.php? cmd=ProductEval'
+	@scope:'woo/'
 
 	@fetch: (params) ->
 		fields = @attributes

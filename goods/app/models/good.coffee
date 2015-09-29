@@ -31,8 +31,8 @@ class Good extends Spine.Model
 		item = Goodclass.find @classid
 		item.kindNames()
 
-	longName:->
+	longNames:->
 		item = Goodclass.find @classid
-		item.longName()
+		item.longNames()
 
 module.exports = Good

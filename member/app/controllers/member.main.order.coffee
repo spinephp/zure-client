@@ -74,16 +74,18 @@ class myOrders extends Spine.Controller
 		if Order.count() > 0
 			values = []
 			i = 0
-			values[i++] = pro.proid for pro in rec.products when pro.proid not in values for rec in Order.all()
+			cvalues = []
+			j = 0
+			for rec in Order.all()
+				for pro in rec.products when pro.proid not in values
+					values[i++] = pro.proid 
+				cvalues[j++] = rec.consigneeid unless rec.consigneeid in cvalues
 			Orderproduct.append values if i > 0
 
 			fields = Consignee.attributes
-			values = []
-			i = 0
-			values[i++] = rec.consigneeid for rec in Order.all() when rec.consigneeid not in values
-			condition = [{field:"id",value:values,operator:"in"}]
+			condition = [{field:"id",value:cvalues,operator:"in"}]
 			params = 
-				data:{ cond:condition,filter: fields, token: sessionStorage.token } 
+				data:{ cond:condition,filter: fields,token: $.fn.cookie 'PHPSESSID' } 
 				processData: true
 			Consignee.fetch(params)
 

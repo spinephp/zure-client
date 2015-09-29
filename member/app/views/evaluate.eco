@@ -21,6 +21,15 @@
         10-100 <%= @defaults.translate 'words' %>
       </p>
     </dd>
+    <dt>
+      <%= @defaults.translate 'Bask in' %>:
+    </dt>
+    <dd>
+      <img src="admin/add_image.php? language=<%= @defaults.languageid %>" />
+      <p>
+        <%= 1 %>/10
+      </p>
+    </dd>
     <dt>&nbsp; </dt>
     <dd>
       <input type='submit' value="<%= @defaults.translate 'Evaluation and continue' %>" />

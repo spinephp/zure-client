@@ -8,7 +8,8 @@ class EvalReply extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=EvalReply'
+	@url: 'index.php? cmd=EvalReply'
+	@scope:'woo/'
 
 	@append:(ids)->
 		fields = @attributes
@@ -19,6 +20,6 @@ class EvalReply extends Spine.Model
 
 	@getPersonName:(evalid)->
 		item = Person.find @find(evalid).userid
-		item?.nick or item.username
+		item?.nick or item?.username
 
 module.exports = EvalReply

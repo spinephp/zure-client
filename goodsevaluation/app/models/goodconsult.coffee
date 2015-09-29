@@ -10,7 +10,8 @@ class Goodconsult extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=ProductConsult'
+	@url: 'index.php? cmd=ProductConsult'
+	@scope:'woo/'
 
 	@fetch: (params) ->
 		fields = @attributes
