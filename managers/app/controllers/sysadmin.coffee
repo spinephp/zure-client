@@ -75,8 +75,8 @@ class Sysadmins extends Spine.Controller
 					url: '? cmd=Upload&token='+@token
 					data: formdata
 					success:(result) =>
-						img.attr 'src',path+result.image
-						alert(result.msg)
+						img.attr 'src',path+@token+'/'+result.image
+						#alert(result.msg)
 					processData: false  # 告诉jQuery不要去处理发送的数据
 					contentType: false   # 告诉jQuery不要去设置Content-Type请求头
 					dataType:"json"

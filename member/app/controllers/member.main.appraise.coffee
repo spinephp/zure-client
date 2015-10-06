@@ -13,6 +13,7 @@ class myAppraise extends Spine.Controller
 
 	elements:
 		".tabs":'tabsEl'
+		'input[name=upload_baskin]':'baskinEl'
 		"#home-menu-2 button": 'btnCare'
 		'#producteval ul li a': 'actionEl'
 		'#producteval ul li:nth-child(3) a': 'evalEl'
@@ -23,6 +24,7 @@ class myAppraise extends Spine.Controller
 		'mouseover .evalnow dl dd a img': 'enterStar'
 		'mouseout .evalnow dl dd a img': 'leaveStar'
 		'click .evalnow dl dd input[type=submit]': 'submitEval'
+		'click .baskin img:last': 'pickBaskin'
   
 	constructor: ->
 		super
@@ -123,6 +125,23 @@ class myAppraise extends Spine.Controller
 	leaveStar:(e)->
 		e.stopPropagation()
 		$(".evalnow dl dd:first").html @star
+
+	# 澶勭悊"瑕佷笂浼犵殑浜у搧鍥惧儚"鎸夐敭鐐瑰嚮浜嬩欢
+	pickBaskin:(e)->
+		e.preventDefault()
+		e.stopPropagation()
+		
+		baskinEl = $('input[name=upload_baskin]')
+		baskinEl.one 'change', (e1)=>
+			e1.stopPropagation()
+			files = $(e1.target)[0].files
+			if files.length > 0
+				img = $("<img src='' />")
+				img.insertBefore e.target
+				$.fn.uploadFile 'feelimg0',files[0],img,'images/good/feel/'
+			
+		baskinEl.click()
+		
 
 	# 提交评价
 	# 根据评价内容在 producteval 表中，创建一个新的记录

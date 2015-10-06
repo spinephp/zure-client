@@ -125,7 +125,8 @@ class EmployeeAdds extends Spine.Controller
 			intensity.text "与用户名相同"
 		else
 			color = if score < 34 then '#edabab' else if score < 68  then '#ede3ab' else '#d3edab'
-			text = if score < 34 then '弱' else if score < 68 then '一般' else '很好'
+			text = if score < 34 then '弱' else if score < 68 then '一般' else '很好'      <input type="file" name="upload_baskin" id="upload_baskin">
+
 			width = score*2.25 + 'px'
 			intensity.css('width', width).css('background',color).text(text)
 

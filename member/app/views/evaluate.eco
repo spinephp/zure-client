@@ -18,17 +18,18 @@
     <dd>
       <textarea placeholder="<%= @defaults.translate 'If the product is awesome? Soon share your purchase experience.' %>"></textarea>
       <p>
-        10-100 <%= @defaults.translate 'words' %>
+        10-100 <%= @defaults.translate 'Character' %>
       </p>
     </dd>
     <dt>
       <%= @defaults.translate 'Bask in' %>:
     </dt>
-    <dd>
+    <dd class="baskin">
       <img src="admin/add_image.php? language=<%= @defaults.languageid %>" />
       <p>
-        <%= 1 %>/10
+        <%= $(".baskin img").length-1 %>/10
       </p>
+      <input type="file" name="upload_baskin" id="upload_baskin" />
     </dd>
     <dt>&nbsp; </dt>
     <dd>
