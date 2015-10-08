@@ -25,10 +25,13 @@
       <%= @defaults.translate 'Bask in' %>:
     </dt>
     <dd class="baskin">
-      <img src="admin/add_image.php? language=<%= @defaults.languageid %>" />
-      <p>
-        <%= $(".baskin img").length-1 %>/10
-      </p>
+      <div class="upload-btn">
+      <a href="#none"><%= @defaults.translate "Add Image" %></a>
+      <!-- <img src="admin/add_image.php? language=<%= @defaults.languageid %>" /> -->
+      <span class="bask_img_num">
+        1/10
+      </span>
+      </div>
       <input type="file" name="upload_baskin" id="upload_baskin" />
     </dd>
     <dt>&nbsp; </dt>
