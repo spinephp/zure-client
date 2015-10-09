@@ -32,7 +32,7 @@
         1/10
       </span>
       </div>
-      <input type="file" name="upload_baskin" id="upload_baskin" />
+      <input type="file" name="upload_baskin" id="upload_baskin"  style="display:none;" />
     </dd>
     <dt>&nbsp; </dt>
     <dd>

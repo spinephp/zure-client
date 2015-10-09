@@ -275,6 +275,7 @@ class Default extends Spine.Model
 			'If the product is awesome? Soon share your purchase experience.':['产品好吗? 快分享您的购买体验']
 			'Character':['字符']
 			'Evaluation and continue':['评价并继续']
+			'Add image':['添加图片']
 			
 			# 购买咨询
 			'Buying consult':['购买咨询']

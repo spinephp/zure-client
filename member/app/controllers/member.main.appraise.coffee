@@ -24,7 +24,7 @@ class myAppraise extends Spine.Controller
 		'mouseover .evalnow dl dd a img': 'enterStar'
 		'mouseout .evalnow dl dd a img': 'leaveStar'
 		'click .evalnow dl dd input[type=submit]': 'submitEval'
-		'click .baskin img:last': 'pickBaskin'
+		'click .upload-btn a': 'pickBaskin'
   
 	constructor: ->
 		super
@@ -137,8 +137,11 @@ class myAppraise extends Spine.Controller
 			files = $(e1.target)[0].files
 			if files.length > 0
 				img = $("<img src='' />")
-				img.insertBefore e.target
+				img.insertBefore $(".upload-btn")
 				$.fn.uploadFile 'feelimg0',files[0],img,'images/good/feel/'
+				n_img = $(".baskin >img").length
+				$(".bask_img_num").text "#{n_img}/10"
+				$(e.target).attr("disabled",true) if n_img is 10
 			
 		baskinEl.click()
 		
