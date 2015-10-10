@@ -125,7 +125,7 @@ class myAppraise extends Spine.Controller
 	leaveStar:(e)->
 		e.stopPropagation()
 		$(".evalnow dl dd:first").html @star
-
+		
 	# 澶勭悊"瑕佷笂浼犵殑浜у搧鍥惧儚"鎸夐敭鐐瑰嚮浜嬩欢
 	pickBaskin:(e)->
 		e.preventDefault()
@@ -138,6 +138,31 @@ class myAppraise extends Spine.Controller
 			if files.length > 0
 				img = $("<img src='' />")
 				img.insertBefore $(".upload-btn")
+				a = $("<a>")
+					.attr "href","#"
+					.html "&times;"
+					.click (e)->
+						e.preventDefault()
+						e.stopPropagation()
+						src = img.attr "src"
+						pos = src.indexOf "images/good/feel"
+						item = 
+							file:src.substr pos
+							token:$.fn.cookie "PHPSESSID"
+
+						param = JSON.stringify(item)
+						url = "index.php? cmd=DeleteUpload"
+						$.ajax
+							url: url # 提交的页面
+							data: param
+							type: "POST" # 设置请求类型为"POST"，默认为"GET"
+							dataType: "json"
+							success: (data) =>
+								#obj = JSON.parse(data)
+								if data.id > -1
+									img.remove()
+									$(@).remove()
+					.insertAfter img
 				$.fn.uploadFile 'feelimg0',files[0],img,'images/good/feel/'
 				n_img = $(".baskin >img").length
 				$(".bask_img_num").text "#{n_img}/10"

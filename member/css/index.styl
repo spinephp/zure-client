@@ -758,12 +758,13 @@ a:active {color:#000066;}	/* 正在被点击的链接 */
 			width:100px
 			height:100px
 			border: 1px solid #999
-			margin-right: 5px
-		>img:before
-			content: "X"
-			position: absolute
-			right: -3px
-			top: 0
+			margin-right: -9px
+		>a
+			position: relative
+			font-size: 24px
+			right: 12px
+			top: -82px
+			//display:none
 		>div
 			width:100px
 			height:120px
@@ -785,6 +786,12 @@ a:active {color:#000066;}	/* 正在被点击的链接 */
 	text-align: center
 	border: 1px solid #999
 	
+.imgclose:before
+	content: "X"
+	position: absolute
+	right: -3px
+	top: 0
+
 #satisfactioneval
 	table
 		border-collapse:collapse

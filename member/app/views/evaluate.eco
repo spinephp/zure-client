@@ -29,7 +29,7 @@
       <a href="#none"><%= @defaults.translate "Add Image" %></a>
       <!-- <img src="admin/add_image.php? language=<%= @defaults.languageid %>" /> -->
       <span class="bask_img_num">
-        1/10
+        0/10
       </span>
       </div>
       <input type="file" name="upload_baskin" id="upload_baskin"  style="display:none;" />
