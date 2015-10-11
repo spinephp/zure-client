@@ -22,7 +22,7 @@
     <table>
       <thead>
         <tr>
-          <% for item in ['Commodity information','Buy time','Evaluation','Bask in']: %>
+          <% for item in ['Commodity information','Buy time','Evaluation']: %>
           <th>
             <%= @defaults.translate(item) %>
           </th>
@@ -45,13 +45,10 @@
               <%= order.time %>
             </li>
                 <li>
-              <% obj=[{op:'Comment',title:'Evaluation and integral'},{op:'Have evaluation',title:'View the evaluation details'}][if product.evalid is 0 then 0 else 1] %>
-              <a title='<%= @defaults.translate obj.title %>' data-evalid='<%= product.evalid %>'><%= @defaults.translate obj.op %>
+	      <% evalid=if product.evalid is 0 then 0 else if product.feelid is 0 then 1 else 2 %>
+              <% obj=[{op:'Comment',title:'Evaluation and integral'},{op:'Bask in',title:'Bask in and integral'},{op:'Have evaluation',title:'View the evaluation details'}][evalid] %>
+              <a title='<%= @defaults.translate obj.title %>' data-evalid='<%= evalid %>'><%= @defaults.translate obj.op %>
               </a>
-                </li>
-                <li>
-                  <% obj=[{op:'Bask in',title:'Bask in and integral'},{op:'The bask in',title:'View the evaluation details'}][if product.feelid is 0 then 0 else 1] %>
-              <a title='<%= @defaults.translate obj.title %>' data-feelid='<%= product.feelid %>'><%= @defaults.translate obj.op %>
                 </li>
           </ul>
             </td>

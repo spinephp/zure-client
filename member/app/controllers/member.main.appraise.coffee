@@ -37,15 +37,17 @@ class myAppraise extends Spine.Controller
 		@orderproduct = $.Deferred()
 		@goodclass = $.Deferred()
 		@goodlabel = $.Deferred()
+		@goodeval = $.Deferred()
 		@default = $.Deferred()
 
 		Orderproduct.bind "ajaxError",(record,xhr,settings,error) ->
 			console.log record+xhr.responseText
 
 		Order.bind "refresh",@seekProduct
-		Orderproduct.bind "refresh",=> @orderproduct.resolve()
+		Orderproduct.bind "refresh",=>@orderproduct.resolve()
 		Goodclass.bind "refresh",=> @goodclass.resolve()
 		Goodlabel.bind "refresh",=> @goodlabel.resolve()
+		Goodeval.bind "refresh",=> @goodeval.resolve()
 		Default.bind "refresh",=> @default.resolve()
 		Default.bind "change",=>
 			if @item?
@@ -67,12 +69,13 @@ class myAppraise extends Spine.Controller
 	
 	change: (params) =>
 		try
-			$.when(@orderproduct,@goodclass,@goodlabel,@default).done( =>
+			$.when(@orderproduct,@goodclass,@goodlabel,@goodeval,@default).done( =>
 				defaults = Default.first()
 				@item = 
 					orders:Order.all()
 					klass:Goodclass
-					labels:Goodlabel.all()
+					labels:Goodlabel.all()	
+					evals:Goodeval
 					goods:Orderproduct
 					defaults:defaults
 				@render()
@@ -83,30 +86,41 @@ class myAppraise extends Spine.Controller
 	seekProduct:=>
 		if Order.count() > 0
 			values = []
+			evalids= []
 			i = 0
+			j = 0
 			for rec in Order.all()
-				values[i++] = pro.proid for pro in rec.products when pro.proid not in values
+				for pro in rec.products 
+					values[i++] = pro.proid if pro.proid not in values
+					evalids[j++] = pro.evalid if pro.evalid > 0
 			Orderproduct.append values if i > 0
+			Goodeval.append evalids if j > 0
 		else
 			@orderproduct.resolve()
+			@goodeval.resolve()
 
 	actionClick:(e)->
+		oproid = $(e.target).closest("td").attr 'data-goodid'
 		switch $(@actionEl).index(e.target) % 3
 			when 0
-				location.href = "? cmd=ShowProducts&gid="+$(e.target).attr 'data-goodid'
+				location.href = "? cmd=ShowProducts&gid="+oproid
 			when 1
-				evalid = $(e.target).attr('data-evalid')
-				if evalid is '0'
-					evalbox = $(".evalnow")
-					$(e.target).closest('ul').after if evalbox? then evalbox.remove() else require("views/evaluate")(@item)
-				else
-					location.href = "? cmd=GoodsEval&eid="+evalid
-			when 2
-				feelid = $(e.target).attr('data-feelid')
-				if feelid is '0'
-					location.href = "? cmd=fmBuyFell"
-				else
-					location.href = "? cmd=GoodsEval&sid="+feelid
+				evalbox = $(".evalnow")
+				ogoods = null
+				for order in Order.all() when ogoods is null
+					for ogood in order.products when ogood.id is oproid
+						ogoods = ogood
+						break
+				switch $(e.target).attr('data-evalid')
+					when '0'
+						$(e.target).closest('ul').after if evalbox? then evalbox.remove() else require("views/evaluate")(@item)
+					when '1'
+						goodeval = 
+							evals:Goodeval.find ogoods.evalid
+							labels:Goodlabel
+						$(e.target).closest('ul').after if evalbox? then evalbox.remove() else require("views/baskin")(goodeval)
+					when '2'
+						location.href = "? cmd=GoodsEval&eid="+ogoods.evalid
 
 	starClick:(e)->
 		e.stopPropagation()
