@@ -118,34 +118,37 @@ class DryingShows extends Spine.Controller
 		
 	change: (params) =>
 		try
-			unless params.id is '-1' # 显示干燥记录
+			pid = parseInt params.id
+			unless pid is -1 # 显示干燥记录
 				$.when(@drymain,@drydata).done =>
-					if Drymain.exists params.id
-						drymain = Drymain.find params.id
-						if parseInt(drymain.state) > 0
+					if Drymain.exists pid
+						drymain = Drymain.find pid
+						if parseInt(drymain.state) is -1
 							if @checkData?
 								clearInterval  @checkData
 								@checkData = null
-							datas = Drydata.findByAttribute 'mainid',params.id
+							datas = Drydata.findAllByAttribute 'mainid',pid
 							Drydata.destroyAll ajax:false
-							unless datas?
-								condition = [{field:"mainid",value:params.id,operator:"eq"}]
+							unless datas.length is 0
+								condition = [{field:"mainid",value:pid,operator:"eq"}]
 								token =  $.fn.cookie 'PHPSESSID'
 								params = 
 									data:{ filter: Drydata.attributes,cond:condition,token:token}
 									processData: true
 									
 								Drydata.one "refresh",=>
+									datas = Drydata.findAllByAttribute 'mainid',pid
+									#datas.sort (a,b)->return if a.id>b.id then 1 else -1
 									@item = 
 										drymains:drymain
-										drydatas:Drydata.all()
+										drydatas:datas #.sort (a,b)->return if a.id>b.id then 1 else -1
 									@render()
 
 								Drydata.fetch params
 							else
 								@item = 
 									drymains:drymain
-									drydatas:Drydata.all()
+									drydatas:datas
 								@render()
 								$("body >header h2").text "生产管理->干燥管理->显示干燥记录"
 			else # 干燥监控
@@ -153,6 +156,8 @@ class DryingShows extends Spine.Controller
 					drymain = Drymain.findByAttribute 'state',0
 					if drymain?
 						datas = Drydata.findAllByAttribute 'mainid',drymain.id
+						Drydata.destroyAll ajax:false
+
 						@checkData = setInterval ()=>
 							@findNewData drymain.id
 						, 10000 # 每10秒查寻一次数据
@@ -248,6 +253,7 @@ class DryingShows extends Spine.Controller
 	checkDryStart:()->
 		Drymain.getStart (data)->
 			if data?
+				@item.drymains = data
 				@checkData = setInterval ()->
 					@findNewData data.id
 				, 10000 # 每10秒查寻一次数据
@@ -263,7 +269,7 @@ class DryingShows extends Spine.Controller
 	findNewData:(mainid)->
 		Drydata.getNew mainid,(record,islast)=>
 			@setScrollBar()
-			if Drydata.first().eql record
+			if Drydata.findByAttribute('mainid',parseInt @item.drymains.id).eql record
 				@curDraw?.moveToPoint record
 				@curLine = record.mode
 				@curLineStartTemperature = record.settingtemperature
@@ -284,7 +290,7 @@ class DryingShows extends Spine.Controller
 				@curLineStartTime = record.time
 			if islast
 				@showDryParam record 
-				@item.drydatas = Drydata.all()
+				@item.drydatas = Drydata.findAllByAttribute 'mainid', parseInt @item.drymains.id
 				
 	showDryParam:(record)->
 		$(@dryDataEl).eq(0).text (record.settingtemperature >> 4).toString()

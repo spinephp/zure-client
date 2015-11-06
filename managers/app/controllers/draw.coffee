@@ -120,7 +120,7 @@ class draw
 			t = rec.temperature >> 4
 			x = rec.time/rote-@offsetX+@ruleTemperatureWidth
 			y = @ruleTemperatureHeight-(t+50)*@space/10
-			if i
+			if i > 0
 				@ctx.lineTo x,y
 			else
 				@ctx.moveTo x ,y
@@ -132,7 +132,7 @@ class draw
 			t = rec.settingtemperature >> 4
 			x = rec.time/rote-@offsetX+@ruleTemperatureWidth
 			y1 = @ruleTemperatureHeight-(t+50)*@space/10
-			if i
+			if i >0
 				@ctx.lineTo x,y1
 			else
 				@ctx.moveTo x ,y1
@@ -140,35 +140,32 @@ class draw
 		@ctx.stroke()
 		@current_point = [x,y,y1]
 			
-	moveToPoint:(rec)->
+	calcCoord:(rec)->
 		rote = @unit*60/@xSpace
 		t = rec.temperature >> 4
-		x = (rec.time-@offsetX*@unit)/rote+@ruleTemperatureWidth
+		#x = (rec.time-@offsetX*@unit)/rote+@ruleTemperatureWidth
+		x = rec.time/rote-@offsetX+@ruleTemperatureWidth
 		y = @ruleTemperatureHeight-(t+50)*@space/10
 		t = rec.settingtemperature >> 4
 		y1 = @ruleTemperatureHeight-(t+50)*@space/10
-		@current_point = [x,y,y1]
+		[x,y,y1]
 			
+	moveToPoint:(rec)->
+		@current_point = @calcCoord rec
+			
+	_drawLine:(coord,whitch_line)->
+		@ctx.beginPath()
+		@ctx.moveTo @current_point[0],@current_point[whitch_line]
+		@ctx.lineTo coord[0],coord[whitch_line]
+		@ctx.strokeStyle = ["red","blue"][whitch_line-1]
+		@ctx.stroke()
+	
 	drawToPoint:(rec)->
 		@ctx.lineWidth = 1
-		@ctx.beginPath()
-		rote = @unit*60/@xSpace
-		t = rec.temperature >> 4
-		x = (rec.time-@offsetX*@unit)/rote+@ruleTemperatureWidth
-		y = @ruleTemperatureHeight-(t+50)*@space/10
-		@ctx.moveTo @current_point[0],@current_point[1]
-		@ctx.lineTo x,y
-		@ctx.strokeStyle = "red"
-		@ctx.stroke()
-		
-		@ctx.beginPath()
-		t = rec.settingtemperature >> 4
-		y1 = @ruleTemperatureHeight-(t+50)*@space/10
-		@ctx.moveTo @current_point[0],@current_point[2]
-		@ctx.lineTo x ,y1
-		@ctx.strokeStyle = "blue"
-		@ctx.stroke()
-		@current_point = [x,y,y1]
+		coord = @calcCoord rec
+		@_drawLine coord,1
+		@_drawLine coord,2
+		@current_point = coord
 	
 	resize:()->
 		h = 450
