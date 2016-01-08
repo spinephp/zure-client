@@ -1,6 +1,19 @@
 Spine = require('spine')
-City = require('models/city')
-Zone = require('models/zone')
+# 创收据模型
+class City extends Spine.Model
+	@configure 'City', 'id', 'name'
+
+	@extend Spine.Model.Local
+
+	@url: 'index.php? cmd=City'
+
+# 创收据模型
+class Zone extends Spine.Model
+	@configure 'Zone', 'id', 'name'
+
+	@extend Spine.Model.Local
+
+	@url: 'index.php? cmd=District'
 
 # 创收据模型
 class Province extends Spine.Model
@@ -13,7 +26,7 @@ class Province extends Spine.Model
 	@fetch: (params) ->
 		fields = @attributes
 		params or= 
-			data:{ filter: fields, token: sessionStorage.token } 
+			data:{ filter: fields,token: $.fn.cookie 'PHPSESSID' } 
 			processData: true
 		super(params)
 
@@ -24,9 +37,8 @@ class Province extends Spine.Model
 			data: data
 			async: async   #ajax执行完毕后才执行后续指令
 			success: (result) ->
-				obj = JSON.parse(result)
-				if typeof (obj) is "object"
-					process?(obj)
+				if typeof (result) is "object"
+					process?(result)
 
 	# 根据省(市)编码取对应的省辖市(市辖县区),并把结果存入对应的数据模型中
 	@getCity:(provinceid) ->
@@ -39,7 +51,7 @@ class Province extends Spine.Model
 			url = Area.url
 			filter = ["id","name"]
 			cond = [{field:"id",value:minval,operator:"ge"},{field:"id",value:maxval,operator:"le"}]
-			token = sessionStorage.token
+			token = $.fn.cookie 'PHPSESSID'
 			data =  filter: filter,cond:cond, token:token 
 			@ajaxCity url,data,off,(obj)->
 				for rec in obj
@@ -47,7 +59,7 @@ class Province extends Spine.Model
 					item.save()
 		Area.select (item)-> item.id > minval and item.id < maxval
 
-	# 根据市编码取市名
+	# 根据县区编码取县区名
 	@getCityName:(cityid) ->
 		@getCity cityid[0..1]
 		City.find(cityid).name

@@ -24,8 +24,8 @@ class Drydata extends Spine.Model
 		token =  $.fn.cookie 'PHPSESSID'
 		jQuery.getJSON @url,{ cond:condition,filter: fields,token:token },(result) =>
 			if result.length
-				result.sort (a,b)->
-					return if a.id>b.id then 1 else -1
+				#result.sort (a,b)->
+				#	return if a.id>b.id then 1 else -1
 				
 				for o,i in result when not Drydata.exists o.id
 					data = new Drydata o

@@ -33,7 +33,8 @@ class Sysadmins extends Spine.Controller
 				if cval isnt ''
 					i = $.inArray head,heads
 					if i > -1
-						item[objKeys[i]][ckey] = cval unless curtabs? or curtabs?[i][ckey] is cval
+						target = item[objKeys[i]]
+						target[ckey] = cval unless curtabs?[i][ckey] is cval
 					else
 						item[field.name] = cval
 		

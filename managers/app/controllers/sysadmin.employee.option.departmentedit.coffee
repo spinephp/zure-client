@@ -46,7 +46,6 @@ class DepartmentEdits extends Spine.Controller
 		e.preventDefault()
 		item = {department:{}}
 		$.fn.makeRequestParam @formEl,item,['D_'],[ @item.department]
-
 		param = JSON.stringify(item)
 
 		#@item.department.scope = 'woo'
