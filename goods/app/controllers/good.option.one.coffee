@@ -34,11 +34,13 @@ class Goodtitle extends Spine.Controller
 		@good = $.Deferred()
 		@goodclass = $.Deferred()
 		@goodeval = $.Deferred()
+		@goodsharp = $.Deferred()
 		@currency = $.Deferred()
 		@default = $.Deferred()
 		Good.bind "refresh",=>@good.resolve()
 		Goodclass.bind "refresh",=>@goodclass.resolve()
 		Goodeval.bind "refresh",=>@goodeval.resolve()
+		Goodsharp.bind "refresh",=>@goodsharp.resolve()
 		Currency.bind "refresh",=>@currency.resolve()
 		Default.bind "refresh",=>@default.resolve()
 		Default.bind "change",=>
@@ -75,7 +77,7 @@ class Goodtitle extends Spine.Controller
 	
 	change: (params) =>
 		try
-			$.when(@good,@goodeval,@goodclass,@currency,@default).done =>
+			$.when(@good,@goodeval,@goodclass,@goodsharp,@currency,@default).done =>
 				if Good.exists params.id
 					good = Good.find params.id
 					default1 = Default.first()
