@@ -11,7 +11,7 @@
       <label for='P_country'>国家/地区: </label>
       <select name='P_country' >
         <% for rec in @countrys: %>
-        <option value="<%= rec.id %>" <%= 'selected=true' if rec.id is 48 %>>
+        <option value="<%= rec.id %>" <%= 'selected=true' if rec.id is "48" %>>
           <%= rec.name %>
         </option>
         <% end %>
@@ -32,7 +32,7 @@
     <p><label for='sex'>性别: </label><input type='radio' name='P_sex' value='M' />男 <input type='radio' name='P_sex' value='F' />女</p>
     <p>
       <label for='identitycard'>身份证号: </label>
-      <input type='text' name='P_identitycard' required />
+      <input type='text' name='P_identitycard' />
     </p>
     <p><label for='mobile'>手机号码: </label><input type='text' name='P_Mobile' placeholder='如：18961386277' pattern="[(86)|0]?(1[3|5|8]\d{9})" />
       <span id='mobile_err_info'></span>
