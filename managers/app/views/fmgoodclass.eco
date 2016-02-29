@@ -1,9 +1,7 @@
-<form enctype="multipart/form-data" method="post" name="upform" action="">
-  <div>
-  <p>
+   <p>
     <label>父 节 点：</label><select name="G_parentid">
     <option value="0" >根节点</option>
-    <% for rec in @goodclasses when rec.id < 100: %>
+    <% for rec in @goodclasses when parseInt(rec.id) < 100: %>
     <option value="<%= rec.id %>" <%= "selected" if parseInt(rec.id) is parseInt(@goodclass.parentid) %>><%= rec.parentName()+rec.name %></option>
     <% end %>
   </select>
@@ -25,86 +23,4 @@
       <img class='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='点击重新获取验证码' width='50' height='20' />
     </p>
     <input type='hidden' name='action' value='productclass_update' />
-  </div>
-  <div class='uploadimage'>
-    <img src='images/good/<%= @goodclass.picture or "noimg.png" %>' width='453' height='267' />
-    <input type="file" name="upload_good" id="upload_file">
-      <p>
-        <button>
-          选择要上传的图像
-        </button>
-      </p>
-      <p>
-        支持 JPG、GIF、PNG、JPEG 图像格式, 尺寸小于 4M。
-      </p>
-      <div>
-        <input name="watermask" type="checkbox" />添加水印
-        <div class="waterType" style="display:none">
-          <span>
-            <input name='watersel' type='radio' checked='' value='0'>
-              文本水印
-              <input name='watersel' type='radio' value='1'>图形水印
-              </span>
-          <div class="watermode">
-            <p>
-              <label for='watermasktxt'>
-                水印文本:
-              </label>
-              <input type="text" name="watermasktxt" placeholder='请输入水印文本'/>
-            </p>
-              <p>
-                <label for='textcolor'>
-                  文本颜色:
-                </label>
-                <input type="text" name="textcolor" placeholder='请输入文本颜色' value='#CCCCCC'/>
-              </p>
-              <p>
-                  <label for='fontsize'>
-                    字体尺寸:
-                  </label>
-                  <input type="number" name="fontsize" placeholder='请输入字体尺寸' min='1' max='256' value='12'/>
-              </p>
-            </div>
-          <div class="watermode" style="display:none">
-            <img src='images/maskimg.png' width='33' height='33' />
-            <input type="file" name="upload_mask" />
-            <p>
-              <button>
-                选择水印图像
-              </button>
-            </p>
-            <p>
-              支持 JPG、GIF、PNG、JPEG 图像格式, 尺寸小于 4M。
-            </p>
-          </div>
-          <fieldset style="width:70px;height:80px;float:left">
-            <legend>
-              水印位置
-            </legend>
-            <% for i in [0..2]: %>
-            <p>
-              <% for j in [1..3]: %>
-              <input name="waterpos" type="radio" value=""<%= i*3+j %>" <%= "checked" if i is 1 and j is 2  %> />
-              <% end %>
-            </p>
-            <% end %>
-          </fieldset>
-          <fieldset style="width: 100px;height:80px;float:left">
-            <legend>
-              水印偏移
-            </legend>
-            <p>
-                水平:
-              <input type="number" name="xoffset" placeholder='请输入水平偏移' min='0' max='100' value='0'/>
-            </p>
-            <p style="margin-top:5px">
-                垂直:
-              <input type="number" name="yoffset" placeholder='请输入垂直偏移' min='0' max='100' value='0'/>
-            </p>
-          </fieldset>
-            </div>
-      </div>
-    </div>
-  　<p><input type="submit" value="保存" name="submit" /></p>
-
-    </form>
+  

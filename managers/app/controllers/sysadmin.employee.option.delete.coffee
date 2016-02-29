@@ -49,6 +49,7 @@ class EmployeeDeletes extends Spine.Controller
 		$.fn.makeDeleteParam @formEl,Employee,(status)->
 			@item.person.destroy ajax:false
 
+		Employee.scope = ''
 		@item.employee.destroy() if confirm("确实要删除员工 #{@item.employee.getName()} 吗?")
 
 module.exports = EmployeeDeletes

@@ -11,13 +11,13 @@ class Employee extends Spine.Model
 	@extend Spine.Model.Ajax
 
 	@url: 'index.php? cmd=Employee'
-	@scope:'woo'
 
 	@fetch: (params) ->
 		fields = @attributes
 		params or= 
 			data:{ filter: fields, token: $.fn.cookie 'PHPSESSID' } 
 			processData: true
+		@scope = "woo"
 		super(params)
 
 	getName:->

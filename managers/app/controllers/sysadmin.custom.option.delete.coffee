@@ -47,6 +47,7 @@ class CustomDeletes extends Spine.Controller
 		$.fn.makeDeleteParam @formEl,Custom,(status)->
 			@item.person.destroy(ajax:false) if status.destroyed
 
+		Custom.scope = ''
 		@item.custom.destroy() if confirm("删除客户将删除与该客户相关联的所有数据，如账号，订单等等，请谨慎操作！\n确实要删除客户 #{@item.custom.getName()} 吗?")
 
 module.exports = CustomDeletes

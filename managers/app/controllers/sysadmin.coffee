@@ -63,6 +63,11 @@ class Sysadmins extends Spine.Controller
 			table.one "ajaxSuccess", (status, xhr) => 
 				table.url = @url
 				success? status
+				
+		$.fn.getImageName = (imgSrc)->
+			pos = imgSrc.lastIndexOf "/"
+			name = imgSrc.substr pos+1
+			name or 'noimg.png'
 			
 		# 上传图像文件
 		$.fn.uploadFile = (key,file,img,path)->
@@ -71,12 +76,14 @@ class Sysadmins extends Spine.Controller
 				throw "Invalid File Type #{file.type}" unless file.type in ['image/jpg','image/jpeg','image/png','image/gif']
 				formdata = new FormData()
 				formdata.append(key, file)
+				token = $.fn.cookie('PHPSESSID')
 				options = 
 					type: 'POST'
-					url: '? cmd=Upload&token='+@token
+					url: '? cmd=Upload&token='+token
 					data: formdata
 					success:(result) =>
-						img.attr 'src',path+@token+'/'+result.image
+						#console.log path+token+'/'+result.image
+						img.attr 'src',path+token+'/'+result.image
 						#alert(result.msg)
 					processData: false  # 告诉jQuery不要去处理发送的数据
 					contentType: false   # 告诉jQuery不要去设置Content-Type请求头
