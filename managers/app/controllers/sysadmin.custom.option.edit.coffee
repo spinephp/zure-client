@@ -31,30 +31,19 @@ class CustomEdits extends Spine.Controller
 
 			param = JSON.stringify(item)
 			Custom.scope = 'woo'
-			$.ajax
-				url: @item.customs.url() # 提交的页面
-				data: param
-				type: "PUT" # 设置请求类型为"POST"，默认为"GET"
-				dataType: "json"
-				beforeSend: -> # 设置表单提交前方法
-					# new screenClass().lock();
-				error: (request)->       # 设置表单提交出错
-					#new screenClass().unlock();
-					alert("表单提交出错，请稍候再试")
-				success: (data) =>
-					#obj = JSON.parse(data)
-					if data.id > -1
-						alert "数据保存成功！"
-						@item.persons.updateAttributes data.person[0],ajax: false
-						@item.customs.updateAttributes data.custom[0],ajax: false
-						Custom.trigger 'update',@item.customs
-					else
-						switch data.error
-							when "Access Denied"
-								window.location.reload()
-							when "Validate Code Error!"
-								alert "验证码错误，请重新填写。"
-								Spine.trigger "updateverify"	   
+			$.fn.ajaxPut @item.customs.url(),param,(data)=>
+				if data.id > -1
+					alert "数据保存成功！"
+					@item.persons.updateAttributes data.person[0],ajax: false
+					@item.customs.updateAttributes data.custom[0],ajax: false
+					Custom.trigger 'update',@item.customs
+				else
+					switch data.error
+						when "Access Denied"
+							window.location.reload()
+						when "Validate Code Error!"
+							alert "验证码错误，请重新填写。"
+							Spine.trigger "updateverify"	   
 								
 		@append @word, @image,option
 		
