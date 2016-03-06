@@ -27,6 +27,7 @@ class CustomAdds  extends Spine.Controller
 			item.action = "custom_create"
 			item.language = 1
 			param = JSON.stringify(item)
+			Custom.scope  = ''
 			$.ajax
 				url: Custom.url # 提交的页面
 				data: param

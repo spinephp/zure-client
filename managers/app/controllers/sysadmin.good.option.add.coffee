@@ -20,6 +20,7 @@ class GoodAdds extends Spine.Controller
     
 		option = $('<button>submit</button>').addClass('submitoption').button().click (e)=>
 			e.preventDefault()
+			#@item = @word.getItem()
 			item = {product:{}}
 			$.fn.makeRequestParam @el,item,['G_']
 
@@ -40,8 +41,8 @@ class GoodAdds extends Spine.Controller
 					#obj = JSON.parse(data)
 					if data.id > -1
 						alert "数据保存成功！"
-						#@item.goodclass.updateAttributes data.productclass[0],ajax: false
-						Good.trigger "create",data.product[0]
+						@word.getItem().good.updateAttributes data.product,ajax: false
+						#Good.trigger "create",@item.good
 						#Spine.trigger "imagechange",@item.goodclass.picture
 					else
 						switch data.error

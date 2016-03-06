@@ -39,8 +39,8 @@ class GoodclassAdds extends Spine.Controller
 					#obj = JSON.parse(data)
 					if data.id > -1
 						alert "数据保存成功！"
-						#@item.goodclass.updateAttributes data.productclass[0],ajax: false
-						Goodclass.trigger "create",data.productclass
+						@word.getItem().goodclass.updateAttributes data.productclass,ajax: false
+						#Goodclass.trigger "create",data.productclass
 						#Spine.trigger "imagechange",@item.goodclass.picture
 					else
 						switch data.error

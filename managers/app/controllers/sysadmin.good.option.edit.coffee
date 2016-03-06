@@ -21,12 +21,13 @@ class GoodEdits extends Spine.Controller
     
 		option = $('<button>submit</button>').addClass('submitoption').button().click (e)=>
 			e.preventDefault()
-			item = {productclass:{}}
-			$.fn.makeRequestParam @el,item,['G_']
+			@item = @word.getItem()
+			item = {product:{}}
+			$.fn.makeRequestParam @el,item,['G_'],[@item.good]
 
-			item.productclass['picture'] = $.fn.getImageName @image.getImage().attr 'src'
+			item.product['picture'] = $.fn.getImageName @image.getImage().attr 'src'
 			param = JSON.stringify(item)
-			$.fn.ajaxPut @word.getGood().url(),param,(data)=>
+			$.fn.ajaxPut @item.good.url(),param,(data)=>
 				if data.id > -1
 					alert "数据保存成功！"
 					#@item.goodclass.updateAttributes data.productclass,ajax: false

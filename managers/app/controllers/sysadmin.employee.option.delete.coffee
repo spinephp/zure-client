@@ -46,7 +46,7 @@ class EmployeeDeletes extends Spine.Controller
 	option: (e)=>
 		e.stopPropagation()
 		e.preventDefault()
-		$.fn.makeDeleteParam @formEl,Employee,(status)->
+		$.fn.makeDeleteParam @formEl,Employee,(status)=>
 			@item.person.destroy ajax:false
 
 		Employee.scope = ''

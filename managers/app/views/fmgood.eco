@@ -15,7 +15,7 @@
    <p>
     <label>父 节 点：</label><select name="G_classid">
     <% for rec in @goodclasses when rec.childCount() is 0: %>
-    <option value="<%= rec.id %>" <%= "selected" if parseInt(rec.id) is parseInt(@good.classid) %>><%= rec.longName() %></option>
+    <option value="<%= rec.id %>" <%= "selected" if parseInt(rec.id) is parseInt(@good.classid or -1) %>><%= rec.longName() %></option>
     <% end %>
   </select>
   </p>

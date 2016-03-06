@@ -44,7 +44,7 @@ class CustomDeletes extends Spine.Controller
 	option: (e)=>
 		e.stopPropagation()
 		e.preventDefault()
-		$.fn.makeDeleteParam @formEl,Custom,(status)->
+		$.fn.makeDeleteParam @formEl,Custom,(status)=>
 			@item.person.destroy(ajax:false) if status.destroyed
 
 		Custom.scope = ''
