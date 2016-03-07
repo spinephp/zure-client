@@ -30,9 +30,9 @@ class CustomTrees extends Spine.Controller
 			@person.resolve()
 
 		Custom.bind "create",(item)=>
-			parentId = if item.type is 'P' then 1 else 2
+			parentId = @getRootId item.type
 			childZNode = 
-				"id":parentId*100000+parseInt(item.id,10)
+				"id":@getLeafId parentId,item
 				"pId":parentId
 				"name":item.getName()
 			@addTreeNode childZNode
@@ -46,13 +46,19 @@ class CustomTrees extends Spine.Controller
 
 
 		Custom.bind "destroy",(item)=>
-			parentId = if item.type is 'P' then 1 else 2
+			parentId = @getRootId item.type
 			childZNode = 
-				"id":parentId*100000+parseInt(item.id,10)
+				"id":@getLeafId parentId,item
 				"pId":parentId
 				"name":item.getName()
 			@zTree.removeNode(childZNode)
 
+	getRootId:(type)->
+		 if type is 'P' then 1 else 2
+		 
+	getLeafId:(rootId,item)->
+		rootId*100000+parseInt(item.id,10)	
+		
 	addTreeNode:(childNode)=>
 		parentZNode = @zTree.getNodeByParam("id", childNode.pId, null) #获取父节点
 		@node = @zTree.addNodes(parentZNode[0], childZNode, true)
@@ -61,7 +67,7 @@ class CustomTrees extends Spine.Controller
   
 	render: ->
 		@nodes = ({id:key+1,pId:0,name:val} for val,key in ['个人','单位'])
-		@nodes[1...1] = ({id:(if item.type is 'P' then 1 else 2)*100000+parseInt(item.id),pId:(if item.type is 'P' then 1 else 2),name:item.getName()} for item in Custom.all())
+		@nodes[1...1] = ({id:@getLeafId(@getRootId(item.type),item),pId:@getRootId(item.type),name:item.getName()} for item in Custom.all())
 		@html require("views/customtrees")()
 		$.fn.zTree.init($(@ztreeEl), @setting, @nodes)
 		@zTree = $.fn.zTree.getZTreeObj("customTree") #获取ztree对象
@@ -76,7 +82,7 @@ class CustomTrees extends Spine.Controller
 			$.when( @custom,@person).done =>
 				if params.id?
 					id = parseInt params.id,10
-					id += (if Custom.find(params.id).type is 'P' then 1 else 2)*100000 unless /\/customtype\//.test params.match[0]
+					id += @getRootId(Custom.find(params.id).type)*100000 unless /\/customtype\//.test params.match[0]
 				@item = 
 					nodeid:id
 					customs:Custom.all()

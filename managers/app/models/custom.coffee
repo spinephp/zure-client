@@ -4,7 +4,7 @@ require('spine/lib/ajax')
 
 # 创建企业模型
 class Custom extends Spine.Model
-	@configure 'Custom', 'id',"userid","emailstate","mobilestate","accountstate","ip"
+	@configure 'Custom', 'id',"userid",'type',"emailstate","mobilestate","accountstate","ip"
 
 
 	@extend Spine.Model.Ajax
