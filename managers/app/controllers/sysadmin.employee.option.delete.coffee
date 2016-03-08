@@ -1,55 +1,35 @@
 Spine	= require('spine')
 Employee = require('models/employee')
-Person = require('models/person')
-Department = require('models/department')
 
 $		= Spine.$
 
+Word    = require('controllers/sysadmin.employee.option.show')
+Verify   = require('controllers/main.verifycode')
+
 class EmployeeDeletes extends Spine.Controller
+	tag:"form"
 	className: 'employeedeletes'
   
-	elements:
-		'form':'formEl'
-  
-	events:
-		'click .validate':'verifyCode'
-		'click input[type=submit]': 'option'
-  
 	constructor: ->
-		super
 		@active @change
-		@employee = $.Deferred()
-		@url = Employee.url
-		Employee.bind "refresh",=>@employee.resolve()
-  
-	render: ->
-		@html require("views/employeedelete")(@item)
-		$("body >header h2").text "劳资管理->员工管理->删除员工"
-	
+		super
+		@word = new Word
+		@verify    = new Verify
+
+		option = $('<button>submit</button>').addClass('submitoption').button().click (e)=>
+			e.stopPropagation()
+			e.preventDefault()
+			item = @word.getItem()
+			$.fn.makeDeleteParam @el,Employee,(status)=>
+				item.person.destroy ajax:false
+
+			Employee.scope = ''
+			item.employee.destroy() if confirm("确实要删除员工 #{item.employee.getName()} 吗?")
+			
+		@append @word, @verify,option
+		
 	change: (params) =>
-		try
-			$.when( @employee).done =>
-				if Employee.exists params.id
-					employee = Employee.find params.id
-					@item = 
-						employee:employee
-						person:Person.find employee.userid
-						department:Department.find employee.departmentid
-					@render()
-		catch err
-			@log "file: sysadmin.main.employee.option.classdelete.coffee\nclass: EmployeeDeletes\nerror: #{err.message}"
-
-	verifyCode:(e)->
-		e.stopPropagation()
-		$(e.target).attr "src","admin/checkNum_session.php?"+Math.ceil(Math.random()*1000)	
-
-	option: (e)=>
-		e.stopPropagation()
-		e.preventDefault()
-		$.fn.makeDeleteParam @formEl,Employee,(status)=>
-			@item.person.destroy ajax:false
-
-		Employee.scope = ''
-		@item.employee.destroy() if confirm("确实要删除员工 #{@item.employee.getName()} 吗?")
-
+		@word.active params
+		@verify.active params
+		
 module.exports = EmployeeDeletes

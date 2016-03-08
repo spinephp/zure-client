@@ -35,4 +35,7 @@ class EmployeeShows extends Spine.Controller
 		catch err
 			@log "file: sysadmin.main.employee.option.classshow.coffee\nclass: EmployeeclassShows\nerror: #{err.message}"
 
+	getItem:->
+		@item
+
 module.exports = EmployeeShows

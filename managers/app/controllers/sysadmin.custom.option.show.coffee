@@ -33,4 +33,7 @@ class CustomShows extends Spine.Controller
 		catch err
 			@log "file: sysadmin.main.custom.option.show.coffee\nclass: CustomShows\nerror: #{err.message}"
 
+	getItem:->
+		@item
+		
 module.exports = CustomShows

@@ -72,12 +72,5 @@
         <%= option {'O':'正常','D':'降价','P':'促销','N':'新产品'},@good.status %>
       </select>
     </p>
-    <p>
-      <label for='code'>
-        验证码：
-      </label>
-      <input name='code' type='text' required='' pattern='\d{4}' placeholder='输入右侧图片中的字符'/>
-      <img class='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='点击重新获取验证码' width='50' height='20' />
-    </p>
     <input type='hidden' name='action' value='product_update' />
   

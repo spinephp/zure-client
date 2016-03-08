@@ -5,6 +5,7 @@ $		= Spine.$
 
 Word    = require('controllers/sysadmin.employee.option.add.text')
 Image   = require('controllers/image_option')
+Verify   = require('controllers/main.verifycode')
 
 class EmployeeAdds extends Spine.Controller
 	tag:"form"
@@ -15,6 +16,7 @@ class EmployeeAdds extends Spine.Controller
 		super
 		@word = new Word
 		@image    = new Image 'userimg','user',"50%"
+		@verify    = new Verify
 		@token = $.fn.cookie('PHPSESSID')
 
 		option = $('<button>submit</button>').addClass('submitoption').button().click (e)=>
@@ -53,10 +55,11 @@ class EmployeeAdds extends Spine.Controller
 							when "Validate Code Error!"
 								alert "验证码错误，请重新填写。"
 								Spine.trigger "updateverify"	   
-		@append @word, @image,option
+		@append @word, @image,@verify,option
 		
 	change: (params) =>
 		@word.active params
 		@image.active params
+		@verify.active params
 
 module.exports = EmployeeAdds

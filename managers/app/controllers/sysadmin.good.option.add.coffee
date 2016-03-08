@@ -6,6 +6,7 @@ $		= Spine.$
 
 Word    = require('controllers/sysadmin.good.option.add.text')
 Image   = require('controllers/image_option')
+Verify   = require('controllers/main.verifycode')
 
 class GoodAdds extends Spine.Controller
 	tag:"form"
@@ -16,6 +17,7 @@ class GoodAdds extends Spine.Controller
 		super
 		@word = new Word
 		@image    = new Image 'goodimg','good'
+		@verify    = new Verify
 		@token = $.fn.cookie('PHPSESSID')
     
 		option = $('<button>submit</button>').addClass('submitoption').button().click (e)=>
@@ -51,11 +53,12 @@ class GoodAdds extends Spine.Controller
 							when "Validate Code Error!"
 								alert "验证码错误，请重新填写。"
 								Spine.trigger "updateverify"	   
-		@append @word, @image,option
+		@append @word, @image,@verify,option
 		$("body >header h2").text "经营管理->产品管理->编辑产品"
 		
 	change: (params) =>
 		@word.active params
 		@image.active params
+		@verify.active params
 
 module.exports = GoodAdds

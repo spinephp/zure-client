@@ -67,13 +67,6 @@
     <p>
       <label for='P_registertime'>于 </label><input type='date' name='P_registertime' value='<%= @persons.registertime?[0..9] %>' />进入本公司
     </p>
-    <p>
-      <label for='code'>
-        验证码:
-      </label>
-      <input name='code' type='text' required='' pattern='\d{4}' placeholder='输入右侧图片中的字符'/>
-      <img class='validate' src='admin/checkNum_session.php' align='absmiddle' style='border:#CCCCCC 1px solid; cursor:pointer;' title='点击重新获取验证码' width='50' height='20' />
-    </p>
     <input type='hidden' name='action' value='employee_update' />
     <input type='hidden' name='P_id' value='<%= @persons.id %>' />
     <input type='hidden' name='E_userid' value='<%= @employees.userid %>' />

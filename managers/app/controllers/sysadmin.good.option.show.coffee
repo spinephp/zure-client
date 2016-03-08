@@ -27,4 +27,7 @@ class GoodShows extends Spine.Controller
 		catch err
 			@log "file: sysadmin.main.good.option.classshow.coffee\nclass: GoodclassShows\nerror: #{err.message}"
 
+	getItem:->
+		@item
+
 module.exports = GoodShows

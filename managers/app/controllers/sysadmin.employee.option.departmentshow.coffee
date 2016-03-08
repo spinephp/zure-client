@@ -26,4 +26,7 @@ class DepartmentShows extends Spine.Controller
 		catch err
 			@log "file: sysadmin.main.employee.option.departmentshow.coffee\nclass: DepartmentShows\nerror: #{err.message}"
 
+	getItem:->
+		@item
+
 module.exports = DepartmentShows

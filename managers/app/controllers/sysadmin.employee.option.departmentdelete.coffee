@@ -3,45 +3,29 @@ Department = require('models/department')
 
 $		= Spine.$
 
+Word    = require('controllers/sysadmin.employee.option.departmentshow')
+Verify   = require('controllers/main.verifycode')
+
 class DepartmentDeletes extends Spine.Controller
+	tag:"form"
 	className: 'departmentdeletes'
   
-	elements:
-		'form':'formEl'
-  
-	events:
-		'click .validate':'verifyCode'
-		'click input[type=submit]': 'option'
-  
 	constructor: ->
-		super
 		@active @change
-		@department = $.Deferred()
-		@url = Department.url
-		Department.bind "refresh",=>@department.resolve()
-  
-	render: ->
-		@html require("views/departmentdelete")(@item)
-		$("body >header h2").text "劳资管理->员工管理->删除部门"
-	
+		super
+		@word = new Word
+		@verify    = new Verify
+
+		option = $('<button>submit</button>').addClass('submitoption').button().click (e)=>
+			e.stopPropagation()
+			e.preventDefault()
+			item = @word.getItem()
+			$.fn.makeDeleteParam @el,Department
+			item.department.destroy() if confirm("确实要删除部门 [#{item.department.name}] 吗?")
+		@append @word, @verify,option
+		
 	change: (params) =>
-		try
-			$.when( @department).done =>
-				if Department.exists params.id
-					@item = 
-						department:Department.find params.id
-					@render()
-		catch err
-			@log "file: sysadmin.main.employee.option.departmentdelete.coffee\nclass: DepartmentDeletes\nerror: #{err.message}"
-
-	verifyCode:(e)->
-		e.stopPropagation()
-		$(e.target).attr "src","admin/checkNum_session.php?"+Math.ceil(Math.random()*1000)	
-
-	option: (e)=>
-		e.stopPropagation()
-		e.preventDefault()
-		$.fn.makeDeleteParam @formEl,Department
-		@item.department.destroy() if confirm("确实要删除部门 [#{@item.department.name}] 吗?")
+		@word.active params
+		@verify.active params
 
 module.exports = DepartmentDeletes
