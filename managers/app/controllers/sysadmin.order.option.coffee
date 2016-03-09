@@ -23,6 +23,6 @@ class OrderOption extends Spine.Stack
 		orderadd: NewOrders
 		orderedit: EditOrders
 		orderdelete: DeleteOrders
-		classdelete: DeleteOrderstates
+		statedelete: DeleteOrderstates
 	
 module.exports = OrderOption

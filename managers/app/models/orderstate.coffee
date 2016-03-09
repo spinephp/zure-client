@@ -8,13 +8,14 @@ class OrderState extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: 'woo/index.php? cmd=OrderState'
+	@url: 'index.php? cmd=OrderState'
 
 	@fetch: (params) ->
 		fields = @attributes
 		params or= 
 			data:{ filter: fields, token: sessionStorage.token } 
 			processData: true
+		@scope = "woo"
 		super(params)
 
 	finish:->
