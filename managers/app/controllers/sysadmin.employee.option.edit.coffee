@@ -52,7 +52,7 @@ class EmployeeEdits extends Spine.Controller
 					alert "数据保存成功！"
 					@item.persons.updateAttributes data.person[0],ajax: false if data.person?
 					@item.employees.updateAttributes data.employee[0],ajax: false
-					Employee.trigger 'update',@item.employees
+					Employee.trigger 'update',@item.employees[0]
 				else
 					switch data.error
 						when "Access Denied"

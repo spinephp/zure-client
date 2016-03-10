@@ -45,8 +45,8 @@ class EmployeeAdds extends Spine.Controller
 					#obj = JSON.parse(data)
 					if data.id > -1
 						alert "数据保存成功！"
-						@item.persons.updateAttributes data.person,ajax: false
-						@item.employees.updateAttributes data.employee,ajax: false
+						@item.persons.updateAttributes data.person[0],ajax: false
+						@item.employees.updateAttributes data.employee[0],ajax: false
 						@navigate('/employees/',data.id,'show') 
 					else
 						switch data.error

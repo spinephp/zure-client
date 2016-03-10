@@ -75,7 +75,7 @@ class EmployeeTrees extends Spine.Controller
 
 	addTreeNode:(childNode)=>
 		parentZNode = @zTree.getNodeByParam("id", childNode.pId, null) #获取父节点
-		@node = @zTree.addNodes(parentZNode[0], childNode, true)
+		@node = @zTree.addNodes(parentZNode?[0] or null, childNode, true)
 		@zTree.selectNode(@node) #选择点
 		@onTreeClick null,@zTree.setting.treeId,@node,1
   

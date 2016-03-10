@@ -7,13 +7,14 @@ class Department extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: 'woo/index.php? cmd=Department'
+	@url: 'index.php? cmd=Department'
 
 	@fetch: (params) ->
 		fields = @attributes
 		params or= 
 			data:{ filter: fields, token: sessionStorage.token } 
 			processData: true
+		@scope = "woo"
 		super(params)
 
 module.exports = Department

@@ -32,7 +32,7 @@ class GoodEdits extends Spine.Controller
 			$.fn.ajaxPut @item.good.url(),param,(data)=>
 				if data.id > -1
 					alert "数据保存成功！"
-					#@item.goodclass.updateAttributes data.productclass,ajax: false
+					@item.good.updateAttributes data.product[0],ajax: false
 					Good.trigger 'update',data.product[0]
 				else
 					switch data.error

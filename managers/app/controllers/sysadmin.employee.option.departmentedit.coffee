@@ -3,77 +3,46 @@ Department = require('models/department')
 
 $		= Spine.$
 
+Word    = require('controllers/sysadmin.employee.option.departmentadd.text')
+Verify   = require('controllers/main.verifycode')
+
 class DepartmentEdits extends Spine.Controller
+	tag:"form"
 	className: 'departmentedits'
   
-	elements:
-		"button":"buttonEl"
-		'form':'formEl'
-		'tr td input[type=checkbox]':'selectedEl'
-		'form div:first-child p:nth-child(2) select':"addressEl"
-		'input[name=code]':'verifyEl'
-  
-	events:
-		'click .validate':'verifyCode'
-		'click input[type=submit]': 'option'
-  
 	constructor: ->
-		super
-		@token = $.fn.cookie('PHPSESSID')
 		@active @change
-		@department = $.Deferred()
-		Department.bind "refresh",=>@department.resolve()
-  
-	render: ->
-		@html require("views/fmdepartment")(@item)
-		$("body >header h2").text "劳资管理->员工管理->编辑部门"
-	
-	change: (params) =>
-		try
-			$.when( @department).done =>
-				if Department.exists params.id
-					@item = 
-						department:Department.find params.id
-					@render()
-		catch err
-			@log "file: sysadmin.main.employee.option.classedit.coffee\nclass: DepartmentEdit\nerror: #{err.message}"
+		super
+		@word = new Word
+		@verify    = new Verify
+		@token = $.fn.cookie('PHPSESSID')
+    
+		option = $('<button>submit</button>').addClass('submitoption').button().click (e)=>
+			e.preventDefault()
+			item = {department:{}}
+			@item = @word.getItem()
+			$.fn.makeRequestParam @el,item,['D_'],[ @item.department]
+			param = JSON.stringify(item)
 
-	verifyCode:(e)->
-		e.stopPropagation()
-		$(e.target).attr "src","admin/checkNum_session.php?"+Math.ceil(Math.random()*1000)	
+			#@item.department.scope = 'woo'
 
-	option: (e)->
-		e.preventDefault()
-		item = {department:{}}
-		$.fn.makeRequestParam @formEl,item,['D_'],[ @item.department]
-		param = JSON.stringify(item)
-
-		#@item.department.scope = 'woo'
-
-		$.ajax
-			url: @item.department.url() #"? cmd=ProductClass&token=#{@token}/"+@item.department.id # 提交的页面
-			data: param
-			type: "POST" # 设置请求类型为"POST"，默认为"GET"
-			dataType: "json"
-			beforeSend: (xhr)-> # 设置表单提交前方法
-				xhr.setRequestHeader('X-HTTP-Method-Override', 'PUT')
-				# new screenClass().lock();
-			error: (request)->       # 设置表单提交出错
-				#new screenClass().unlock();
-				alert("表单提交出错，请稍候再试")
-			success: (data) =>
+			$.fn.ajaxPut @item.department.url(),param,(data)=>
 				if data.id > -1
 					alert "数据保存成功！"
-					@item.department.updateAttributes data.department,ajax: false
-					Department.trigger "update",@item.department
+					@item.department.updateAttributes data.department[0],ajax: false
+					Department.trigger "update",@item.department[0]
 				else
 					switch data.error
 						when "Access Denied"
 							window.location.reload()
 						when "Validate Code Error!"
 							alert "验证码错误，请重新填写。"
-							$(".validate").click()
-							$(@verifyEl).focus()
+							Spine.trigger "updateverify"	   
+		@append @word, @verify,option
+		
+	change: (params) =>
+		@word.active params
+		@verify.active params
 
 
 module.exports = DepartmentEdits
