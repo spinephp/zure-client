@@ -23,6 +23,7 @@ class CustomAdds  extends Spine.Controller
 		option = $('<button>submit</button>').addClass('submitoption').button().click (e)=>
 			e.preventDefault()
 			item = {custom:{},person:{}}
+			@item = @word.getItem()
 			$.fn.makeRequestParam @el,item,['C_','P_']
 
 			item.person['picture'] = $.fn.getImageName @image.getImage().attr 'src'
@@ -44,14 +45,8 @@ class CustomAdds  extends Spine.Controller
 					#obj = JSON.parse(data)
 					if data.id > -1
 						alert data.register+'\n'+data.email
-						person = {}
-						custom = {}
-						person[item]=data.person[item] for item in Person.attributes
-						custom[item]=data.custom[item] for item in Custom.attributes
-						Person.refresh person,clear:false
-						Custom.refresh custom,clear:false
-						#@item.persons.updateAttributes person,ajax: false
-						#@item.customs.updateAttributes custom,ajax: false
+						@item.persons.updateAttributes data.person[0],ajax: false
+						@item.customs.updateAttributes data.custom[0],ajax: false
 						@navigate('/customs/',data.id,'show') 
 					else
 						switch data.error

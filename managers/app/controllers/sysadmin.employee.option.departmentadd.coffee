@@ -14,7 +14,6 @@ class DepartmentAdds extends Spine.Controller
 		@active @change
 		super
 		@word = new Word
-		@image    = new Image 'userimg','user',"50%"
 		@verify    = new Verify
 		@token = $.fn.cookie('PHPSESSID')
 
@@ -42,7 +41,7 @@ class DepartmentAdds extends Spine.Controller
 					if data.id > -1
 						alert "数据保存成功！"
 						@item.department.updateAttributes data.department[0],ajax: false
-						Department.trigger "create",@item.department[0]
+						Department.trigger "create",data.department[0]
 						#@navigate('/department/',data.id,'show') 
 					else
 						switch data.error

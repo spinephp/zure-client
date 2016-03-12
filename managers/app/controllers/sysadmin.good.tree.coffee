@@ -119,6 +119,9 @@ class GoodTrees extends Spine.Controller
 		#showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
 		return (treeNode.click isnt false);
 
+	getNodeInfo:()->
+		if @node.id < 1000 then [@node.id,'/goodclass',"产品类型"] else  [@node.id - @node.pId*100000,'/goods',"产品"] 
+
 	# 处理树节点点击事件
 	# clickFlag - 整数，指定选中类型 
 	#             0 - 取消选中
@@ -129,14 +132,9 @@ class GoodTrees extends Spine.Controller
 		if clickFlag is 1
 			$(@buttonEl).button  "option", "disabled", false
 			@node = treeNode
-			id = parseInt treeNode.id,10
-
-			if id < 1000
-				name = '/goodclass'
-			else
-				name = '/goods'
-				id -= parseInt(treeNode.pId,10)*100000
-			@navigate(name,id,'show') 
+			n = @getNodeInfo()
+			@navigate(n[1],n[0],'show') 
+			$("body >header h2").text "经营管理->#{n[2]}管理->#{n[2]}信息"
 		else
 			$(@buttonEl)[1..].button  "option", "disabled", true 
 
@@ -154,24 +152,21 @@ class GoodTrees extends Spine.Controller
 
 	option: (e)=>
 		opt = $(e.target)
-		if @node.id < 1000
-			name = '/goodclass'
-			id = @node.id
-		else
-			name = '/goods'
-			id = @node.id - @node.pId*100000
+		n = @getNodeInfo()
 		$(@buttonEl).each (index,item)=>
 			if item.childNodes[0] is opt[0]
 				switch index
 					when 0 # add 
-						@navigate("#{name}/new")
+						@navigate("#{n[1]}/new")
 					when 1 # edit 
-						@navigate(name, id, 'edit') if id > 0
+						@navigate(n[1], n[0], 'edit') if n[0] > 0
 					when 2 # delete 
 						try
 							throw "该节点有子节点，无法删除！" if @node.isParent
-							@navigate(name, id, 'delete') if id > 0
+							@navigate(n[1], n[0], 'delete') if n[0] > 0
 						catch err
 							alert err
+				title = ["添加", "编辑","删除"][index]
+				$("body >header h2").text "经营管理->#{n[2]}管理->#{title}#{n[2]}"
 
 module.exports = GoodTrees

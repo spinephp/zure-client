@@ -121,6 +121,9 @@ class OrderTrees extends Spine.Controller
 		#showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
 		return (treeNode.click isnt false);
 
+	getNodeInfo:()->
+		if @node.id < 1000 then [@node.id,'/orderstate',"订单状态",false] else  [@node.id - @node.pId*100000,'/orders',"订单",@node.pId in [4..8]] 
+
 	# 处理树节点点击事件
 	# clickFlag - 整数，指定选中类型 
 	#             0 - 取消选中
@@ -130,19 +133,10 @@ class OrderTrees extends Spine.Controller
 		event.stopPropagation() if event?
 		if clickFlag is 1
 			@node = treeNode
-			id = parseInt treeNode.id,10
-			btnDisabled =  false
-
-			if id < 1000
-				name = '/orderstate'
-			else
-				name = '/orders'
-				pId = parseInt treeNode.pId,10
-				id -= pId*100000
-				btnDisabled = (pId in [4..8])
-			$(@buttonEl)[1..].button disabled:btnDisabled
-
-			@navigate(name,id,'show') 
+			n = @getNodeInfo()
+			@navigate(n[1],n[0],'show') 
+			$("body >header h2").text "经营管理->#{n[2]}管理->#{n[2]}信息"
+			$(@buttonEl)[1..].button disabled:n[3]
 		else
 			$(@buttonEl)[1..].button disabled:true 
 
@@ -161,24 +155,21 @@ class OrderTrees extends Spine.Controller
 	option: (e)=>
 		e.stopPropagation()
 		opt = $(e.target)
-		if @node.id < 1000
-			name = '/orderstate'
-			id = @node.id
-		else
-			name = '/orders'
-			id = @node.id - @node.pId*100000
+		n = @getNodeInfo()
 		$(@buttonEl).each (index,item)=>
 			if item.childNodes[0] is opt[0]
 				switch index
 					when 0 # add 
-						@navigate("#{name}/new")
+						@navigate("#{n[1]}/new")
 					when 1 # edit 
-						@navigate(name, id, 'edit') if id > 0
+						@navigate(n[1], n[0], 'edit') if n[0] > 0
 					when 2 # delete 
 						try
 							throw "该节点有子节点，无法删除！" if @node.isParent
-							@navigate(name, id, 'delete') if id > 0
+							@navigate(n[1], n[0], 'delete') if n[0] > 0
 						catch err
 							alert err
+				title = ["添加", "编辑","删除"][index]
+				$("body >header h2").text "经营管理->#{n[2]}管理->#{title}#{n[2]}"
 
 module.exports = OrderTrees

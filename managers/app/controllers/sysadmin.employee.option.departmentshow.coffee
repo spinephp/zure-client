@@ -24,7 +24,7 @@ class DepartmentShows extends Spine.Controller
 						department:Department.find params.id
 					@render()
 		catch err
-			@log "file: sysadmin.main.employee.option.departmentshow.coffee\nclass: DepartmentShows\nerror: #{err.message}"
+			@log "file: sysadmin.employee.option.departmentshow.coffee\nclass: DepartmentShows\nerror: #{err.message}"
 
 	getItem:->
 		@item

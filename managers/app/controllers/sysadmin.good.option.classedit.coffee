@@ -34,7 +34,7 @@ class GoodclassEdits extends Spine.Controller
 					Goodclass.trigger 'update',data.productclass[0]
 				else
 					switch data.error
-						when "Access Denied"
+						when "Access Denied","Not logged!"
 							window.location.reload()
 						when "Validate Code Error!"
 							alert "验证码错误，请重新填写。"

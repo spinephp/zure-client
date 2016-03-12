@@ -74,6 +74,9 @@ class ProgressTrees extends Spine.Controller
 		#showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
 		return (treeNode.click isnt false);
 
+	getNodeInfo:()->
+		if @node.id < 1000 then [@node.id,'/progress/state',"进度状态"] else  [@node.id - @node.pId*100000,'/progress',"进度"] 
+
 	# 处理树节点点击事件
 	# clickFlag - 整数，指定选中类型 
 	#             0 - 取消选中
@@ -84,14 +87,9 @@ class ProgressTrees extends Spine.Controller
 		if clickFlag is 1
 			$(@buttonEl).button  "option", "disabled", false
 			@node = treeNode
-			id = parseInt treeNode.id,10
-
-			if id < 1000
-				name = '/progress/state'
-			else
-				name = '/progress'
-				id -= parseInt(treeNode.pId,10)*100000
-			@navigate(name,id,'show') 
+			n = @getNodeInfo()
+			@navigate(n[1],n[0],'show') 
+			$("body >header h2").text "生产管理->#{n[2]}管理->#{n[2]}信息"
 		else
 			$(@buttonEl)[1..].button  "option", "disabled", true 
 
@@ -108,12 +106,9 @@ class ProgressTrees extends Spine.Controller
 		return ids;
 
 	option: (e)=>
-		if @node.id < 1000
-			name = '/progress/state'
-			id = @node.id
-		else
-			name = '/progress'
-			id = @node.id - @node.pId*100000
-		@navigate(name, id, 'edit') if id > 0
+		n = @getNodeInfo()
+		title = ["添加", "编辑","删除"][1]
+		$("body >header h2").text "经营管理->#{n[2]}管理->#{title}#{n[2]}"
+		@navigate(n[1], n[0], 'edit') if n[0] > 0
 
 module.exports = ProgressTrees

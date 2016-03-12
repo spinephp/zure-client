@@ -61,7 +61,7 @@ class CustomTrees extends Spine.Controller
 		
 	addTreeNode:(childNode)=>
 		parentZNode = @zTree.getNodeByParam("id", childNode.pId, null) #获取父节点
-		@node = @zTree.addNodes(parentZNode[0], childZNode, true)
+		@node = @zTree.addNodes(parentZNode[0], childNode, true)
 		@zTree.selectNode(@node) #选择点
 		@onTreeClick null,@zTree.setting.treeId,@node,1
   
@@ -96,25 +96,22 @@ class CustomTrees extends Spine.Controller
 
 				@render()
 		catch err
-			@log "file: sysadmin.custom.coffee\nclass: Customs\nerror: #{err.message}"
+			@log "file: sysadmin.custom.tree.coffee\nclass: Customs\nerror: #{err.message}"
 	beforeTreeClick:(treeId, treeNode, clickFlag)->
 		#className = (className === "dark" ? "":"dark");
 		#showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
 		return (treeNode.click isnt false);
+
+	getNodeInfo:()->
+		if @node.id < 1000 then [@node.id,'/customtype',"客户类型"] else  [@node.id - @node.pId*100000,'/customs',"客户"] 
 
 	onTreeClick:(event, treeId, treeNode, clickFlag)=>
 		event?.stopPropagation()
 		if clickFlag is 1
 			$(@buttonEl).button  "option", "disabled", false
 			@node = treeNode
-			id = parseInt treeNode.id,10
-
-			if id < 1000
-				name = '/customtype'
-			else
-				name = '/customs'
-				id -= parseInt(treeNode.pId)*100000
-			@navigate(name,id,'show') 
+			n = @getNodeInfo()
+			@navigate(n[1],n[0],'show') 
 		else
 			$(@buttonEl)[1..].button  "option", "disabled", true 
 			#@navigate('/customs/department',treeNode.id,'show') if treeNode.id < 1000
@@ -133,21 +130,21 @@ class CustomTrees extends Spine.Controller
 
 	option: (e)=>
 		opt = $(e.target)
-		if @node.id > 1000
-			name = '/customs'
-			id = @node.id - @node.pId*100000
+		n = @getNodeInfo()
 		$(@buttonEl).each (index,item)=>
 			if item.childNodes[0] is opt[0]
 				switch index
 					when 0 # add 
-						@navigate("#{name}/new")
+						@navigate("#{n[1]}/new")
 					when 1 # edit 
-						@navigate(name, id, 'edit') if id > 0
+						@navigate(n[1], n[0], 'edit') if n[0] > 0
 					when 2 # delete 
 						try
 							throw "该节点有子节点，无法删除！" if @node.isParent
-							@navigate(name, id, 'delete') if id > 0
+							@navigate(n[1], n[0], 'delete') if n[0] > 0
 						catch err
 							alert err
+				title = ["添加", "编辑","删除"][index]
+				$("body >header h2").text "经营管理->#{n[2]}管理->#{title}#{n[2]}"
 
 module.exports = CustomTrees

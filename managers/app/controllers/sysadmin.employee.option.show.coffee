@@ -20,7 +20,6 @@ class EmployeeShows extends Spine.Controller
   
 	render: ->
 		@html require("views/employee")(@item)
-		$("body >header h2").text "劳资管理->员工管理->员工信息"
 	
 	change: (params) =>
 		try
