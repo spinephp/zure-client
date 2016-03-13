@@ -3,19 +3,10 @@ Goodclass = require('models/goodclass')
 Good = require('models/good')
 
 $		= Spine.$
+ManagerTree = require('controllers/main.tree')
 
-class GoodTrees extends Spine.Controller
+class GoodTrees extends ManagerTree
 	className: 'goodtrees'
-  
-	elements:
-		"button":"buttonEl"
-		'tr .rowselected':'selectedEl'
-		'tr':'trEl'
-		'ul':'ztreeEl'
-  
-	events:
-		'click button': 'option'
-		'click tr': 'userSelect'
   
 	constructor: ->
 		super
@@ -75,23 +66,11 @@ class GoodTrees extends Spine.Controller
 				"name":item.name
 			@zTree.removeNode(childZNode)
 
-	addTreeNode:(childNode)=>
-		parentZNode = @zTree.getNodeByParam("id", childNode.pId, null) #获取父节点
-		@node = @zTree.addNodes(parentZNode[0], childNode, true)
-		@zTree.selectNode(@node) #选择点
-		@onTreeClick null,@zTree.setting.treeId,@node,1
-
 	render: ->
 		@nodes = ({id:parseInt(item.id),pId:item.parentid,name:item.name} for item in Goodclass.all())
 		@nodes[1...1] = ({id:parseInt(item.classid)*100000+parseInt(item.id),pId:item.classid,name:item.size()} for item in Good.all())
 		@html require("views/goodtrees")()
-		$.fn.zTree.init($(@ztreeEl), @setting, @nodes)
-		@zTree = $.fn.zTree.getZTreeObj("treeDemo") #获取ztree对象
-		@node = @zTree.getNodeByParam?('id', @item.nodeid or 1) #获取id为1的点
-		@zTree.selectNode(@node) #选择点
-		#@zTree.setting.callback.onClick(null, @zTree.setting.treeId, @node,1) #调用事件
-		$(@buttonEl).button().click (event)=>
-			@option(event)
+		@selectFirstNode "treeDemo"
 	
 	change: (params) =>
 		try
@@ -114,59 +93,11 @@ class GoodTrees extends Spine.Controller
 			)
 		catch err
 			@log "file: sysadmin.good.coffee\nclass: Goods\nerror: #{err.message}"
-	beforeTreeClick:(treeId, treeNode, clickFlag)->
-		#className = (className === "dark" ? "":"dark");
-		#showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
-		return (treeNode.click isnt false);
 
-	getNodeInfo:()->
+	getNodeInfo:(index)->
 		if @node.id < 1000 then [@node.id,'/goodclass',"产品类型"] else  [@node.id - @node.pId*100000,'/goods',"产品"] 
 
-	# 处理树节点点击事件
-	# clickFlag - 整数，指定选中类型 
-	#             0 - 取消选中
-	#             1 - 普通选中
-	#             >1 - 追加选中
-	onTreeClick:(event, treeId, treeNode, clickFlag)=>
-		event.stopPropagation() if event?
-		if clickFlag is 1
-			$(@buttonEl).button  "option", "disabled", false
-			@node = treeNode
-			n = @getNodeInfo()
-			@navigate(n[1],n[0],'show') 
-			$("body >header h2").text "经营管理->#{n[2]}管理->#{n[2]}信息"
-		else
-			$(@buttonEl)[1..].button  "option", "disabled", true 
-
-	userSelect:(e)->
-		e.stopPropagation()
-		$(@trEl).removeClass 'rowselected'
-		$(e.target).parent().addClass 'rowselected'
-	
-	getChildren:(ids,treeNode)->
-		ids.push treeNode.id
-		if treeNode.isParent
-			for obj in treeNode.children
-				@getChildren ids,treeNode.children[obj]
-		return ids;
-
-	option: (e)=>
-		opt = $(e.target)
-		n = @getNodeInfo()
-		$(@buttonEl).each (index,item)=>
-			if item.childNodes[0] is opt[0]
-				switch index
-					when 0 # add 
-						@navigate("#{n[1]}/new")
-					when 1 # edit 
-						@navigate(n[1], n[0], 'edit') if n[0] > 0
-					when 2 # delete 
-						try
-							throw "该节点有子节点，无法删除！" if @node.isParent
-							@navigate(n[1], n[0], 'delete') if n[0] > 0
-						catch err
-							alert err
-				title = ["添加", "编辑","删除"][index]
-				$("body >header h2").text "经营管理->#{n[2]}管理->#{title}#{n[2]}"
+	getRootTitle:->
+		"经营"
 
 module.exports = GoodTrees

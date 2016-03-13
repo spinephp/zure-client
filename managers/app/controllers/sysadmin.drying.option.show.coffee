@@ -350,6 +350,8 @@ class DryingShows extends Spine.Controller
 		@seeX = e.offsetX
 		x = @curDraw?.drawSeeLine @seeX
 		@_showOne Drydata.findByAttribute('time',x)
-			
+
+	getItem:->
+		@item
 	
 module.exports = DryingShows
