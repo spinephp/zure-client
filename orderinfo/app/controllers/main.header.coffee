@@ -31,6 +31,16 @@ class Headers extends Spine.Controller
 	constructor: ->
 		super
 		@active @change
+
+		$.fn.cookie = (c_name)->
+			if document.cookie.length>0
+				c_start=document.cookie.indexOf(c_name + "=")
+				if c_start isnt -1
+					c_start=c_start + c_name.length+1 
+					c_end=document.cookie.indexOf(";",c_start)
+					c_end=document.cookie.length if c_end is -1 
+					return unescape(document.cookie.substring(c_start,c_end))
+			return ""
 		
 		@qiye = $.Deferred()
 		@navigation = $.Deferred()

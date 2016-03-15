@@ -7,12 +7,12 @@ class Payment extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Payment'
+	@url: 'woo/index.php? cmd=Payment'
 
 	@fetch: (params) ->
 		fields = @attributes
 		params or= 
-			data:{ filter: fields, token: sessionStorage.token } 
+			data:{ filter: fields, token: $.fn.cookie "PHPSESSID" } 
 			processData: true
 		super(params)
 

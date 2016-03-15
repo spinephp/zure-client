@@ -7,12 +7,12 @@ class Billfree extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=BillFree'
+	@url: 'woo/index.php? cmd=BillFree'
 
 	@fetch: (params) ->
 		fields = @attributes
 		condition = [{field:"userid",value:"?",operator:"eq"}]
-		params or= { data: $.param({ cond:condition,filter: fields, token: sessionStorage.token }) }
+		params or= { data: $.param({ cond:condition,filter: fields, token: $.fn.cookie "PHPSESSID" }) }
 		super(params)
 
 	@current:null

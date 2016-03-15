@@ -7,11 +7,11 @@ class Transport extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Transport'
+	@url: 'woo/index.php? cmd=Transport'
 
 	@fetch: (params) ->
 		params or= 
-			data:{ filter:  @attributes, token: sessionStorage.token } 
+			data:{ filter:  @attributes, token: $.fn.cookie "PHPSESSID" } 
 			processData: true
 		super(params)
 

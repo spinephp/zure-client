@@ -45,16 +45,6 @@ class OrderInfo extends Spine.Controller
 		@transports  = new Transports
 		@bills = new Bills
 		@orders = new Orders
-
-		$.fn.cookie = (c_name)->
-			if document.cookie.length>0
-				c_start=document.cookie.indexOf(c_name + "=")
-				if c_start isnt -1
-					c_start=c_start + c_name.length+1 
-					c_end=document.cookie.indexOf(";",c_start)
-					c_end=document.cookie.length if c_end is -1 
-					return unescape(document.cookie.substring(c_start,c_end))
-			return ""
 		
 		data = token:$.fn.cookie 'PHPSESSID'
 		$.getJSON "? cmd=IsLogin", data,(result)=>
@@ -118,7 +108,7 @@ class OrderInfo extends Spine.Controller
 		AOrder.bind "refresh update change",->
 			values = (parseInt(item.proid) for item in @all())
 			params = 
-				data:{ filter: Product.attributes, cond:[{field:"id",value:values,operator:"in"}],token: sessionStorage.token } 
+				data:{ filter: Product.attributes, cond:[{field:"id",value:values,operator:"in"}],token: $.fn.cookie 'PHPSESSID' } 
 				processData: true
 			Product.fetch(params)
 		AOrder.fetch()

@@ -5,7 +5,7 @@ class City extends Spine.Model
 
 	@extend Spine.Model.Local
 
-	@url: '? cmd=City'
+	@url: 'woo/index.php? cmd=City'
 
 # 创收据模型
 class Zone extends Spine.Model
@@ -13,7 +13,7 @@ class Zone extends Spine.Model
 
 	@extend Spine.Model.Local
 
-	@url: '? cmd=District'
+	@url: 'woo/index.php? cmd=District'
 
 # 创收据模型
 class Province extends Spine.Model
@@ -21,12 +21,12 @@ class Province extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Province'
+	@url: 'woo/index.php? cmd=Province'
 
 	@fetch: (params) ->
 		fields = @attributes
 		params or= 
-			data:{ filter: fields, token: sessionStorage.token } 
+			data:{ filter: fields, token: $.fn.cookie "PHPSESSID" } 
 			processData: true
 		super(params)
 

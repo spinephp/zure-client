@@ -7,7 +7,7 @@ class Currency extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: 'index.php? cmd=Currency'
+	@url: 'woo/index.php? cmd=Currency'
 
 	@fetch: (params) ->
 		fields = @attributes

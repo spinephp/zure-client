@@ -7,6 +7,6 @@ class OrderProducts extends Spine.Model
 
     @extend Spine.Model.Ajax
 
-    @url: '? cmd=Product'
+    @url: 'woo/index.php? cmd=Product'
 
 module.exports = OrderProducts

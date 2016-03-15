@@ -7,11 +7,11 @@ class Bill extends Spine.Model
 
 	@extend Spine.Model.Ajax
 
-	@url: '? cmd=Bill'
+	@url: 'woo/index.php? cmd=Bill'
 
 	@fetch: (params) ->
 		params or= 
-			data:{ filter: @attributes, token: sessionStorage.token } 
+			data:{ filter: @attributes, token:$.fn.cookie "PHPSESSID" } 
 			processData: true
 		@ajax().fetch(params)
 		true

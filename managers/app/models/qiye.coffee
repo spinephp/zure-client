@@ -14,7 +14,7 @@ class Qiye extends Spine.Model
 		fields = @attributes
 		condition = [{field:"id",value:"1",operator:"eq"}]
 		params or= 
-			data:{ cond:condition,filter: fields, token: sessionStorage.token } 
+			data:{ cond:condition,filter: fields, token: $.fn.cookie "PHPSESSID" } 
 			processData: true
 		super(params)
 

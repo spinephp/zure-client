@@ -64,7 +64,7 @@ class OrderOption extends Spine.Controller
 			text: true
 		.click (e)=> # 去结算按键
 			e.stopPropagation()
-			location.href = "? cmd=ShowOrderInfo&token="+sessionStorage.token
+			location.href = "? cmd=ShowOrderInfo&token="+$.fn.cookie 'PHPSESSID'
 	
 	change: (params) =>
 		try
