@@ -1,0 +1,75 @@
+<img src='images/<%= @imgpath %>/<%= @picture or "noimg.png" %>'  />
+<input type="file" name="upload_image" id="upload_file">
+<p>
+  <button>
+    选择要上传的图像
+  </button>
+</p>
+<p>
+  支持 JPG、GIF、PNG、JPEG 图像格式, 尺寸小于 4M。
+</p>
+<div>
+  <input name="watermask" type="checkbox" />添加水印
+  <div class="waterType" style="display:none">
+    <span>
+      <input name='watersel' type='radio' checked='' value='0'>文本水印
+      <input name='watersel' type='radio' value='1'>图形水印
+    </span>
+    <div class="watermode">
+    <p>
+      <label for='watermasktxt'>
+        水印文本:
+      </label>
+      <input type="text" name="watermasktxt" placeholder='请输入水印文本'/>
+    </p>
+    <p>
+      <label for='textcolor'>
+        文本颜色:
+      </label>
+      <input type="text" name="textcolor" placeholder='请输入文本颜色' value='#CCCCCC'/>
+    </p>
+    <p>
+      <label for='fontsize'>
+        字体尺寸:
+      </label>
+      <input type="number" name="fontsize" placeholder='请输入字体尺寸' min='1' max='256' value='12'/>
+    </p>
+  </div>
+  <div class="watermode" style="display:none">
+    <img src='images/maskimg.png' width='33' height='33' />
+    <input type="file" name="upload_mask" />
+    <p>
+      <button>
+        选择水印图像
+      </button>
+    </p>
+    <p>
+      支持 JPG、GIF、PNG、JPEG 图像格式, 尺寸小于 4M。
+    </p>
+  </div>
+  <fieldset>
+    <legend>
+      水印位置
+    </legend>
+    <% for i in [0..2]: %>
+      <p>
+      <% for j in [1..3]: %>
+        <input name="waterpos" type="radio" value="<%= i*3+j %>" <%= "checked" if i is 1 and j is 2  %> />
+      <% end %>
+      </p>
+    <% end %>
+  </fieldset>
+  <fieldset>
+    <legend>
+      水印偏移
+    </legend>
+    <p>
+      水平:
+      <input type="number" name="xoffset" placeholder='请输入水平偏移' min='0' max='100' value='0'/>
+    </p>
+    <p style="margin-top:5px">
+      垂直:
+      <input type="number" name="yoffset" placeholder='请输入垂直偏移' min='0' max='100' value='0'/>
+    </p>
+  </fieldset>
+</div>

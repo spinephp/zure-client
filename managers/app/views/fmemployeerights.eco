@@ -1,0 +1,8 @@
+        <% if @rights?: %>
+          <fieldset>
+            <legend>权限设置</legend>
+          <% for rec in @rights when rec.name isnt "未定义": %>
+            <p><input name="R_right" type="checkbox" value="<%= rec.code %>" <%=  'checked' if rec.code & @employees.myright %> /><%= rec.name %></p>
+          <% end %>
+          </fieldset>
+       <% end %>
