@@ -18,12 +18,12 @@
   </thead>
   <tbody>
   <% for rec in @orders.all(): %>
-    <% goods=@goods.find rec.proid %>
+    <% goods=@goods.find "#{rec.proid}" %>
   
     <tr>
         <td>
           <a class="showproduct" data-product="
-            <%= rec.proid %>"><img src="images/goods/<%= goods.picture %>" /><%= @default.translates goods.longnames %><br /><%= goods.size %>
+            <%= rec.proid %>"><img src="images/good/<%= goods.picture %>" /><%= @default.translates goods.longnames %><br /><%= goods.size %>
           </a><br /><%= @default.translate 'Goods code' %>：<%= rec.proid %>
       </td>
         <td>

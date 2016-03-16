@@ -5,7 +5,7 @@ class City extends Spine.Model
 
 	@extend Spine.Model.Local
 
-	@url: 'woo/index.php? cmd=City'
+	@url: 'index.php? cmd=City'
 
 # 创收据模型
 class Zone extends Spine.Model
@@ -13,7 +13,7 @@ class Zone extends Spine.Model
 
 	@extend Spine.Model.Local
 
-	@url: 'woo/index.php? cmd=District'
+	@url: 'index.php? cmd=District'
 
 # 创收据模型
 class Province extends Spine.Model
@@ -37,9 +37,9 @@ class Province extends Spine.Model
 			data: data
 			async: async   #ajax执行完毕后才执行后续指令
 			success: (result) ->
-				obj = JSON.parse(result)
-				if typeof (obj) is "object"
-					process?(obj)
+				#obj = JSON.parse(result)
+				if typeof (result) is "object"
+					process?(result)
 
 	# 根据省(市)编码取对应的省辖市(市辖县区),并把结果存入对应的数据模型中
 	@getCity:(provinceid) ->
@@ -52,7 +52,7 @@ class Province extends Spine.Model
 			url = Area.url
 			filter = ["id","name"]
 			cond = [{field:"id",value:minval,operator:"ge"},{field:"id",value:maxval,operator:"le"}]
-			token = sessionStorage.token
+			token =$.fn.cookie "PHPSESSID"
 			data =  filter: filter,cond:cond, token:token 
 			@ajaxCity url,data,off,(obj)->
 				for rec in obj
@@ -63,11 +63,11 @@ class Province extends Spine.Model
 	# 根据县区编码取县区名
 	@getCityName:(cityid) ->
 		@getCity cityid[0..1]
-		City.find(cityid).name
+		City.find(cityid)?.name
 
 	# 根据县区编码取县区名
 	@getZoneName:(zoneid) ->
 		@getCity zoneid[0..3]
-		Zone.find(zoneid).name
+		Zone.find(zoneid)?.name
 
 module.exports = Province

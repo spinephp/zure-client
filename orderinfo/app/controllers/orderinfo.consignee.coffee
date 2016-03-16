@@ -55,7 +55,7 @@ class Show extends Spine.Controller
       field = ["chargeid","charge"]        # 要查询的字段，此处为运费分类编码和运费
       cond = [{address:addr}]              # 查询条件，此处为运输目的地地址编码
       parm = {charge:weight}               # 运费方法需要的参数，此处为要运输货物的重量
-      urlparams = $.param({filter:field,cond:cond,params:param,token:sessionStorage.token})
+      urlparams = $.param({filter:field,cond:cond,params:param,token:$.fn.cookie "PHPSESSID"})
       url = "? cmd=CarriageClass&#{urlparams}"
       $.getJSON(url,(result)->
         sessionStorage.chargeid = result[0].chargeid
