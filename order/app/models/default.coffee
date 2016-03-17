@@ -44,6 +44,7 @@ class Default extends Spine.Model
 			'Orders containing':['订单包含']
 			'kinds of products':['种产品']
 			'A combined':['合计']
+			'records':['个记录']
 			'Order settlement':['订单结算']
 
 			"AddFavorite":["加入收藏"]
@@ -55,6 +56,7 @@ class Default extends Spine.Model
 			"ICP":["备案号"]
 			"Copyright":["版权"]
 			'All right reserved':["保留所有权利"]
+			'Tel':["电话"]
 
 			# 我的订单
 			'My order':['我的订单']

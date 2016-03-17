@@ -32,7 +32,7 @@
 				<% back+=order.number*goods.returnnow %>
 				<tr>
 				  <td class="no1"><input type="checkbox" name="selector" value="<%= order.id %>" /></td>
-				  <td class="name1"><a href="? cmd=ShowProducts&prosid=<%= order.proid %>" ><img src="images/goods/<%= goods.image %>"/><span><%= @default.translates @klass.find(goods.classid).longNames() %></span><br /><%= goods.size %></a></td>
+				  <td class="name1"><a href="? cmd=ShowProducts&prosid=<%= order.proid %>" ><img src="images/good/<%= goods.image %>"/><span><%= @default.translates @klass.find(goods.classid).longNames() %></span><br /><%= goods.size %></a></td>
 				  <td class="price1"><%= @currency.symbol+money goods.price/@currency.exchangerate %></td>
 				  <td class="num1"><input name="pronum" id="pronum<%= order.proid %>" pro-id="<%= order.proid %>" size=10 value="<%= order.number %>" /></td>
 				  <td><a href="#" order-id="<%= order.id %>"><%= @default.translate 'Delete' %></a></td>

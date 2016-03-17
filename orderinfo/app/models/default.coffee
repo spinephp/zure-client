@@ -154,6 +154,19 @@ class Default extends Spine.Model
 			'A total of':['共']
 			'records':['条']
 			'Browse all':['浏览所有咨询信息']
+			
+			# loginDialog
+			'Enter username':['输入用户名']
+			'Enter password':['输入密码']
+			'Enter char in box':['输入右框中的字符']
+			'Click get another pin':['点击重新获取验证码']
+			'Forget password':['忘记密码']
+			'Custom login':['用户登录']
+			'Invalid username':['无效的用户名']
+			'Invalid password':['无效的密码']
+			'Invalid verify code':['无效的验证码']
+			'Login':['登录']
+			'Close':['关闭']
 
 			'Login':["登录"]
 			'Sign up':["注册"]
