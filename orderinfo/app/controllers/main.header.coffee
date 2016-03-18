@@ -52,9 +52,13 @@ class Headers extends Spine.Controller
 		Navigation.bind "refresh",=>@navigation.resolve()
 		Currency.bind "refresh",=>@currency.resolve()
 		Language.bind "refresh",=>@language.resolve()
-		User.bind "refresh",=>
-			Order.fetch()
-		User.fetch()
+		User.bind "refresh change",=>
+			if User.count()
+				Order.fetch() 
+				Cart.getCart()
+			else
+				Order.destroyAll ajax:false
+ 		User.fetch()
 		Cart.bind 'change', @render
 
 		Spine.bind 'logout',->

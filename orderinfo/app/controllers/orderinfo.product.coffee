@@ -74,9 +74,9 @@ class Show extends Spine.Controller
 		tem = $("td.shipdate p").text().replace("现货","0 天").replace("天",",").split(",")
 		shipdate = Math.max(shipdate,parseInt(item)) for item in tem when item isnt ""
 
-		billtypeid = Bill.getCurrent().id
+		billtypeid = parseInt Bill.getCurrent().id
 		
-		curBill = if billtypeid is '1' then Billfree.getCurrent() else Billsale.getCurrent()
+		curBill = if billtypeid is 1 then Billfree.getCurrent() else Billsale.getCurrent()
 		
 		Order.bind "ajaxError",(record,xhr,settings,error) ->
 			console.log xhr.responseText
@@ -84,9 +84,9 @@ class Show extends Spine.Controller
 		Order.one "ajaxSuccess",(data, text, xhr) ->
 			# 删除购物车中商品
 			Cart.destroyAll()
-			window.location.href="? cmd=ShowOrderDetail&orderid="+data.id+"&token="+sessionStorage.token
+			window.location.href="? cmd=ShowOrderDetail&orderid="+data.id+"&token="+$.fn.cookie 'PHPSESSID' 
 
-		Order.url += "&token="+sessionStorage.token if not Order.url.match /token/
+		Order.url += "&token="+$.fn.cookie 'PHPSESSID'  if not Order.url.match /token/
 
 		item = new Order
 			id:null
@@ -97,7 +97,7 @@ class Show extends Spine.Controller
 			paymentid: Payment.getCurrent().id
 			transportid: Transport.getCurrent().id
 			billtypeid: billtypeid
-			billid: curBill.id
+			billid: curBill?.id
 			billcontentid:Billcontent.getCurrent().id
 			carriagecharge:Transport.getCurrent().charges
 			stateid:'1'
