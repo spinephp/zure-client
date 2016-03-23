@@ -1,4 +1,4 @@
-   <p><label for='UserName'>用户名: </label><input name='P_UserName' type='text' required value='<%= @persons.username %>' placeholder='6~18个字符(a-zA-Z0-9.-_@)' pattern='[a-zA-Z]{1}[a-zA-Z0-9\-\_\@\.]{4,16}[a-zA-Z0-9]{1}' /><span id='username_err_info'></span></p>
+   <p><label for='username'>用户名: </label><input name='P_username' type='text' required value='<%= @persons.username %>' placeholder='6~18个字符(a-zA-Z0-9.-_@)' pattern='[a-zA-Z]{1}[a-zA-Z0-9\-\_\@\.]{4,16}[a-zA-Z0-9]{1}' /><span id='username_err_info'></span></p>
    <% if not @customs.id?: %>
     <p><label for='Password'>键入密码: </label><input name='P_pwd' type='password' required placeholder='6-16 位字符(a-zA-Z0-9.!@#$%^&*?_~)' pattern='[\w\-\!\@\#\$\%\^\&\*]{6,16}'/><span id='password_err_info'></span></p>
     <p><label >密码强度: </label><span style='width:225px;height:20px;display:inline-block;border:1px solid #F0F0F0;vertical-align: middle;'> </span></p>
