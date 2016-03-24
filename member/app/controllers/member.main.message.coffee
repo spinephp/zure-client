@@ -34,8 +34,6 @@ class myMessage extends Spine.Controller
 
 		Sysnotice.bind "refresh",=> @sysnotice.resolve()
 
-		Sysnotice.fetch()
-
 		Default.bind "change",=>
 			if @item?
 				@item.defaults = Default.first()

@@ -77,15 +77,6 @@ class myYunrui extends Spine.Controller
 				@item.currency = Currency.find @item.default.currencyid
 				@render()
 
-		Goodcare.fetch()
-		Custom.fetch()
-		Customgrade.fetch()
-		Grade.fetch()
-		Order.fetch()
-		Person.fetch()
-		Goodconsult.fetch()
-		Sysnotice.fetch()
-		Customaccount.fetch()
 
 	render: ->
 		@html require("views/yunrui")(@item)

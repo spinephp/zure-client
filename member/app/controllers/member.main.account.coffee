@@ -63,13 +63,6 @@ class myAccounts extends Spine.Controller
 				@item.default = Default.first()
 				@render()
 
-		Province.fetch()
-		Person.fetch()
-		Grade.fetch()
-		Customgrade.fetch()
-		Order.fetch()
-		Custom.fetch()
-
 		Person.bind "beforeUpdate beforeDestroy", ->
 			Person.url = "woo/index.php"+Person.url if Person.url.indexOf("woo/index.php") is -1
 			Person.url += "&token="+sessionStorage.token unless Person.url.match /token/
@@ -103,7 +96,7 @@ class myAccounts extends Spine.Controller
 
 	customfetch:=>
 		person = Person.first()
-		if person?
+		if person?.companyid isnt ""
 			Company.append [person.companyid] if not Company?.exists person.companyid
 
 	userSubmit:(e)=>

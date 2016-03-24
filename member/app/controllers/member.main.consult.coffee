@@ -33,7 +33,6 @@ class myConsult extends Spine.Controller
 				@item.defaults = Default.first()
 				@render()
 
-		Goodconsult.fetch()
 
 	render: ->
 		@html require("views/consult")(@item)

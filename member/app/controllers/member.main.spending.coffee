@@ -35,7 +35,6 @@ class mySpendings extends Spine.Controller
 				@item.currency = Currency.find @item.defaults.currencyid
 				@render()
 
-		Order.fetch()
 
 	render: ->
 		@html require("views/spending")(@item)

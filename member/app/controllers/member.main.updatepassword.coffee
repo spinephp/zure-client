@@ -29,7 +29,6 @@ class myUpdatePassword extends Spine.Controller
 		Person.bind "beforeUpdate beforeDestroy", ->
 			Person.url = "woo/index.php"+Person.url if Person.url.indexOf("woo/index.php") is -1
 			Person.url += "&token="+sessionStorage.token unless Person.url.match /token/
-		Person.fetch()
 
 	render: ->
 		@html require("views/updatepassword")

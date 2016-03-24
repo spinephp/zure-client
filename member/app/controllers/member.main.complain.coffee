@@ -52,11 +52,6 @@ class myComplains extends Spine.Controller
 
 		Order.bind "refresh",@afterfetch
 
-		Complain.fetch()
-		Ordercomplain.fetch()
-		#Order.fetch()
-		Goodclass.fetch() if Goodclass.count() is 0
-
 		Ordercomplain.bind "beforeUpdate beforeDestroy", ->
 			Ordercomplain.url = "woo/index.php"+Ordercomplain.url if Ordercomplain.url.indexOf("woo/index.php") is -1
 			Ordercomplain.url += "&token="+sessionStorage.token unless Ordercomplain.url.match /token/

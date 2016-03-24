@@ -38,8 +38,6 @@ class myBalances extends Spine.Controller
 				@item.currency = Currency.find @item.defaults.currencyid
 				@render()
 
-		Custom.fetch()
-		Customaccount.fetch()
 
 	render: ->
 		@html require("views/balance")(@item)

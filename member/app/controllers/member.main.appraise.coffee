@@ -53,8 +53,6 @@ class myAppraise extends Spine.Controller
 			if @item?
 				@item.defaults = Default.first()
 				@render()
-		Goodlabel.fetch()
-		Order.fetch()
 
 	render: ->
 		@html require("views/appraise")(@item)

@@ -43,8 +43,6 @@ class myPassword extends Spine.Controller
 				@item.defaults = Default.first()
 				@render()
 
-		Custom.fetch()
-
 		Custom.bind "beforeUpdate beforeDestroy", ->
 			Custom.url = "woo/index.php"+Custom.url if Custom.url.indexOf("woo/index.php") is -1
 			Custom.url += "&token="+sessionStorage.token unless Custom.url.match /token/

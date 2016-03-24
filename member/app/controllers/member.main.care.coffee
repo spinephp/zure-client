@@ -61,9 +61,6 @@ class myCares extends Spine.Controller
 				@item.default = Default.first()
 				@render()
 
-		Goodcare.fetch()
-		Goodclass.fetch()
-
 		Goodcare.bind "beforeDestroy", ->
 			Goodcare.url = "woo/index.php"+Goodcare.url if Goodcare.url.indexOf("woo/index.php") is -1
 			Goodcare.url += "&token="+$.fn.cookie('PHPSESSID') unless Goodcare.url.match /token/
