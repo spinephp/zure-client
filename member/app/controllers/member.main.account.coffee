@@ -8,6 +8,7 @@ Company = require('models/company')
 Order = require('models/order')
 Province = require('models/province')
 Default = require('models/default')
+Country = require('models/country')
 $       = Spine.$
 citySelector   = require('controllers/cityselector')
 
@@ -25,7 +26,7 @@ class myAccounts extends Spine.Controller
 		'td input:checked':'checkedEl'
 		'input[type=file]':'headshotEl'
 		'input[name=selectall]': 'selectallEl'
-		'form:first-child select':"addressEl"
+		'select':"addressEl"
   
 	events:
 		'click input[type=button]': 'userSubmit'
@@ -37,6 +38,7 @@ class myAccounts extends Spine.Controller
 		super
 		@active @change
 
+		@country = $.Deferred()
 		@grade = $.Deferred()
 		@company = $.Deferred()
 		@custom = $.Deferred()
@@ -51,6 +53,7 @@ class myAccounts extends Spine.Controller
 		Order.bind "ajaxError",(record,xhr,settings,error) ->
 			console.log record+xhr.responseText+error
 
+		Country.bind "refresh",=>@country.resolve()
 		Grade.bind "refresh",=>@grade.resolve()
 		Company.bind "refresh",=>@company.resolve()
 		Person.bind "refresh",@customfetch
@@ -67,6 +70,8 @@ class myAccounts extends Spine.Controller
 			Person.url = "woo/index.php"+Person.url if Person.url.indexOf("woo/index.php") is -1
 			Person.url += "&token="+sessionStorage.token unless Person.url.match /token/
 
+		Country.fetch()
+		
 	render: ->
 		@html require("views/account")(@item)
 		$(@tabsEl).tabs()
@@ -75,12 +80,12 @@ class myAccounts extends Spine.Controller
 			area = [result[0..1],result[0..3],result]
 		else
 			area = ['','','']
-		citySelector.Init($(@addressEl),area, on)
+		citySelector.Init($(@addressEl[1..3]),area, on)
 		
 	change: (params) =>
 		try
 
-			$.when( @grade,@custom,@customgrade,@order,@company,@default).done( =>
+			$.when( @grade,@custom,@customgrade,@order,@company,@country,@default).done( =>
 				defaults = Default.first()
 				@item = 
 					grades:Grade
@@ -88,6 +93,7 @@ class myAccounts extends Spine.Controller
 					customs:Custom.first()
 					company:Company.first()
 					customgrades:Customgrade.first()
+					countrys:Country.all()
 					defaults:defaults
 				@render()
 			)
@@ -96,9 +102,12 @@ class myAccounts extends Spine.Controller
 
 	customfetch:=>
 		person = Person.first()
-		if person?.companyid isnt ""
-			Company.append [person.companyid] if not Company?.exists person.companyid
-
+		id = parseInt person?.companyid
+		if id>=0
+			Company.append [id] if not Company.exists id
+		else
+			Company.trigger "refresh"
+			
 	userSubmit:(e)=>
 		e.preventDefault()
 		e.stopPropagation()

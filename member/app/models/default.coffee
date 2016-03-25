@@ -174,6 +174,7 @@ class Default extends Spine.Model
 			'Head portrait':['头像']
 			'More information':['更多信息']
 			'My grade':['我的级别']
+			'Country':['国家']
 			'Location':['位置']
 			'Address':['地址']
 			'Gender':['性别']

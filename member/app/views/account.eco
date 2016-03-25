@@ -43,6 +43,13 @@
             <%= @defaults.translate('Real name') %>: </label>
           <input type="text" name="name" id="name" value="<%= @customs.name() %>" />
         </li>
+	<li>
+	      <label for='P_country'><%= @defaults.translate('Country') %>: </label><select id="country" name="P_country">
+	       <% for country in @countrys: %><option value="<%= country.id %>" <%= 'selected' if country.id is '48' %>><%= country.name %>
+		</option>
+		<% end %>
+	      </select><img src="images/country/CHN.png" />
+	</li>
         <li>
           <label for="province">
             <%= @defaults.translate('Location') %>: </label>
