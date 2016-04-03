@@ -33,11 +33,14 @@ class myAccounts extends Spine.Controller
 		'change input[type=file]':'uploadHeadshot'
 		'click form button':'headshotClick'
 		'click #headshot >button':'headshotSave'
+		'change li label+select:eq(0)':"countryChange"
   
 	constructor: ->
 		super
 		@active @change
 
+		@token = $.fn.cookie('PHPSESSID')
+		
 		@country = $.Deferred()
 		@grade = $.Deferred()
 		@company = $.Deferred()
@@ -66,11 +69,15 @@ class myAccounts extends Spine.Controller
 				@item.default = Default.first()
 				@render()
 
-		Person.bind "beforeUpdate beforeDestroy", ->
-			Person.url = "woo/index.php"+Person.url if Person.url.indexOf("woo/index.php") is -1
-			Person.url += "&token="+sessionStorage.token unless Person.url.match /token/
-
 		Country.fetch()
+
+		Person.bind "beforeUpdate beforeCreate", =>
+			Person.url = "woo/index.php"+Person.url if Person.url.indexOf("woo/index.php") is -1
+			Person.url += "&token="+@token unless Person.url.match /token/
+
+		Company.bind "beforeUpdate beforeCreate", =>
+			Company.url = "woo/"+Company.url if Company.url.indexOf("woo/") is -1
+			Company.url += "&token="+@token unless Company.url.match /token/
 		
 	render: ->
 		@html require("views/account")(@item)
@@ -101,12 +108,14 @@ class myAccounts extends Spine.Controller
 			@log "file: member.main.coffee\nclass: myComplains\nerror: #{err.message}"
 
 	customfetch:=>
-		person = Person.first()
-		id = parseInt person?.companyid
-		if id>=0
-			Company.append [id] if not Company.exists id
-		else
-			Company.trigger "refresh"
+		unless @person?
+			@person = Person.first() 
+			#@person.url("&token=#{@token}")
+			id = parseInt @person?.companyid
+			if id>=0
+				Company.append [id] if not Company.exists id
+			else
+				Company.trigger "refresh"
 			
 	userSubmit:(e)=>
 		e.preventDefault()
@@ -121,25 +130,23 @@ class myAccounts extends Spine.Controller
 	# 提交基本用户信息
 	addBasic:->
 		key = $(@fmBasicInfoEl).serializeArray()
-		item = Person.first()
-		item[cur.name] = cur.value for cur in key when cur.value isnt null
+		@person[cur.name] = cur.value for cur in key when cur.value isnt null
 		addr = $(@addressEl)
-		item["county"] =  addr[2].value
-
-		item.bind 'save', (rec) ->
+		@person["country"] =  addr[0].value
+		@person["county"] =  addr[3].value
+		@person.bind 'save', (rec) =>
 			@log rec
 		
-		oldUrl = Person.url
-		item.save()
-		Person.url = oldUrl
+		@person.save()
 
+	# 上载头像
 	uploadHeadshot:(e)->
 		try
 			formdata = new FormData()
 			formdata.append('userimg'+Person.first().id, @fileEl[0].files[0])
 			options = 
 				type: 'POST'
-				url: '? cmd=Upload&token='+sessionStorage.token
+				url: '? cmd=Upload&token='+@token
 				data: formdata
 				success:(result) =>
 					$('.myheadshot img').attr 'src','images/user/'+result.image
@@ -157,37 +164,26 @@ class myAccounts extends Spine.Controller
 		$(@headshotEl).click()
 
 	headshotSave:->
-		headshot = $('.myheadshot img').attr 'src'
 		name = headshot.replace 'images/user/',''
 		if name isnt 'noimg.png'
-			item = Person.first()
-			item.picture = name
+			@person.picture = name
 		
-			Person.bind "beforeUpdate", ->
-				Person.url = "woo/index.php"+Person.url if Person.url.indexOf("woo/index.php") is -1
-				Person.url += "&token="+sessionStorage.token unless Person.url.match /token/
-		
-			oldUrl = Person.url
-			item.save()
-			Person.url = oldUrl
+			@person.save()
 
 
 	# 提交更多用户信息
 	addMore:=>
 		key = $(@fmMoreInfoEl).serializeArray()
-		item = Company.first()
-		item[cur.name] = cur.value for cur in key when cur.value isnt null
+		co = (Company.first() or new Company)
+		co[cur.name] = cur.value for cur in key when cur.name isnt "submitmore" and cur.value isnt null
 
-		item.bind 'save', (rec) ->
-			console.log rec
-		
-		Company.bind "beforeUpdate", ->
-			Company.url = "woo/index.php"+Company.url if Company.url.indexOf("woo/index.php") is -1
-			Company.url += "&token="+sessionStorage.token unless Company.url.match /token/
-		
-		oldUrl = Company.url
-		item.save()
-		Company.url = oldUrl
+		co.bind 'save', (rec) =>
+			if rec.id >=0 and  @person.companyid is ""
+				@person.companyid = rec.id 
+				@person.save()
+		#co.url("&token="+@token)
+		co.save()
+
 
 	addtoorders:(e)=>
 		e.preventDefault()
@@ -217,6 +213,12 @@ class myAccounts extends Spine.Controller
 			$(@selectEl).each (i,item)=>
 				@cancelCare $(item) if $(item).is ':checked'
 			@navigate('/members/carefly')
+
+	countryChange:(e)->
+		e.stopPropagation()
+		obj = $(e.target)
+		item = Country.find obj.val()
+		obj.next().attr "src","images/country/#{item.code3}.png"	
 
 	edit: ->
 		@navigate('/members', @item.id, 'edit')

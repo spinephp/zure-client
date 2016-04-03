@@ -3,7 +3,7 @@ require('spine/lib/ajax')
 
 # 创建企业模型
 class Person extends Spine.Model
-	@configure 'Person', 'id',"username","nick","name","sex","mobile","tel","email","qq","county","address","companyid","identitycard","picture","lasttime"
+	@configure 'Person', 'id',"username","nick","name","sex","mobile","tel","email","qq","country","county","address","companyid","identitycard","picture","lasttime"
 
 	@extend Spine.Model.Ajax
 
