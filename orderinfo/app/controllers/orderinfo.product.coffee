@@ -84,6 +84,7 @@ class Show extends Spine.Controller
 		Order.one "ajaxSuccess",(data, text, xhr) ->
 			# 删除购物车中商品
 			Cart.destroyAll()
+			sessionStorage.removeItem("orders")
 			window.location.href="? cmd=ShowOrderDetail&orderid="+data.id+"&token="+$.fn.cookie 'PHPSESSID' 
 
 		Order.url += "&token="+$.fn.cookie 'PHPSESSID'  if not Order.url.match /token/

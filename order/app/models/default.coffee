@@ -44,6 +44,7 @@ class Default extends Spine.Model
 			'Orders containing':['订单包含']
 			'kinds of products':['种产品']
 			'A combined':['合计']
+			'A total of':['共']
 			'records':['个记录']
 			'Order settlement':['订单结算']
 

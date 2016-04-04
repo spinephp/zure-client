@@ -218,6 +218,7 @@ class Default extends Spine.Model
 			'PIN':["验证码"]
 			'Forget Password':["忘记密码"]
 			'Click get another pin':["点击更换校验码!"]
+			'Logout':['退出']
 			'More':["更多"]
 			'News':["新闻"]
 			'Contact':["联系方式"]

@@ -97,10 +97,11 @@ class Edit extends Spine.Controller
   submit: (e) ->
     e.preventDefault()
     key = $(@form).serializeArray()
-    item = if key[0].value isnt '0' then Consignee.findByAttribute('id',key[0].value) else new Consignee
+    item = Consignee.find(key[0]?.value) or new Consignee
     Consignee.setCurrent item
     if $("div .newconsignee").hasClass 'active'
       addr = $(@addressEl)
+      console.log addr
       item["province"] =  addr[0].value
       item["city"] =  addr[1].value[2..]
       item["zone"] =  addr[2].value[4..]

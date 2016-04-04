@@ -15,10 +15,11 @@ class Cart extends Spine.Model
 			data: data
 			async: true   #ajax执行完毕后才执行后续指令
 			success: (result) ->
-				obj = JSON.parse(result)
-				if typeof (obj) is "object"
+				#obj = JSON.parse(result)
+				console.log result
+				if typeof (result) is "object"
 					_orders = []
-					for o in obj when o isnt null
+					for o in result when o isnt null
 						_orders[parseInt(o.id)] = { classid: o.classid, image: o.picture, size: o.size, price: o.price, returnnow: o.returnnow }
 					sessionStorage.setItem("orders", JSON.stringify(_orders))
 

@@ -25,9 +25,9 @@ class Province extends Spine.Model
 			data: data
 			async: async   #ajax执行完毕后才执行后续指令
 			success: (result) ->
-				obj = JSON.parse(result)
-				if typeof (obj) is "object"
-					process?(obj)
+				#obj = JSON.parse(result)
+				if typeof (result) is "object"
+					process?(result)
 
 	# 根据省(市)编码取对应的省辖市(市辖县区),并把结果存入对应的数据模型中
 	@getCity:(provinceid) ->
