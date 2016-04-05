@@ -46,6 +46,7 @@ class Headers extends Spine.Controller
 			Order.fetch()
 		User.fetch()
 		Cart.bind 'change', @render
+		Cart.bind "refresh",@_myOrder
 
 		Spine.bind 'logout',->
 			data = 

@@ -29,7 +29,7 @@ class Show extends Spine.Controller
     typeid = parseInt( rec?.id )
     curBill = if typeid is 1 then Billfree else Billsale
     curname = curBill.getCurrent()
-    name = curname?.name || "No Bill"
+    name = curname?.name || "Person"
     type = rec?.name || "No Bill Type"
     @item = {"type":type,"name":name,"content":content}
     @html require('views/showbill')(@item)
