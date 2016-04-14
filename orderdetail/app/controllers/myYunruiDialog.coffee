@@ -1,4 +1,5 @@
-﻿loginDialog = require('controllers/loginDialog')
+﻿User = require('models/user')
+loginDialog = require('controllers/loginDialog')
 myYunruiDialog = ->
 	__refactor__ = true #是否需要重新构建 该对话框
 	open: (options)->
@@ -10,7 +11,7 @@ myYunruiDialog = ->
 		sum = 0
 		html += "<div id='myYunruiDialog'>"
 		if options.user?
-			html += "<p>#{options.defaults.toPinyin(options.user.nick or options.user.name)}<span><a href='?cmd=Member'>#{options.defaults.translate 'Go my YunRui'}</a></span><span><a href='###' id='userlogout'>#{options.defaults.translate 'Logout'}</a></span></p>"
+			html += "<p>#{options.defaults.toPinyin(options.user.nick or options.user.name)}<span><a href='?cmd=Member'>#{options.defaults.translate 'Go my YunRui'}</a> | <a href='###' id='userlogout'>#{options.defaults.translate 'Logout'}</a></span></p>"
 		else
 			html += "<p>#{options.defaults.translate 'Hello, please'} [<a href='###' id='userlogin'>#{options.defaults.translate('Login')}</a>]</p>"
 		html += "<p>#{options.defaults.translate('The latest order status')}: <a href='###'>#{options.defaults.translate('Check all order')}></a></p>"
@@ -28,18 +29,16 @@ myYunruiDialog = ->
 		$("#userlogin").click ()->
 			loginDialog().open(default:options.defaults,user:options.user)
 
-		# 用户用户登录处理程序
+		# 用户登出处理程序
 		$("#userlogout").click (e)->
 			e.stopPropagation()
-			$.post "? cmd=Logout", $(@formEl).serialize(), (result)->
-				if result[0] is "{"
-					obj = JSON.parse(result)
-					if typeof (obj) is "object"
-						User.destroyAll()
-						unless obj.id is -1
-							#@navigate '!/customs/login'
-						else 
-							alert(obj.username) # 显示登录失败信息
+			$.post "? cmd=Logout", $(@formEl).serialize(), (result)=>
+				User.destroyAll()
+				unless result.id is -1
+					#@navigate '!/customs/login'
+				else 
+					alert(result.username) # 显示登录失败信息
+				$("#myYunruiDialog").dialog('close')
 
 		width = $("header ul li:first-child").width()
 		offset = $("header ul li:first-child").position()

@@ -25,12 +25,12 @@ class Show extends Spine.Controller
   render: =>
     rec = Bill.getCurrent()
     billcur = Billcontent.getCurrent()
-    content = billcur?.name || "No content"
+    content = billcur?.name 
     typeid = parseInt( rec?.id )
     curBill = if typeid is 1 then Billfree else Billsale
     curname = curBill.getCurrent()
-    name = curname?.name || "Person"
-    type = rec?.name || "No Bill Type"
+    name = curname?.name 
+    type = rec?.name 
     @item = {"type":type,"name":name,"content":content}
     @html require('views/showbill')(@item)
     
@@ -66,10 +66,10 @@ class Edit extends Spine.Controller
   constructor: ->
     super
     @active @change
-
+    @token = $.fn.cookie 'PHPSESSID' 
     Billfree.bind "beforeUpdate beforeDestroy", ->
       Billfree.url = "woo/index.php"+Billfree.url if Billfree.url.indexOf("woo/index.php") is -1
-      Billfree.url += "&token="+sessionStorage.token unless Billfree.url.match /token/
+      Billfree.url += "&token="+@token unless Billfree.url.match /token/
   
   render: ->
     @html require('views/fmBill')({billfrees:Billfree.all(),billsales:Billsale,billcontents:Billcontent.all()})
@@ -106,7 +106,7 @@ class Edit extends Spine.Controller
       item = if key[0].value isnt '0' then Billfree.findByAttribute("id",key[0].value) else new Billfree
       item.__proto__.name = key[3].value
 
-      Billfree.url += "&token="+sessionStorage.token unless Billfree.url.match /token/
+      Billfree.url += "&token="+@token unless Billfree.url.match /token/
       item.save()
       Billfree.setCurrent(item) # 设置当前收据
 

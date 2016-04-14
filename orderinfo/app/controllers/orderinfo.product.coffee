@@ -24,7 +24,8 @@ class Show extends Spine.Controller
 	constructor: ->
 		super
 		@active @change
-			
+		@token = $.fn.cookie 'PHPSESSID' 
+ 			
 		@good = $.Deferred()
 		@cart = $.Deferred()
 		@transport = $.Deferred()
@@ -62,7 +63,7 @@ class Show extends Spine.Controller
 			console.log err.message
 
 	repair: ->
-		window.location.href="? cmd=ShowOrder&token="+sessionStorage.token
+		window.location.href="? cmd=ShowOrder&token="+@token
 
 	product:(e)->
 		id = $(e.target).attr 'data-product'
@@ -85,20 +86,19 @@ class Show extends Spine.Controller
 			# 删除购物车中商品
 			Cart.destroyAll()
 			sessionStorage.removeItem("orders")
-			window.location.href="? cmd=ShowOrderDetail&orderid="+data.id+"&token="+$.fn.cookie 'PHPSESSID' 
+			window.location.href="? cmd=ShowOrderDetail&orderid="+data.id+"&token="+@token 
 
-		Order.url += "&token="+$.fn.cookie 'PHPSESSID'  if not Order.url.match /token/
+		Order.url += "&token="+@token  if not Order.url.match /token/
 
 		item = new Order
 			id:null
-			code:null
 			products:Cart.all()
 			shipdate:shipdate
 			consigneeid: Consignee.getCurrent().id
 			paymentid: Payment.getCurrent().id
 			transportid: Transport.getCurrent().id
 			billtypeid: billtypeid
-			billid: curBill?.id
+			billid: curBill?.id 
 			billcontentid:Billcontent.getCurrent().id
 			carriagecharge:Transport.getCurrent().charges
 			stateid:'1'

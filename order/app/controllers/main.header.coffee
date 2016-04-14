@@ -46,7 +46,6 @@ class Headers extends Spine.Controller
 			Order.fetch()
 		User.fetch()
 		Cart.bind 'change', @render
-		Cart.bind "refresh",@_myOrder
 
 		Spine.bind 'logout',->
 			data = 
@@ -91,6 +90,7 @@ class Headers extends Spine.Controller
 	change: (item) =>
 		try
 			$.when(@qiye,@navigation,@currency,@language).done =>
+				Cart.bind "refresh",@_myOrder
 				rec = Default.first()
 				unless rec?
 					rec = new Default id:1,languageid:2,currencyid:1
