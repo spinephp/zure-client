@@ -84,7 +84,11 @@ class Default extends Spine.Model
 			'Error form submission, please try again later':['表单提交出错，请稍候再试']
 			'Congratulations,':['恭喜您，']
 			'Verify code error, please fill in.':['验证码错误，请重新填写。']
-			
+
+			# 登录对话框
+			'Invalid username':['无效的用户名']
+			'Invalid password':['无效的密码']
+
 			# 页脚
 			'Address':["地址"]
 			"ICP":["备案号"]
@@ -112,6 +116,10 @@ class Default extends Spine.Model
 			'Company profile':["公司简介"]
 			'Product recommendations':['产品推荐']
 			'Friendly link':['友情链接']
+
+			'Enter username':['输入用户名']
+			'Enter password':['输入密码']
+			'Custom login':['客户登录']
 		
 		langid = parseInt(@languageid,10)
 		result = if langid is 1 then key else data[key][langid-2]

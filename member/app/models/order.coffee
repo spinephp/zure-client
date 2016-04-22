@@ -58,7 +58,7 @@ class Order extends Spine.Model
 		n
 
 	# 取待处理订单数
-	@pending:->
+	@Pending:->
 		@stateWaiting [2,3,9,11,12]
 
 	# 取待付款订单数

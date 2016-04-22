@@ -387,6 +387,7 @@ class Default extends Spine.Model
 			'Comment':['评论']
 
 			'Login':["登录"]
+			'Logout':["登出"]
 			'Sign up':["注册"]
 			'Name':["用户名"]
 			'PWD':["密码"]

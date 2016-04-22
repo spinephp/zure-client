@@ -38,7 +38,7 @@ class Left extends Spine.Controller
 			$.when(@qiye,@person,@currency,@language,@default).done =>
 				default1 = Default.first()
 				@item = 
-					qiye:Qiye.all()
+					qiye:Qiye.first()
 					person:Person
 					defaults: default1
 				@render()

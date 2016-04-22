@@ -88,6 +88,7 @@ class Default extends Spine.Model
 
 			'Login':["登录"]
 			'Sign up':["注册"]
+			'Logout':["登出"]
 			'Name':["用户名"]
 			'PWD':["密码"]
 			'PIN':["验证码"]

@@ -141,6 +141,7 @@ class Default extends Spine.Model
 			'Browse all':['浏览所有咨询信息']
 
 			'Login':["登录"]
+			'Logout':["登出"]
 			'Sign up':["注册"]
 			'Name':["用户名"]
 			'PWD':["密码"]

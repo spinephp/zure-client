@@ -55,7 +55,7 @@
 	 <p>
 	  <%= @defaults.translate('My Orders') %>：
 	  <a>
-		<%= @defaults.translate('Pending') %> <%= @orders.pending() %>
+		<%= @defaults.translate('Pending') %> <%= @orders.Pending() %>
 		</a>
 	  <a>
 		<%= @defaults.translate('To evaluate') %> <%= @orders.waitEval() %>
