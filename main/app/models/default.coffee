@@ -88,6 +88,8 @@ class Default extends Spine.Model
 			# 登录对话框
 			'Invalid username':['无效的用户名']
 			'Invalid password':['无效的密码']
+			'Invalid email':['无效的邮箱地址']
+			'Invalid verify code':['无效的校验码']
 
 			# 页脚
 			'Address':["地址"]
@@ -119,7 +121,10 @@ class Default extends Spine.Model
 
 			'Enter username':['输入用户名']
 			'Enter password':['输入密码']
+			'Enter email':['输入邮箱地址']
+			'Reset password':['重置密码']
 			'Custom login':['客户登录']
+			'Submit':['提交']
 		
 		langid = parseInt(@languageid,10)
 		result = if langid is 1 then key else data[key][langid-2]

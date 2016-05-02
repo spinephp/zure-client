@@ -1,0 +1,35 @@
+  <header>
+    <p><%= @default.translates @qiye.names %></p>
+    <ol>
+      <li>
+        <select>
+          <% for lang in @languages: %>
+          <option value='<%= lang.id %>' <%= 'selected' if parseInt(lang.id,10) is parseInt(@default.languageid,10) %>><%= lang.name_en %>
+          </option>
+          <% end %>
+        </select>
+      </li>
+    </ol>
+  </header>
+  <nav>
+  <dl>
+    <dt>
+      <a href="index.php? cmd=ShowHome"><%= @default.translate('Home') %></a>
+	<% for menu in @menus: %>
+    <a href='? cmd=<%= menu.command %>'><%= @default.translates menu.names %></a>
+	<% end %>
+    </dt>
+    <dd>
+    </dd>
+  </dl>
+  </nav>
+  <img src="images/aaaa.jpg" width="800" height="136" />
+  <!--<div><embed src="images/banner.swf" quality="high"  type="application/x-shockwave-flash" width="700" height="135"></embed> </div> -->
+  <div class="position">
+    <ul>
+      <li>
+        <a href="?cmd=ShowHome"><%= @default.translates 'YunRui' %></a>
+      </li>
+      <li></li>
+    </ul>
+  </div>

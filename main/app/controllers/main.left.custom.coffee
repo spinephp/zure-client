@@ -6,19 +6,21 @@ Person = require('models/person')
 $       = Spine.$
 Manager = require('spine/lib/manager')
 registerDialog = require('controllers/registerDialog')
+resetpwdDialog = require('controllers/resetpwdDialog')
  
 class Logins extends Spine.Controller
 	className: 'logins'
-	# Ìî³äÄÚ²¿ÔªËØÊôÐÔ
+	# å¡«å……å†…éƒ¨å…ƒç´ å±žæ€§
 	elements:
 		"form":"formEl"
 		"img":"vdImg"
 	
-	# Î¯ÍÐÊÂ¼þ
+	# å§”æ‰˜äº‹ä»¶
 	events:
 		"click input[name=login]": "login"
 		"click input[name=userRegister]": "userRegister"
 		"click input[name=validate]": "resetValidate"
+		"click a": "resetPassword"
 
 	constructor: ->
 		super
@@ -43,56 +45,59 @@ class Logins extends Spine.Controller
 		catch err
 			console.log err.message
 
-	# ÓÃ»§µÇÂ¼
+	# ç”¨æˆ·ç™»å½•
 	login:()->
 		key = $(@formEl).serializeArray()
 		unless /^[a-zA-Z]{1}[a-zA-Z0-9\-\_\@\.]{4,16}[a-zA-Z0-9]{1}$/.test(key[0].value)
-			alert("ÓÃ»§Ãû¸ñÊ½²»ÕýÈ·")
+			alert("ç”¨æˆ·åæ ¼å¼ä¸æ­£ç¡®")
 			return false
 		
 		unless /^[\w\-\!\@\#\$\%\^\&\*]{6,16}$/.test(key[1].value)
-			alert("ÃÜÂë¸ñÊ½²»ÕýÈ·")
+			alert("å¯†ç æ ¼å¼ä¸æ­£ç¡®")
 			return false
 		
 		unless /^\d{4}$/.test(key[2].value)
-			alert("Ð£ÑéÂë¸ñÊ½²»ÕýÈ·")
+			alert("æ ¡éªŒç æ ¼å¼ä¸æ­£ç¡®")
 			return false
 		
 		$(@tokenEl).val(@token)
 		
-		# AJAX Ìá½»ÓÃ»§µÇÂ¼ÐÅÏ¢
+		# AJAX æäº¤ç”¨æˆ·ç™»å½•ä¿¡æ¯
 		$.post "? cmd=CheckLogin", $(@formEl).serialize(), (result)=>
 			if result[0] is "{"
 				obj = JSON.parse(result)
 				if typeof (obj) is "object"
 					unless obj.id is -1
 						User.destroyAll()
-						item = new User(obj)# ÐÂ½¨±¾µØÓÃ»§ÐÅÏ¢
+						item = new User(obj)# æ–°å»ºæœ¬åœ°ç”¨æˆ·ä¿¡æ¯
 						item.save()
 						@navigate '!/customs/logout'
 					else 
-						alert(obj.username)# ÏÔÊ¾µÇÂ¼Ê§°ÜÐÅÏ¢
+						alert(obj.username)# æ˜¾ç¤ºç™»å½•å¤±è´¥ä¿¡æ¯
 						@resetValidate()
 	
-	# ÓÃ»§×¢²á
+	# ç”¨æˆ·æ³¨å†Œ
 	userRegister:()-> registerDialog().open defaults:Default.first(),Person:Person,Custom:Custom
 	
-	# ÖØÖÃÐ£ÑéÂë
+	# é‡ç½®å¯†ç  
+	resetPassword:()-> resetpwdDialog().open default:Default.first()
+	
+	# é‡ç½®æ ¡éªŒç 
 	resetValidate: ()->
 		url = 'admin/checkNum_session.php?' + Math.ceil(Math.random() * 1000)
 		$(@vdImg).attr("src",url)
 		
 ###
-¿Í»§ÍË³öµÇÂ¼
+å®¢æˆ·é€€å‡ºç™»å½•
 ###
 class Logouts extends Spine.Controller
 	className: 'logouts'
-	# Ìî³äÄÚ²¿ÔªËØÊôÐÔ
+	# å¡«å……å†…éƒ¨å…ƒç´ å±žæ€§
 	elements:
 		"form":"formEl"
 		"img":"vdImg"
 	
-	# Î¯ÍÐÊÂ¼þ
+	# å§”æ‰˜äº‹ä»¶
 	events:
 		"click input[name=logout]": "logout"
 		"click ul li a": "myClick"
@@ -130,7 +135,7 @@ class Logouts extends Spine.Controller
 		catch err
 			console.log err.message
 	
-	# ÓÃ»§µÇ³ö
+	# ç”¨æˆ·ç™»å‡º
 	logout:(e)->
 		e.stopPropagation()
 		$.post "? cmd=Logout", $(@formEl).serialize(), (result)->
@@ -141,7 +146,7 @@ class Logouts extends Spine.Controller
 					unless obj.id is -1
 						#@navigate '!/customs/login'
 					else 
-						alert(obj.username) # ÏÔÊ¾µÇÂ¼Ê§°ÜÐÅÏ¢
+						alert(obj.username) # æ˜¾ç¤ºç™»å½•å¤±è´¥ä¿¡æ¯
 	
 	myClick: (e)->
 		e.stopPropagation()
