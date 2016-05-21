@@ -73,7 +73,35 @@ class Logins extends Spine.Controller
 						item.save()
 						@navigate '!/customs/logout'
 					else 
-						alert(obj.username)# 显示登录失败信息
+						switch obj.error
+							when 'Account not actived!'
+								$('#dialog-confirm').dialog
+									resizable:false
+									width:400
+									height:220
+									modal:true
+									buttons:
+										'Ok':=>
+											item = 
+												id:obj.cid
+												person:
+													id:obj.cid
+													username:obj.name
+													email:obj.email
+													active:'Y'
+												language: @item.default.languageid-1
+												token: $.fn.cookie "PHPSESSID"
+
+											param = JSON.stringify(item)
+
+											$.fn.ajaxPut Person.url,param,(data)=>
+												if data.id > -1
+													alert data.message
+												$('#dialog-confirm').dialog 'close'
+										Cancel:->
+											$(@).dialog 'close'
+							else
+								alert(obj.error)# 显示登录失败信息
 						@resetValidate()
 	
 	# 用户注册

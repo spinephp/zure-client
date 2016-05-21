@@ -49,6 +49,20 @@ class main extends Spine.Controller
 					else
 						item[field.name] = cval
 			item
+			
+		$.fn.ajaxPut = (url,data,success)->
+			$.ajax
+				url: url #"? cmd=ProductClass&token=#{@token}/"+@item.department.id # 提交的页面
+				data: data
+				type: "POST" # 设置请求类型为"POST"，默认为"GET"
+				dataType: "json"
+				beforeSend: (xhr)-> # 设置表单提交前方法
+					xhr.setRequestHeader('X-HTTP-Method-Override', 'PUT')
+					# new screenClass().lock();
+				error: (request)->       # 设置表单提交出错
+					#new screenClass().unlock();
+					alert("表单提交出错，请稍候再试")
+				success: success
 	
 		@headers = new Headers
 		@footers = new Footers

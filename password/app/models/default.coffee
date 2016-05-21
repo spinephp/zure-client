@@ -104,6 +104,12 @@ class Default extends Spine.Model
 			'Company profile':["公司简介"]
 			'Product recommendations':['产品推荐']
 			'Friendly link':['友情链接']
+			'Link has expired':['链接已过期']
+			'Invalid option':['无效的操作']
+			'Reset password':['重置密码']
+			'Enter new password':['输入新密码']
+			'Re-enter new password':['再次输入新密码']
+			'Submit':['提交']
 		
 		langid = parseInt(@languageid,10)
 		result = if langid is 1 then key else data[key][langid-2]

@@ -50,7 +50,7 @@ loginDialog = ->
 							return false
 					$.getJSON '? cmd=CheckLogin',$.param(key),(result)->
 						if result.id is -1
-							switch result.username
+							switch result.error
 								when "Invalid user name!"
 									$('#username_err_info').html vuser
 									name.eq(0).foucs().select()
@@ -61,7 +61,7 @@ loginDialog = ->
 									$('#verify_err_info').html vpin
 									name.eq(2).foucs().select()
 								else
-									alert result.username
+									alert result.error
 									$('#loginDialog').dialog 'close'
 						else
 							item = new User result
