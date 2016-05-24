@@ -1,0 +1,40 @@
+{
+  "server": {
+    "port"  : 9294
+  },
+
+  "routes": [
+    { ""        : "./public" },
+    { "/test"    : "./test/public" }
+  ],
+
+  "packages": {
+    "appName": {
+      "libs"    : ["lib/runtime.js"],
+      "modules" : [
+        "es5-shimify",
+        "json2ify",
+        "jqueryify",
+        "jqueryui-browser",
+        "spine",
+        "spine/lib/local",
+        "spine/lib/ajax",
+        "spine/lib/route",
+        "spine/lib/manager"
+      ],
+      "paths"  : ["./app"],
+      "target" : "./public/orderdetail.js",
+      "jsAfter": "jade.rethrow = function rethrow(err, filename, lineno){ throw err; } "
+    },
+    "css": {
+      "paths"  : "./css",
+      "target" : "./public/orderdetail.css"
+    },
+    "test": {
+      "identifier" : "specs",
+      "jsAfter"    : "require('lib/setup'); for (var key in specs.modules) specs(key);",
+      "paths"      : ["./test/specs"],
+      "target"     : "./test/public/specs.js"
+    }
+  }
+}

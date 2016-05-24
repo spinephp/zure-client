@@ -93,8 +93,9 @@ class Edit extends Spine.Controller
     $("input[name=billcontent][value=#{content}]").click()
       
     
-  submit: (e) ->
+  submit: (e) =>
     e.preventDefault()
+    e.stopPropagation()
     key = $(@form).serializeArray()
     console.log key
     if key[0].value isnt '0' and key[2].value isnt '2'
@@ -113,9 +114,12 @@ class Edit extends Spine.Controller
     # 编辑或新增增值税发票
     else if key[1].value is '2' 
       Bill.setCurrent(Bill.find('2'))
-      item = Billsale.first() || Billsale.create()
+      item = Billsale.first() or new Billsale
       for k in key[4..9]
         item.__proto__[k.name] = k.value
+      Billsale.bind "beforeCreate beforeUpdate beforeDestroy", =>
+        Billsale.url = "woo/index.php"+Billsale.url if Billsale.url.indexOf("woo/index.php") is -1
+        Billsale.url += "&token="+@token unless Billsale.url.match /token/
       item.save()
 
     # 设置当前票据内容
