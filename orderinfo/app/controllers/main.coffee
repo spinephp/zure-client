@@ -32,8 +32,8 @@ loginDialog = require('controllers/loginDialog')
 
 #Spine.Model.host = "http://127.0.0.1/woo/"
 
-class OrderInfo extends Spine.Controller
-	className: 'orderinfo'
+class Main extends Spine.Controller
+	className: 'main'
   
 	constructor: ->
 		super
@@ -128,4 +128,4 @@ class OrderInfo extends Spine.Controller
 
 		#@navigate '/orderinfo'
 	
-module.exports = OrderInfo
+module.exports = Main

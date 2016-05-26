@@ -5,8 +5,8 @@ $       = Spine.$
 Main    = require('controllers/sysadmin.main')
 Sidebar = require('controllers/sysadmin.sidebar')
 
-class Sysadmins extends Spine.Controller
-	className: 'sysadmins'
+class Main extends Spine.Controller
+	className: 'main'
   
 	constructor: ->
 		super
@@ -129,4 +129,4 @@ class Sysadmins extends Spine.Controller
     
 		@navigate('/sysadmins/login')
     
-module.exports = Sysadmins
+module.exports = Main

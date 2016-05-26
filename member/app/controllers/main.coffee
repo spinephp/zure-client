@@ -27,12 +27,12 @@ $       = Spine.$
 
 Headers = require('controllers/main.header')
 Footers = require('controllers/main.footer')
-Main    = require('controllers/member.main')
+Main1    = require('controllers/member.main')
 Sidebar = require('controllers/member.sidebar')
 loginDialog = require('controllers/loginDialog')
 
-class Members extends Spine.Controller
-	className: 'members'
+class Main extends Spine.Controller
+	className: 'main'
   
 	constructor: ->
 		super
@@ -94,7 +94,7 @@ class Members extends Spine.Controller
 		@headers     = new Headers
 		@footers     = new Footers
 		@sidebar = new Sidebar
-		@main    = new Main
+		@main    = new Main1
 		
 		Qiye.fetch()
 		Navigation.fetch()
@@ -188,4 +188,4 @@ class Members extends Spine.Controller
     
 		@navigate @urlroute1
 
-module.exports = Members
+module.exports = Main

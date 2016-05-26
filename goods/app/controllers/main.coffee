@@ -19,8 +19,8 @@ Tree = require('controllers/good.tree')
 
 #Spine.Model.host = "http://127.0.0.1/woo/"
 
-class good extends Spine.Controller
-	className: 'good'
+class main extends Spine.Controller
+	className: 'main'
   
 	constructor: ->
 		super
@@ -83,4 +83,4 @@ class good extends Spine.Controller
 			@navigate '/good',id,'class'
 
 	
-module.exports = good
+module.exports = main

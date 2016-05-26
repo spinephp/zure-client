@@ -4,8 +4,8 @@ make()
 {
     cd $1
     hem build
-    sudo cp public/$2.js /www/zure-server/scripts
-    sudo cp public/$2.css /www/zure-server/css
+    sudo cp public/application.js /www/zure-server/scripts/$2.js
+    sudo cp public/application.css /www/zure-server/css/$2.css
     cd ..
 }
 if [ $# -lt 1 ]; then
