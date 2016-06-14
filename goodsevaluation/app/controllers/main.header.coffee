@@ -53,14 +53,12 @@ class Headers extends Spine.Controller
 				action:'custom_logout'
 				token:$.fn.cookie 'PHPSESSID'
 			$.post "? cmd=Logout", data, (result)->
-				if result[0] is "{"
-					obj = JSON.parse(result)
-					if typeof (obj) is "object"
-						unless obj.id is -1
-							User.destroyAll()
-							#@navigate '!/customs/login'
-						else 
-							alert(obj.username) # ÏÔÊ¾µÇÂ¼Ê§°ÜÐÅÏ¢
+				if typeof (result) is "object"
+					unless result.id is -1
+						User.destroyAll()
+						#@navigate '!/customs/login'
+					else 
+						alert(result.username) # ÏÔÊ¾µÇÂ¼Ê§°ÜÐÅÏ¢
 		$(window).unload (e)->
 			Spine.trigger 'logout' if User.count() > 0 and e.clientX<=0 and e.clientY<0
 
@@ -124,7 +122,7 @@ class Headers extends Spine.Controller
 		else
 			default1 = Default.first()
 			currency = Currency.find default1.currencyid
-			myCartDialog().open carts:Cart.all(),currency:currency,defaults:default1,goodclass:Goodclass
+			myCartDialog().open carts:Cart,currency:currency,defaults:default1,goodclass:Goodclass
 
 	addfavorite:(e)->
 		e.stopPropagation()

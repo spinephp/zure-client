@@ -29,7 +29,7 @@ class Payments extends Spine.Controller
 		try
 			$.when(@order,@payment,@default).done =>
 				default1 = Default.first()
-				theOrder = Order.find $.getUrlParam "orderid"
+				theOrder = Order.find $.fn.getUrlParam "orderid"
 				payment = Payment.find theOrder.transportid
 				@item = 
 					default:default1

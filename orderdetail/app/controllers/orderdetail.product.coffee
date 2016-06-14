@@ -34,7 +34,7 @@ class Products extends Spine.Controller
 		try
 			$.when(@order,@goods,@currency,@default).done =>
 				default1 = Default.first()
-				theOrder = Order.find $.getUrlParam "orderid"
+				theOrder = Order.find $.fn.getUrlParam "orderid"
 				currency = Currency.find default1.currencyid
 				@item = 
 					default:default1

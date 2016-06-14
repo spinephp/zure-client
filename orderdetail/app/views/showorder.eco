@@ -6,14 +6,9 @@
 <table>
   <thead>
     <tr>
-      <th><%= @default.translate "Code" %></th>
-      <th><%= @default.translate "Picture" %></th>
-      <th><%= @default.translate "Name" %></th>
-      <th><%= @default.translate "Price" %></th>
-        <th><%= @default.translate "Return now" %></th>
-        <th><%= @default.translate "Quantity" %></th>
-      <th><%= @default.translate "Shipping date" %></th>
-      <th><%= @default.translate "Operation" %></th>
+    <% for txt in ["Code","Picture","Name","Price","Return now","Quantity","Mould cost","Shipping date"]: %>
+      <th><%= @default.translate txt %></th>
+    <% end %>
     </tr>
   </thead>
   <tbody>
@@ -38,10 +33,12 @@
         <td>
           <%= goods.number %>
         </td>
-        <td class="shipdate">
+        <td>
+          <%= @currency.symbol %><%= money(goods.modlcharge/@currency.exchangerate) %>
+        </td>
+         <td class="shipdate">
           <%= if @orders.shipdate is 0 then @default.translate "In stock" else @orders.shipdate+@default.translate "days" %>
       </td>
-      <td></td>
     </tr>
     <% end %>
     </tbody>
@@ -64,6 +61,14 @@
     <label><%= @default.translate "Return now" %> ：</label>
     <span>
       <b>- <%= @currency.symbol %><%= money(@products.sumReturnnow()/@currency.exchangerate) %>
+    </b>
+    </span>
+  </li>
+  <li>
+
+    <label><%= @default.translate "Mould cost" %> ：</label>
+    <span>
+      <b>+ <%= @currency.symbol %><%= money(@products.sumModlcharge()/@currency.exchangerate) %>
     </b>
     </span>
   </li>

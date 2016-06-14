@@ -31,16 +31,6 @@ class Headers extends Spine.Controller
 	constructor: ->
 		super
 		@active @change
-
-		$.fn.cookie = (c_name)->
-			if document.cookie.length>0
-				c_start=document.cookie.indexOf(c_name + "=")
-				if c_start isnt -1
-					c_start=c_start + c_name.length+1 
-					c_end=document.cookie.indexOf(";",c_start)
-					c_end=document.cookie.length if c_end is -1 
-					return unescape(document.cookie.substring(c_start,c_end))
-			return ""
 		
 		@qiye = $.Deferred()
 		@navigation = $.Deferred()
@@ -52,13 +42,9 @@ class Headers extends Spine.Controller
 		Navigation.bind "refresh",=>@navigation.resolve()
 		Currency.bind "refresh",=>@currency.resolve()
 		Language.bind "refresh",=>@language.resolve()
-		User.bind "refresh change",=>
-			if User.count()
-				Order.fetch() 
-				Cart.getCart()
-			else
-				Order.destroyAll ajax:false
- 		User.fetch()
+		User.bind "refresh",=>
+			Order.fetch()
+		User.fetch()
 		Cart.bind 'change', @render
 
 		Spine.bind 'logout',->
@@ -67,14 +53,12 @@ class Headers extends Spine.Controller
 				action:'custom_logout'
 				token:$.fn.cookie 'PHPSESSID'
 			$.post "? cmd=Logout", data, (result)->
-				if result[0] is "{"
-					obj = JSON.parse(result)
-					if typeof (obj) is "object"
-						unless obj.id is -1
-							User.destroyAll()
-							#@navigate '!/customs/login'
-						else 
-							alert(obj.username) # ÏÔÊ¾µÇÂ¼Ê§°ÜÐÅÏ¢
+				if typeof (result) is "object"
+					unless result.id is -1
+						User.destroyAll()
+						#@navigate '!/customs/login'
+					else 
+						alert(result.username) # ÏÔÊ¾µÇÂ¼Ê§°ÜÐÅÏ¢
 		$(window).unload (e)->
 			Spine.trigger 'logout' if User.count() > 0 and e.clientX<=0 and e.clientY<0
 
@@ -138,7 +122,7 @@ class Headers extends Spine.Controller
 		else
 			default1 = Default.first()
 			currency = Currency.find default1.currencyid
-			myCartDialog().open carts:Cart.all(),currency:currency,defaults:default1,goodclass:Goodclass
+			myCartDialog().open carts:Cart,currency:currency,defaults:default1,goodclass:Goodclass
 
 	addfavorite:(e)->
 		e.stopPropagation()

@@ -36,6 +36,11 @@ class Show extends Spine.Controller
 		Cart.bind "refresh",=>@cart.resolve()
 		Transport.bind "refresh",=>@transport.resolve()
 
+		# 改变 submitorder 按键状态
+		Cart.bind "change",=>@submitOrderEnable()
+		Consignee.bind "change",=>@submitOrderEnable()
+		@submitOrderEnable()
+
 	render: ->
 		@html require('views/showorder')(@item)
 		btn = $(".sumbitorder")
@@ -68,7 +73,13 @@ class Show extends Spine.Controller
 	product:(e)->
 		id = $(e.target).attr 'data-product'
 		window.location.href="? cmd=ShowProduct&prosid="+$.trim(id)
-	  
+
+	submitOrderEnable:->
+		if Consignee.count() and Cart.count()
+			$(".submitorder").show()
+		else
+			$(".submitorder").hide()
+
 	sumbitOrder:->
 		# 计算供货天数
 		shipdate = 0

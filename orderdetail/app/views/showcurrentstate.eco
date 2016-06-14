@@ -1,3 +1,4 @@
 <P><%= @default.translate "Order NO" %>：<%= @order.code %> <span><%= @default.translate "Status" %>：<b><%= @default.translates @state.names %></b></span>
+<%- "<span><button>#{@default.translate 'View contract'}</button></span>" if @order.contract is 1 %>
 </P>
 <p><%= @default.translates @state.notes %></p>

@@ -26,7 +26,7 @@ class main extends Spine.Controller
 	constructor: ->
 		super
 
-		$.getUrlParam = (name) ->
+		$.fn.getUrlParam = (name) ->
 			results = new RegExp('[\\?& ]' + name + '=([^&#]*)')
 						.exec(decodeURI(window.location.href))
 			return null if not results

@@ -10,7 +10,7 @@
 		html += "<div id='myCartDialog'>"
 		html += "<h4>#{options.defaults.translate('The newest goods')}</h4>"
 		html += "<table>"
-		for cart in options.carts
+		for cart in options.carts.all()
 			rec = cart.aRecordEx()
 			klass = options.goodclass.find rec.classid
 			price = (rec.price-rec.returnnow)/options.currency.exchangerate
@@ -31,7 +31,7 @@
 
 		$("#myCartDialog").delegate "a", "click", ->
 			proid = $(this).attr("product-data")
-			item = Cart.findByAttribute("proid", proid)
+			item = options.carts.findByAttribute("proid", proid)
 			item.destroy()
 
 		width = $("header ul li:last-child").width()

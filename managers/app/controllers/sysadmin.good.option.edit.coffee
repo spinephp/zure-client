@@ -27,7 +27,8 @@ class GoodEdits extends Spine.Controller
 			item = {product:{}}
 			$.fn.makeRequestParam @el,item,['G_'],[@item.good]
 
-			item.product['picture'] = $.fn.getImageName @image.getImage().attr 'src'
+			pic = $.fn.getImageName @image.getImage().attr 'src'
+			item.product['picture'] = pic or 'noimg.png'
 			param = JSON.stringify(item)
 			$.fn.ajaxPut @item.good.url(),param,(data)=>
 				if data.id > -1

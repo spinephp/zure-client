@@ -60,7 +60,7 @@ class Receivers extends Spine.Controller
     
 	address:=>
 		if Order.count() and Consignee.count() and Province.count()
-			theOrder = Order.find $.getUrlParam "orderid"
+			theOrder = Order.find $.fn.getUrlParam "orderid"
 			@consignee = Consignee.find theOrder.consigneeid
 			Province.getCity(@consignee.province)
 			Province.getCity ""+@consignee.province+@consignee.city

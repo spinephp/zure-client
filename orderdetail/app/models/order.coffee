@@ -3,7 +3,7 @@ require('spine/lib/ajax')
 
 # 创收据模型
 class Order extends Spine.Model
-	@configure 'Order', 'id','code','products','shipdate','consigneeid','paymentid','transportid','billtypeid','billid','billcontentid','carriagecharge','time','stateid','note'
+	@configure 'Order', 'id','code','products','shipdate','consigneeid','paymentid','transportid','billtypeid','billid','billcontentid','carriagecharge','time','stateid','note','contract'
 
 	@extend Spine.Model.Ajax
 

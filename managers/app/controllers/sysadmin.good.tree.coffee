@@ -25,13 +25,13 @@ class GoodTrees extends ManagerTree
 			childZNode = 
 				"id":parentId*100000+parseInt(item.id,10)
 				"pId":parentId
-				"name":item.size()
+				"name":item.size
 			@addTreeNode childZNode
 
 		Good.bind "update",(item)=>
 			if item?
 				node = @zTree.getSelectedNodes()
-				node[0].name = item.size()
+				node[0].name = item.size
 				@zTree.updateNode(node[0])
 				@onTreeClick(null, @zTree.setting.treeId, node[0],1) #调用事件  
 
@@ -55,7 +55,7 @@ class GoodTrees extends ManagerTree
 			childZNode = 
 				"id":parentId*100000+parseInt(item.id,10)
 				"pId":parentId
-				"name":item.size()
+				"name":item.size
 			@zTree.removeNode(childZNode)
 
 		Goodclass.bind "destroy",(item)=>
@@ -68,7 +68,7 @@ class GoodTrees extends ManagerTree
 
 	render: ->
 		@nodes = ({id:parseInt(item.id),pId:item.parentid,name:item.name} for item in Goodclass.all())
-		@nodes[1...1] = ({id:parseInt(item.classid)*100000+parseInt(item.id),pId:item.classid,name:item.size()} for item in Good.all())
+		@nodes[1...1] = ({id:parseInt(item.classid)*100000+parseInt(item.id),pId:item.classid,name:item.size} for item in Good.all())
 		@html require("views/goodtrees")()
 		@selectFirstNode "treeDemo"
 	

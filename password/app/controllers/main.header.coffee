@@ -6,7 +6,7 @@ Language = require('models/language')
 Default = require('models/default')
 Goodclass = require('models/goodclass')
 Goodconsult = require('models/goodconsult')
-Person = require('models/person')
+#Goodcare = require('models/goodcare')
 Order = require('models/order')
 Cart = require('models/cart')
 User = require('models/user')
@@ -42,50 +42,46 @@ class Headers extends Spine.Controller
 		Navigation.bind "refresh",=>@navigation.resolve()
 		Currency.bind "refresh",=>@currency.resolve()
 		Language.bind "refresh",=>@language.resolve()
-		# User.bind "refresh",=>
-		# 	if User.count()
-		# 		Order.fetch()
-		# 		Person.append [User.first().id]
-		# User.fetch()
-		# Cart.bind 'change', @render
+		User.bind "refresh",=>
+			Order.fetch()
+		User.fetch()
+		Cart.bind 'change', @render
 
-		# Spine.bind 'logout',->
-		# 	data = 
-		# 		user:User.first().name
-		# 		action:'custom_logout'
-		# 		token:$.fn.cookie 'PHPSESSID'
-		# 	$.post "? cmd=Logout", data, (result)->
-		# 		if result[0] is "{"
-		# 			obj = JSON.parse(result)
-		# 			if typeof (obj) is "object"
-		# 				unless obj.id is -1
-		# 					User.destroyAll()
-		# 					#@navigate '!/customs/login'
-		# 				else 
-		# 					alert(obj.username) # 显示登录失败信息
+		Spine.bind 'logout',->
+			data = 
+				user:User.first().name
+				action:'custom_logout'
+				token:$.fn.cookie 'PHPSESSID'
+			$.post "? cmd=Logout", data, (result)->
+				if typeof (result) is "object"
+					unless result.id is -1
+						User.destroyAll()
+						#@navigate '!/customs/login'
+					else 
+						alert(result.username) # 显示登录失败信息
 		$(window).unload (e)->
 			Spine.trigger 'logout' if User.count() > 0 and e.clientX<=0 and e.clientY<0
 
 	render: =>
 		@html require('views/showheader')(@item)
 		$(document).attr "title", @item.default.translates @item.qiye.names
-		# $(@btnsEl).eq(0).button
-		# 	icons: 
-		# 		primary: "ui-icon-person"
-		# 		secondary: "ui-icon-triangle-1-s"
-		# 	text: true
-		# .delay(150).hover @_myYunrui,->
-		# 	myDiv = $("#myYunruiDialog")
-		# 	setTimeout (->myDiv?.dialog?("close") unless myDiv.hasClass('hover')),150
+		$(@btnsEl).eq(0).button
+			icons: 
+				primary: "ui-icon-person"
+				secondary: "ui-icon-triangle-1-s"
+			text: true
+		.delay(150).hover @_myYunrui,->
+			myDiv = $("#myYunruiDialog")
+			setTimeout (->myDiv?.dialog?("close") unless myDiv.hasClass('hover')),150
 
-		# $(@btnsEl).eq(1).button
-		# 	icons:
-		# 		primary: "ui-icon-cart"
-		# 		secondary:"ui-icon-triangle-1-e"
-		# 	text: true
-		# .delay(150).hover @_myOrder,->
-		# 	myDiv = $("#myCartDialog")
-		# 	setTimeout (->myDiv?.dialog?("close") unless myDiv.hasClass('hover')),150
+		$(@btnsEl).eq(1).button
+			icons:
+				primary: "ui-icon-cart"
+				secondary:"ui-icon-triangle-1-e"
+			text: true
+		.delay(150).hover @_myOrder,->
+			myDiv = $("#myCartDialog")
+			setTimeout (->myDiv?.dialog?("close") unless myDiv.hasClass('hover')),150
 		#$(@selectEl).combobox()
 		Spine.trigger("headerrender",@item)
 
@@ -103,30 +99,30 @@ class Headers extends Spine.Controller
 					languages:Language.all()
 					currencys:Currency
 					default:rec
-					# carts:Cart
+					carts:Cart
 				@render()
 		catch err
 			console.log err.message
 
-	# _myYunrui: ->
-	# 	myYunruiDialog().open user:User.first(),orders:Order,defaults:Default.first(),consults:Goodconsult
+	_myYunrui: ->
+		myYunruiDialog().open user:User.first(),orders:Order,defaults:Default.first(),consults:Goodconsult
 
-	# _myOrder: ->
-	# 	orders = JSON.parse(sessionStorage.getItem("orders"))
-	# 	proids = []
-	# 	if "" is orders || null is orders # 向服务器查寻全部数据
-	# 		proids = (rec.proid for rec in Cart.all())
-	# 	else # 查询购物车中商品
-	# 		proids = (rec.proid for rec in Cart.all() when rec.proid is null)
-	# 	if proids.length>0
-	# 		val = "(" + proids.join(",") + ")"
-	# 		cond = [{field:"id",value:proids,operator:"in"}]
-	# 		data = { cond:cond, filter: ["id","classid","picture","size","price","returnnow"], token: $.fn.cookie 'PHPSESSID' }
-	# 		Cart.getOrder(data)
-	# 	else
-	# 		default1 = Default.first()
-	# 		currency = Currency.find default1.currencyid
-	# 		myCartDialog().open carts:Cart.all(),currency:currency,defaults:default1,goodclass:Goodclass
+	_myOrder: ->
+		orders = JSON.parse(sessionStorage.getItem("orders"))
+		proids = []
+		if "" is orders || null is orders # 向服务器查寻全部数据
+			proids = (rec.proid for rec in Cart.all())
+		else # 查询购物车中商品
+			proids = (rec.proid for rec in Cart.all() when rec.proid is null)
+		if proids.length>0
+			val = "(" + proids.join(",") + ")"
+			cond = [{field:"id",value:proids,operator:"in"}]
+			data = { cond:cond, filter: ["id","classid","picture","size","price","returnnow"], token: $.fn.cookie 'PHPSESSID' }
+			Cart.getOrder(data)
+		else
+			default1 = Default.first()
+			currency = Currency.find default1.currencyid
+			myCartDialog().open carts:Cart,currency:currency,defaults:default1,goodclass:Goodclass
 
 	addfavorite:(e)->
 		e.stopPropagation()

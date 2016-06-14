@@ -68,23 +68,38 @@ p
 	margin:8px 0 0 0
 	vbg-gradient(#ffffcc,#ffeecc)
 
-.currentstate p:first-child
-	text-align:left
-	border-bottom:1px solid #fec
-	margin: 0 3px
-	padding:5px
+	p:first-child
+		text-align:left
+		border-bottom:1px solid #fec
+		margin: 0 3px
+		padding:5px
 
-.currentstate p:last-child
-	font-size:small
-	text-align:left
-	margin:0 3px
-	padding:5px
+	p:last-child
+		font-size:small
+		text-align:left
+		margin:0 3px
+		padding:5px
 
-.currentstate p:first-child span
-	padding-left:12px
+	p:first-child span
+		padding-left:12px
 
-.currentstate p:first-child span b
-	color:green
+	p:first-child span b
+		color:green
+
+	p span:last-child
+		width:270px
+		display : inline-block
+		position : relative
+		font-size: small
+		text-align : right
+		float: right
+		input
+			width:13px
+			margin:0
+
+	p span:last-child button
+		font-size:small
+		margin-left:10px
 
 .process
 	padding:0 auto

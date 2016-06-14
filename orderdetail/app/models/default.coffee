@@ -76,7 +76,7 @@ class Default extends Spine.Model
 			'Status':['状态']
 			'To pay for':['去付款']
 			'Please pay in time':['请你及时付款']
-			'Print contract':['打印合同']
+			'View contract':['查看合同']
 			'Return contract':['回传合同']
 			
 			# 处理信息
@@ -130,6 +130,7 @@ class Default extends Spine.Model
 			'A total of':['共']
 			'PCS':['件']
 			'Amount':['总商品金额']
+			'Mould cost':['模具费']
 			'Freight':['运费']
 			'Amount payable':['应付总额']
 			'Operation':['操作']

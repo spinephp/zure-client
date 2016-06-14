@@ -2,7 +2,7 @@ Spine   = require('spine')
 Manager = require('spine/lib/manager')
 $       = Spine.$
 
-Main    = require('controllers/sysadmin.main')
+Main1    = require('controllers/sysadmin.main')
 Sidebar = require('controllers/sysadmin.sidebar')
 
 class Main extends Spine.Controller
@@ -43,6 +43,8 @@ class Main extends Spine.Controller
 				url: url #"? cmd=ProductClass&token=#{@token}/"+@item.department.id # 提交的页面
 				data: data
 				type: "POST" # 设置请求类型为"POST"，默认为"GET"
+				processData: false  # 告诉jQuery不要去处理发送的数据
+				contentType: false   # 告诉jQuery不要去设置Content-Type请求头
 				dataType: "json"
 				beforeSend: (xhr)-> # 设置表单提交前方法
 					xhr.setRequestHeader('X-HTTP-Method-Override', 'PUT')
@@ -93,7 +95,7 @@ class Main extends Spine.Controller
 				alert error
 
 		@sidebar = new Sidebar
-		@main    = new Main
+		@main    = new Main1
     
 		@routes
 			'/sysadmins/order': (params) -> 

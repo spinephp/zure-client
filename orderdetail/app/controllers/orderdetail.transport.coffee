@@ -33,7 +33,7 @@ class Transports extends Spine.Controller
 		try
 			$.when(@order,@transport,@currency,@default).done =>
 				default1 = Default.first()
-				theOrder = Order.find $.getUrlParam "orderid"
+				theOrder = Order.find $.fn.getUrlParam "orderid"
 				transport = Transport.find theOrder.transportid
 				currency = Currency.find default1.currencyid
 				@item = 

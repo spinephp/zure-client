@@ -9,6 +9,7 @@ class manageOrder  extends Spine.Controller
 	constructor: (params) ->
 		super params
 
+		@orderid = $.fn.getUrlParam 'orderid'
 		Order.bind "beforeUpdate", ->
 			Order.url = "woo/index.php"+Order.url if Order.url.indexOf("woo/index.php") is -1
 	
@@ -52,7 +53,7 @@ class CurrentState extends Spine.Controller
 	className: 'currentstate'
   
 	events:
-		'click .print': 'print'
+		'click button': 'print'
 	
 	elements: 
 		'p': 'pEl'
@@ -60,7 +61,7 @@ class CurrentState extends Spine.Controller
 	constructor: ->
 		super
 
-		@orderid = $.getUrlParam "orderid"
+		@orderid = $.fn.getUrlParam "orderid"
 
 		@active @change
 		
@@ -104,6 +105,6 @@ class CurrentState extends Spine.Controller
 			@log "file:ordertetail.product.coffee\nclass:Products\nerror: #{err.message}"
 
 	print: ->
-		w = window.open()
+		window.open("?cmd=Contract&orderid=#{@orderid}&token=#{@token}")
 	
 module.exports = CurrentState

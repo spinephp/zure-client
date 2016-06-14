@@ -17,7 +17,7 @@
     </dd>
     <dt>规格尺寸：</dt>
     <dd>
-      <%= @good.size() %>
+      <%= @good.size %>
     </dd>
     <dt>单位：</dt>
     <dd>

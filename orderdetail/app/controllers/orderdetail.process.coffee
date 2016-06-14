@@ -13,7 +13,7 @@ class Process extends Spine.Controller
 	constructor: ->
 		super
 
-		@orderid = $.getUrlParam "orderid"
+		@orderid = $.fn.getUrlParam "orderid"
 
 		@active @change
 		

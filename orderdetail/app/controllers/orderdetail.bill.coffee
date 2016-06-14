@@ -39,7 +39,7 @@ class Bills extends Spine.Controller
 		try
 			$.when(@order,@bill,@billfree,@billsale,@billcontent,@default).done =>
 				default1 = Default.first()
-				order = Order.find $.getUrlParam "orderid"
+				order = Order.find $.fn.getUrlParam "orderid"
 				bill = Bill.find order.billtypeid
 				content = Billcontent.find order.billcontentid
 				billcur = if parseInt(bill.id) is 1 then Billfree.find order.billid else Billsale.find order.billid
