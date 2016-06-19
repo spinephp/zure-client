@@ -114,9 +114,9 @@ class Goodtitle extends Spine.Controller
 				data: {cond:[{'field':'id',value: cart.proid,operator:'eq'}], filter: ["price"], token: $.fn.cookie 'PHPSESSID' }
 				async: false   #ajax执行完毕后才执行后续指令
 				success: (result) =>
-					obj = JSON.parse(result)
-					if typeof (obj[0]) is "object"
-						m += item.number * obj[0].price/exchangerate
+					#obj = JSON.parse(result)
+					if typeof (result[0]) is "object"
+						m += item.number * result[0].price/exchangerate
 		addOrderDialog().open({ kind: n, price: m ,default:@item.default,symbol:symbol})
 
 	_addCare: ->

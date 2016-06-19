@@ -16,12 +16,27 @@ class Cart extends Spine.Model
 			async: true   #ajax执行完毕后才执行后续指令
 			success: (result) ->
 				#obj = JSON.parse(result)
-				console.log result
 				if typeof (result) is "object"
 					_orders = []
 					for o in result when o isnt null
 						_orders[parseInt(o.id)] = { classid: o.classid, image: o.picture, size: o.size, price: o.price, returnnow: o.returnnow }
 					sessionStorage.setItem("orders", JSON.stringify(_orders))
+
+	@getCart:->
+		fields = @attributes
+		condition = [{field:"userid",value:"?",operator:"eq"}]
+		params = { data: $.param({ cond:condition,filter: fields, token: $.fn.cookie "PHPSESSID" }) }
+		jQuery.ajax
+			type: 'get'
+			url: "? cmd=Cart"
+			data: params
+			async: false  #ajax执行完毕后才执行后续指令
+			success: (result) ->
+				#obj = JSON.parse(result)
+				if typeof (result) is "object"
+					for rec in result
+						item = new Cart rec
+						item.save ajax:false
 
 	aRecordEx:()->
 		items = JSON.parse(sessionStorage.getItem("orders"))

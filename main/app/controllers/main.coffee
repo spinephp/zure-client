@@ -32,6 +32,16 @@ class main extends Spine.Controller
 						.exec(decodeURI(window.location.href))
 			return 0 if not results
 			results[1] || 0
+    
+		$.fn.cookie = (c_name)->
+			if document.cookie.length>0
+				c_start=document.cookie.indexOf(c_name + "=")
+				if c_start isnt -1
+					c_start=c_start + c_name.length+1 
+					c_end=document.cookie.indexOf(";",c_start)
+					c_end=document.cookie.length if c_end is -1 
+					return unescape(document.cookie.substring(c_start,c_end))
+			return ""
 			
 		$.fn.makeRequestParam = (formEl,tables,heads,curtabs)->
 			#opt = $(e.target)

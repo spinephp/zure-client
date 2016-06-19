@@ -45,7 +45,14 @@ class Headers extends Spine.Controller
 		User.bind "refresh",=>
 			Order.fetch()
 		User.fetch()
-		Cart.bind 'change', @render
+		Cart.bind 'change', ->
+			sessionStorage.removeItem("orders")
+			if Cart.count() > 0
+				proids = (rec.proid for rec in Cart.all()) # 查询购物车中商品
+				cond = [{field:"id",value:proids,operator:"in"}]
+				data = { cond:cond, filter: ["id","classid","picture","size","price","returnnow"], token: $.fn.cookie 'PHPSESSID' }
+				Cart.getOrder(data)
+			@render
 
 		Spine.bind 'logout',->
 			data = 
@@ -108,21 +115,9 @@ class Headers extends Spine.Controller
 		myYunruiDialog().open user:User.first(),orders:Order,defaults:Default.first(),consults:Goodconsult
 
 	_myOrder: ->
-		orders = JSON.parse(sessionStorage.getItem("orders"))
-		proids = []
-		if "" is orders || null is orders # 向服务器查寻全部数据
-			proids = (rec.proid for rec in Cart.all())
-		else # 查询购物车中商品
-			proids = (rec.proid for rec in Cart.all() when rec.proid is null)
-		if proids.length>0
-			val = "(" + proids.join(",") + ")"
-			cond = [{field:"id",value:proids,operator:"in"}]
-			data = { cond:cond, filter: ["id","classid","picture","size","price","returnnow"], token: $.fn.cookie 'PHPSESSID' }
-			Cart.getOrder(data)
-		else
-			default1 = Default.first()
-			currency = Currency.find default1.currencyid
-			myCartDialog().open carts:Cart,currency:currency,defaults:default1,goodclass:Goodclass
+		default1 = Default.first()
+		currency = Currency.find default1.currencyid
+		myCartDialog().open carts:Cart,currency:currency,defaults:default1,goodclass:Goodclass
 
 	addfavorite:(e)->
 		e.stopPropagation()
