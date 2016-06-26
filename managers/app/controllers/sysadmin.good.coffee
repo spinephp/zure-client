@@ -25,35 +25,35 @@ class Goods extends Spine.Controller
 		@routes
 			'/goodclass/new': (params) -> 
 				@active params
-				@tree.active params
+				#@tree.active params
 				@option.classadd.active params
 			'/goodclass/:id/show': (params) -> 
 				@active params
-				@tree.active params
+				@tree.active params  if params.id is '1'
 				@option.classshow.active params
 			'/goodclass/:id/edit': (params) -> 
 				@active params
-				@tree.active params
+				#@tree.active params
 				@option.classedit.active params
 			'/goodclass/:id/delete': (params) -> 
 				@active params
-				@tree.active params
+				#@tree.active params
 				@option.classdelete.active params
 			'/goods/new': (params) -> 
 				@active params
-				@tree.active params
+				#@tree.active params
 				@option.goodadd.active params
 			'/goods/:id/show': (params) -> 
 				@active params
-				@tree.active params
+				#@tree.active params
 				@option.goodshow.active params
 			'/goods/:id/edit': (params) -> 
 				@active params
-				@tree.active params
+				#@tree.active params
 				@option.goodedit.active params
 			'/goods/:id/delete': (params) -> 
 				@active params
-				@tree.active params
+				#@tree.active params
 				@option.gooddelete.active params
     
 		divide = $('<div />').addClass('vdivide')

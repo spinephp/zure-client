@@ -43,35 +43,35 @@ class Orders extends Spine.Controller
 		@routes
 			'/orderstate/new': (params) -> 
 				@active(params)
-				@tree.active(params)
+				#@tree.active(params)
 				@option.stateadd.active(params)
 			'/orderstate/:id/show': (params) -> 
 				@active(params)
-				@tree.active(params)
+				@tree.active(params) if params.id is '1'
 				@option.stateshow.active(params)
 			'/orderstate/:id/edit': (params) -> 
 				@active(params)
-				@tree.active(params)
+				#@tree.active(params)
 				@option.stateedit.active(params)
 			'/orderstate/:id/delete': (params) -> 
 				@active(params)
-				@tree.active(params)
+				#@tree.active(params)
 				@option.statedelete.active(params)
 			'/orders/new': (params) -> 
 				@active(params)
-				@tree.active(params)
+				#@tree.active(params)
 				@option.orderadd.active(params)
 			'/orders/:id/show': (params) -> 
 				@active(params)
-				@tree.active(params)
+				#@tree.active(params)
 				@option.orderedit.active(params)
 			'/orders/:id/edit': (params) -> 
 				@active(params)
-				@tree.active(params)
+				#@tree.active(params)
 				@option.orderedit.active(params)
 			'/orders/:id/delete': (params) -> 
 				@active(params)
-				@tree.active(params)
+				#@tree.active(params)
 				@option.orderdelete.active(params)
     
 		divide = $('<div />').addClass('vdivide')

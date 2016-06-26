@@ -26,7 +26,7 @@
         <%= rec.number %>
       </td>
       <td>
-        <input type="checkbox" name="modl" />模具 <input type="checkbox" name="modl" />原料
+        <input type="checkbox" name="modl" />模具 <input type="checkbox" name="material" />原料
     </td>
     </tr>
     <% end %>

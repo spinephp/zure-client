@@ -27,11 +27,11 @@ class Progress extends Spine.Controller
 				@tree.active(params)
 			'/progress/:id/show': (params) -> 
 				@active(params)
-				@tree.active(params)
+				#@tree.active(params)
 				@option.active(params)
 			'/progress/:id/edit': (params) -> 
 				@active(params)
-				@tree.active(params)
+				#@tree.active(params)
 				@option.active(params)
     
 		divide = $('<div />').addClass('vdivide')

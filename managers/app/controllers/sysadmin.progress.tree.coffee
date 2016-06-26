@@ -25,7 +25,7 @@ class ProgressTrees extends ManagerTree
 		@nodes = ({id:parseInt(item.id),pId:0,name:item.name} for item in @item.orderstates)
 		@nodes[1...1] = ({id:parseInt(item.stateid)*100000+parseInt(item.id),pId:item.stateid,name:item.code} for item in @item.orders)
 		@html require("views/progresstrees")()
-		@selectFirstNode "progressTree"
+		@selectFirstNode "progressTree",@item.nodeid
 	
 	change: (params) =>
 		try

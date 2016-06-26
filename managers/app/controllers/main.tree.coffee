@@ -23,12 +23,12 @@ class ManagerTrees extends Spine.Controller
 		@zTree.selectNode(@node) #选择点
 		@onTreeClick null,@zTree.setting.treeId,@node,1
 		
-	selectFirstNode:(treeid)->
+	selectFirstNode:(treename,treeid)->
 		$.fn.zTree.init($(@ztreeEl), @setting, @nodes)
-		@zTree = $.fn.zTree.getZTreeObj(treeid) #获取ztree对象
-		@node = @zTree.getNodeByParam?('id', @item.nodeid or 1) #获取id为1的点
-		@zTree.selectNode(@node) #选择点
-		#zTree.setting.callback.onClick(null, zTree.setting.treeId, node,1) #调用事件
+		@zTree = $.fn.zTree.getZTreeObj(treename) #获取ztree对象
+		@node = @zTree.getNodeByParam?('id', treeid or 1) #获取id为1的点
+		@zTree.selectNode(@node,false) #选择点
+		#@zTree.setting.callback.onClick(null, @zTree.setting.treeId, @node,true) #调用事件
 		$(@buttonEl).button().click (event)=>
 			@option(event)
 
