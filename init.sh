@@ -5,6 +5,7 @@ make()
     spine app $1
 	cd $1
 	npm install .
+	npm install eco
 	cd ..
 	sudo cp index.coffee $1/app/
 	sudo rm -rf $1/css/*.styl
@@ -27,7 +28,7 @@ if [ $# -lt 1 ]; then
         make "writegoodsuse"
 
 		git init
-		git remote add git@github.com:spinephp/zure-client.git
+		git remote add origin ssh:/www/zure-client/.git
 		git pull git://github.com/spinephp/zure-client.git 
 else
     make $1
